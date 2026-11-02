@@ -14,9 +14,9 @@ body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 'Manrope',syst
 main{max-width:1040px;margin:0 auto;padding:22px 24px 56px}
 h2{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:6px 0 16px}
 .hdr{display:flex;justify-content:flex-end;align-items:center;gap:12px;min-height:34px}
-.hdr>div:first-child{display:none}body:not(.hn) .hdr{display:none}
+.hdr>div:first-child{display:none}body:not(.hn) .hdr{display:none}#who{display:flex;align-items:center;gap:12px;min-width:0}
 .fl{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.fl>div{flex:1;max-width:280px}
-.hi{color:var(--mut);font-weight:600}
+.hi{color:var(--mut);font-weight:600;min-width:0;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .out,.lk{background:none;border:1px solid var(--bd);color:var(--tx);padding:7px 14px;border-radius:999px;cursor:pointer;font:inherit;font-weight:600;transition:all .18s}
 .out:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-s);transform:translateY(-1px)}
 .lk{border:0;color:var(--ac);padding:2px 0;border-radius:6px}.lk:hover{color:var(--ac-d);text-decoration:underline}
@@ -26,6 +26,14 @@ body.hn{padding-left:224px}
 body.hn #nav{display:flex;flex-direction:column;gap:4px;position:fixed;left:0;top:0;bottom:0;width:224px;padding:22px 14px;padding-top:calc(22px + env(safe-area-inset-top,0px));background:var(--card);border-right:1px solid var(--bd);z-index:5}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.01em;margin:0 6px 22px}
 .logo{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--ac);color:#fff;font-size:13px;font-weight:800;box-shadow:0 4px 10px rgba(37,99,235,.3)}
+.av{display:inline-grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;overflow:hidden;background:var(--ac);color:#fff;font-weight:800;font-size:16px;line-height:1;user-select:none}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+.av.lg{width:88px;height:88px;font-size:34px}
+.hav{display:none}.hav .av{width:34px;height:34px;font-size:14px}
+#nav a.prof{margin-top:auto;gap:11px;padding:10px;background:var(--bg);border:1px solid var(--bd)}
+#nav a.prof:hover{background:var(--ac-s);border-color:#c7d8fa}
+.pn{min-width:0;line-height:1.25}.pn b{display:block;color:var(--tx);font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pn small{display:block;color:var(--mut);font-size:12px;font-weight:600}
+.pfr{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:12px}.pfb{display:flex;flex-direction:column;gap:10px;min-width:0}.pfa{display:flex;gap:10px;flex-wrap:wrap}.pfn{font-weight:800;font-size:17px;overflow-wrap:anywhere}
 #nav a{display:flex;gap:12px;align-items:center;padding:11px 12px;border-radius:12px;color:var(--mut);text-decoration:none;font-weight:600;transition:background .18s,color .18s,transform .18s}
 #nav a span{display:inline-block;font-size:17px;transition:transform .2s}
 #nav a:hover{background:var(--ac-s);color:var(--ac-d);transform:translateX(3px)}#nav a:hover span{transform:scale(1.18)}
@@ -73,7 +81,7 @@ a.p{display:inline-block;margin-top:10px;text-decoration:none;color:#fff}
 .login{max-width:410px;margin:56px auto;padding:28px}.login form{display:grid;grid-template-columns:1fr;gap:12px}
 .lb{display:flex;align-items:center;gap:12px;margin-bottom:20px}.lb b{display:block;font-size:19px;font-weight:800}.lb span:not(.logo){color:var(--mut);font-size:13.5px}
 .lb .logo{width:44px;height:44px;font-size:15px}
-@media(max-width:720px){main{padding:16px 14px 40px}body.hn{padding-left:0;padding-bottom:78px}body.hn #nav{top:auto;width:auto;right:0;flex-direction:row;justify-content:space-around;gap:0;border-right:0;border-top:1px solid var(--bd);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 20px rgba(21,35,63,.06)}.brand{display:none}#nav a{flex-direction:column;gap:0;font-size:11px;padding:5px 7px}#nav a:hover{transform:none}#nav a.on{box-shadow:inset 0 3px 0 var(--ac)}h2{font-size:22px}.hi{display:none}}
+@media(max-width:720px){main{padding:16px 14px 40px}body.hn{padding-left:0;padding-bottom:78px}body.hn #nav{top:auto;width:auto;right:0;flex-direction:row;justify-content:space-around;gap:0;border-right:0;border-top:1px solid var(--bd);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 20px rgba(21,35,63,.06)}.brand{display:none}#nav a{flex-direction:column;gap:0;font-size:11px;padding:5px 7px}#nav a:hover{transform:none}#nav a.on{box-shadow:inset 0 3px 0 var(--ac)}h2{font-size:22px}.hi{max-width:38vw}.hav{display:block}#nav a.prof{display:none}}
 .row>*,.grid>*,main>*{min-width:0}
 .rt td:empty{display:none}
 @media(max-width:720px){
@@ -122,12 +130,15 @@ const fb=initializeApp(firebaseConfig),auth=getAuth(fb),db=getFirestore(fb);
 Chart.defaults.font.family="'Manrope',system-ui,sans-serif";Chart.defaults.elements.bar.borderRadius=6;
 let unsubs=[];
 const R=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-let me,names={},wallets={},cdi=14.5,tab='geral',charts=[];
+let me,ready=false,names={},wallets={},cdi=14.5,tab='geral',charts=[];
 function val(a,t){const d=(t-new Date(a.data+'T00:00:00'))/864e5;if(d<0)return 0;const r=(cdi/100)*(a.pct/100);return a.valor*Math.pow(1+r,d/365)}
 const inv=(l,t)=>l.reduce((s,a)=>s+(new Date(a.data+'T00:00:00')<=t?a.valor:0),0);
 const cur=(l,t)=>l.reduce((s,a)=>s+val(a,t),0);
 function list(sc){return sc==='geral'?Object.values(wallets).flatMap(w=>w.aportes||[]):(wallets[sc]?.aportes||[])}
-function who(id){return id===me?'Eu':(names[id]||'Outra pessoa')}
+function nm(id){let n=names[id];if(!n&&id===me&&ready){const u=auth.currentUser;n=u?(u.displayName||(u.email||'').split('@')[0]):''}return (n||'').trim()}
+const first=id=>nm(id).split(/\s+/)[0]||'';
+function who(id){return id===me?(first(id)?first(id)+' (você)':'Eu'):(names[id]||'Outra pessoa')}
+function av(id,c){const f=wallets[id]?.foto,n=nm(id);return `<div class="av ${c||''}">${f?`<img src="${esc(f)}" alt="">`:esc((n.charAt(0)||'').toUpperCase())}</div>`}
 const D=id=>doc(db,...id.split('/'));
 function months(l){if(!l.length)return[];const ds=l.map(a=>new Date(a.data+'T00:00:00')).sort((a,b)=>a-b);const out=[];let d=new Date(ds[0].getFullYear(),ds[0].getMonth()+1,0,23);const now=new Date();while(d<now){out.push(new Date(d));d=new Date(d.getFullYear(),d.getMonth()+2,0,23)}out.push(now);return out}
 const PAGES=[['painel','📊','Painel'],['aportes','➕','Aportes'],['caixinhas','🗂️','Caixinhas'],['projecao','📈','Projeção'],['metas','🎯','Metas'],['ajustes','⚙️','Ajustes']];
@@ -148,7 +159,7 @@ function serie(V0,c,cd,pc,N){const r=mrate(cd,pc),o=[V0];for(let m=1;m<=N;m++)o.
 function eta(V0,c,T,pc){if(V0>=T)return 0;const r=mrate(cdi,pc);let v=V0;for(let m=1;m<=600;m++){v=v*(1+r)+c;if(v>=T)return m}return null}
 const dt=m=>{const d=new Date();d.setMonth(d.getMonth()+m);return d};
 function dur(m){const a=Math.floor(m/12),b=m%12;return [a?a+(a>1?' anos':' ano'):'',b?b+(b>1?' meses':' mês'):''].filter(Boolean).join(' e ')}
-function etaTxt(m){if(m===null)return'Não atinge a meta em 50 anos nesse ritmo.';if(m===0)return'Meta atingida!';return'Previsão: '+dt(m).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})+' (em '+dur(m)+').'}
+function etaTxt(m,n){if(m===null)return'Não atinge a meta em 50 anos nesse ritmo.';if(m===0)return n?'Meta atingida, '+esc(n)+'!':'Meta atingida!';return'Previsão: '+dt(m).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})+' (em '+dur(m)+').'}
 function rowsOf(ids){return (tab==='geral'?ids.flatMap(i=>(wallets[i]?.aportes||[]).map(a=>({...a,o:i}))):(wallets[tab]?.aportes||[]).map(a=>({...a,o:tab}))).sort((a,b)=>b.data.localeCompare(a.data))}
 function card(k,v,g,i,sb){const t=`<div><div class="k">${k}</div><div class="v ${g?'g':''}">${v}</div>${sb?`<div class="sb">${sb}</div>`:''}</div>`;return i?`<div class="card kp"><span class="ic">${i}</span>${t}</div>`:`<div class="card">${t}</div>`}
 function kpis(l){const now=new Date(),t=inv(l,now),a=cur(l,now),r=a-t,tx_=impT(l,now),ln=a-tx_.iof-tx_.ir,rl=ln-t;return `<div class="grid">${card('Total aportado',R(t),0,'💼')+card('Valor bruto estimado',R(a),0,'💰','Sem descontar impostos')+card('Valor líquido estimado',R(ln),0,'🏦','Após IOF e IR')+card('Rendimento bruto',R(r),1,'📈',P(t?r/t*100:0)+' sobre o aportado')+card('Rendimento líquido',R(rl),1,'✅',P(t?rl/t*100:0)+' sobre o aportado')+card('Impostos estimados',R(tx_.iof+tx_.ir),0,'🧾','IR '+R(tx_.ir)+' e IOF '+R(tx_.iof))}</div><div class="note" style="margin:-6px 0 16px">Líquido é o valor se você resgatasse tudo hoje, descontando o IOF (resgates com menos de 30 dias) e o IR regressivo (22,5% a 15%) sobre o rendimento de cada aporte, conforme o tempo de cada um. Vale para CDB/RDB; caixinhas isentas, como LCI/LCA, não seguem esse cálculo.</div>`}
@@ -156,15 +167,15 @@ function table(rows,del){const now=new Date(),g=tab==='geral';return `<table cla
 function painel(l,ids){
   post=()=>draw(l,ids);
   return kpis(l)+`<div class="row"><div class="card"><div class="k">Evolução: aportado × valor bruto e líquido</div><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><div class="k">${tab==='geral'?'Valor atual por pessoa':'Valor por caixinha'}</div><div class="cv"><canvas id="c2"></canvas></div></div></div><div class="card sc"><div class="k" style="margin-bottom:6px">Últimos aportes</div>${table(rowsOf(ids).slice(0,5),false)}</div>`}
-const NOCX='<div class="card" style="margin-bottom:16px"><b>Crie sua primeira caixinha</b><div class="note">Antes de lançar um aporte, cadastre a caixinha (nome e % do CDI) na página Caixinhas.</div><a class="p" href="#caixinhas">Criar caixinha</a></div>';
+const nocx=()=>'<div class="card" style="margin-bottom:16px"><b>'+(first(me)?esc(first(me))+', crie':'Crie')+' sua primeira caixinha</b><div class="note">Antes de lançar um aporte, cadastre a caixinha (nome e % do CDI) na página Caixinhas.</div><a class="p" href="#caixinhas">Criar caixinha</a></div>';
 function aportes(l,ids){
   const mc=myCx(),all=rowsOf(ids),cx=[...new Set(all.map(a=>a.caixinha))].sort();
   if(flt&&!cx.includes(flt))flt='';
   const rows=flt?all.filter(a=>a.caixinha===flt):all,tot=rows.reduce((s,a)=>s+a.valor,0);
   post=()=>{if($('f')){$('fd').value=(d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10))(new Date());$('f').onsubmit=add}
     $('fx').onchange=e=>{flt=e.target.value;render()};
-    $('ex').onclick=()=>{const q=x=>'"'+String(x).replace(/"/g,'""')+'"',csv='Data;Pessoa;Caixinha;Aporte;% CDI\n'+rows.map(a=>[a.data,who(a.o),a.caixinha,String(a.valor).replace('.',','),a.pct].map(q).join(';')).join('\n'),u=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'})),k=document.createElement('a');k.href=u;k.download='aportes.csv';k.click();URL.revokeObjectURL(u)}};
-  return (tab===me?(!mc.length?NOCX:`<div class="card" style="margin-bottom:16px"><form id="f"><div><label>Data</label><input type="date" id="fd" required></div><div><label>Valor (R$)</label><input type="number" id="fv" step="0.01" min="0.01" required></div><div><label>Caixinha</label><select id="fc" required>${mc.map(c=>`<option value="${esc(c.nome)}" data-p="${c.pct}">${esc(c.nome)}</option>`).join('')}</select></div><button class="p">Adicionar aporte</button></form><div class="note">O rendimento usa o % do CDI definido na caixinha. Precisa de outra? <a class="lnk" href="#caixinhas">Criar nova</a></div></div>`):'')+`<div class="card sc"><div class="fl"><div><label>Filtrar por caixinha</label><select id="fx"><option value="">Todas</option>${cx.map(c=>`<option value="${esc(c)}" ${c===flt?'selected':''}>${esc(c)}</option>`).join('')}</select></div><button class="p" id="ex">Exportar CSV</button></div>${table(rows,true)}<div class="note">${rows.length} aporte(s) listado(s). Total aportado: ${R(tot)}.</div></div>`}
+    $('ex').onclick=()=>{const q=x=>'"'+String(x).replace(/"/g,'""')+'"',csv='Data;Pessoa;Caixinha;Aporte;% CDI\n'+rows.map(a=>[a.data,a.o===me?(nm(me)||'Eu'):who(a.o),a.caixinha,String(a.valor).replace('.',','),a.pct].map(q).join(';')).join('\n'),u=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'})),k=document.createElement('a');k.href=u;k.download='aportes.csv';k.click();URL.revokeObjectURL(u)}};
+  return (tab===me?(!mc.length?nocx():`<div class="card" style="margin-bottom:16px"><form id="f"><div><label>Data</label><input type="date" id="fd" required></div><div><label>Valor (R$)</label><input type="number" id="fv" step="0.01" min="0.01" required></div><div><label>Caixinha</label><select id="fc" required>${mc.map(c=>`<option value="${esc(c.nome)}" data-p="${c.pct}">${esc(c.nome)}</option>`).join('')}</select></div><button class="p">Adicionar aporte</button></form><div class="note">O rendimento usa o % do CDI definido na caixinha. Precisa de outra? <a class="lnk" href="#caixinhas">Criar nova</a></div></div>`):'')+`<div class="card sc"><div class="fl"><div><label>Filtrar por caixinha</label><select id="fx"><option value="">Todas</option>${cx.map(c=>`<option value="${esc(c)}" ${c===flt?'selected':''}>${esc(c)}</option>`).join('')}</select></div><button class="p" id="ex">Exportar CSV</button></div>${table(rows,true)}<div class="note">${rows.length} aporte(s) listado(s). Total aportado: ${R(tot)}.</div></div>`}
 function caixinhasResumo(l){
   const now=new Date(),g={};l.forEach(a=>(g[a.caixinha]=g[a.caixinha]||[]).push(a));
   const rs=Object.entries(g).map(([k,x])=>{const t=inv(x,now),c=cur(x,now),sv=x.reduce((s,a)=>s+a.valor,0);return{k,t,c,n:liqL(x,now),r:c-t,w:sv?x.reduce((s,a)=>s+a.valor*a.pct,0)/sv:0}}).sort((a,b)=>b.c-a.c),T=rs.reduce((s,r)=>s+r.c,0);
@@ -202,21 +213,30 @@ function projecao(l){
   +`<div class="card" style="margin-bottom:16px"><div class="k">Projeção do patrimônio</div><div class="cv" style="height:320px"><canvas id="c4"></canvas></div></div>`
   +(ms.length?`<div class="card" style="margin-bottom:16px"><div class="k">Quando você chega lá (cenário base)</div><table>${ms.map(([M,m])=>`<tr><td>${R(M)}</td><td>${m<0?'Além de 50 anos':dt(m).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})+' (em '+dur(m)+')'}</td></tr>`).join('')}</table></div>`:'')
   +`<div class="card sc"><div class="k" style="margin-bottom:6px">Ano a ano (cenário base)</div><table class="rt"><tr><th>Ano</th><th>Aportado</th><th>Bruto</th><th>Líquido</th><th>Rendimento</th><th>Rendimento mensal</th></tr>${yrs.map(m=>`<tr><td data-l="Ano">${m/12}</td><td data-l="Aportado">${R(ap(m))}</td><td data-l="Bruto">${R(b[m])}</td><td data-l="Líquido">${R(nt[m])}</td><td data-l="Rendimento" class="g">${R(b[m]-ap(m))}</td><td data-l="Rendimento mensal">${R(b[m]*r)}</td></tr>`).join('')}</table><div class="note">Estimativa: considera aportes no fim de cada mês, juros compostos e CDI constante. O líquido desconta IOF e IR regressivo sobre o rendimento de cada aporte, como se você resgatasse tudo na data indicada; o bruto não desconta impostos. Os cenários otimista e pessimista variam o CDI em 2 pontos percentuais. Não é garantia de rendimento.</div></div>`}
-function metaBlock(titulo,l,T,id){const S=stats(l),p=T?Math.min(100,S.V0/T*100):0;return `<div class="card" style="margin-bottom:16px"><div class="k">${titulo}</div>${T?`<div class="v">${R(S.V0)} <span class="k">de ${R(T)}</span></div><div class="bar"><i style="width:${p}%"></i></div><div class="note">${P(p)} concluído. Faltam ${R(Math.max(0,T-S.V0))}. ${etaTxt(eta(S.V0,S.c,T,S.w))}</div><div class="note">Cálculo com aporte médio de ${R(S.c)} por mês (últimos 6 meses), ${S.w.toString().replace('.',',')}% do CDI e CDI de ${String(cdi).replace('.',',')}% a.a.</div>`:'<div class="note">Nenhuma meta definida.</div>'}<form id="${id}" style="margin-top:10px"><div><label>Valor da meta (R$)</label><input type="number" id="${id}v" step="0.01" min="0" value="${T||''}"></div><button class="p">Salvar meta</button></form></div>`}
+function metaBlock(titulo,l,T,id,n){const S=stats(l),p=T?Math.min(100,S.V0/T*100):0;return `<div class="card" style="margin-bottom:16px"><div class="k">${titulo}</div>${T?`<div class="v">${R(S.V0)} <span class="k">de ${R(T)}</span></div><div class="bar"><i style="width:${p}%"></i></div><div class="note">${P(p)} concluído. Faltam ${R(Math.max(0,T-S.V0))}. ${etaTxt(eta(S.V0,S.c,T,S.w),n)}</div><div class="note">Cálculo com aporte médio de ${R(S.c)} por mês (últimos 6 meses), ${S.w.toString().replace('.',',')}% do CDI e CDI de ${String(cdi).replace('.',',')}% a.a.</div>`:'<div class="note">Nenhuma meta definida.</div>'}<form id="${id}" style="margin-top:10px"><div><label>Valor da meta (R$)</label><input type="number" id="${id}v" step="0.01" min="0" value="${T||''}"></div><button class="p">Salvar meta</button></form></div>`}
 function metas(){
   const mine=wallets[me]?.meta||0;
   post=()=>{const sv=(id,path,key,after)=>{$(id).onsubmit=async e=>{e.preventDefault();const v=+$(id+'v').value||0;after(v);render();try{await setDoc(D(path),{[key]:v},{merge:true});msg('')}catch(x){msg('Não foi possível salvar a meta.')}}};
     sv('m1','carteiras/'+me,'meta',v=>{wallets[me]={...wallets[me],meta:v}});sv('m2','config/geral','metaC',v=>{metaC=v})};
-  return metaBlock('Minha meta',list(me),mine,'m1')+metaBlock('Meta conjunta (soma dos dois)',list('geral'),metaC,'m2')}
+  return metaBlock('Minha meta',list(me),mine,'m1',first(me))+metaBlock('Meta conjunta (soma dos dois)',list('geral'),metaC,'m2')}
+function fotoDe(file){return new Promise((ok,no)=>{const u=URL.createObjectURL(file),im=new Image();im.onload=()=>{URL.revokeObjectURL(u);const S=256,m=Math.min(im.width,im.height),c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,S,S);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,S,S);ok(c.toDataURL('image/jpeg',.85))};im.onerror=()=>{URL.revokeObjectURL(u);no(new Error('img'))};im.src=u})}
+function fotoUI(){
+  $('pbtn').onclick=()=>$('pfile').click();
+  $('pfile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;if(!file.type.startsWith('image/')){msg('Escolha um arquivo de imagem.');return}
+    let d;try{d=await fotoDe(file)}catch(x){msg('Não foi possível ler essa imagem. Tente outra.');return}
+    wallets[me]={...wallets[me],foto:d};render();
+    try{await setDoc(D('carteiras/'+me),{foto:d},{merge:true});msg('')}catch(x){msg('Não foi possível salvar a foto. Tente de novo.')}};
+  if($('prm'))$('prm').onclick=async()=>{wallets[me]={...wallets[me],foto:''};render();try{await setDoc(D('carteiras/'+me),{foto:''},{merge:true});msg('')}catch(x){msg('Não foi possível remover a foto. Tente de novo.')}}}
+function perfilCard(){const f=wallets[me]?.foto,n=nm(me);return `<div class="card" style="margin-bottom:16px"><div class="k">Perfil</div><div class="pfr">${av(me,'lg')}<div class="pfb"><div><div class="pfn">${esc(n||'Sem nome')}</div><div class="note" style="margin-top:2px">${esc(auth.currentUser?.email||'')}</div></div><input type="file" id="pfile" accept="image/*" style="display:none"><div class="pfa"><button type="button" class="p" id="pbtn">${f?'Trocar foto':'Escolher foto'}</button>${f?'<button type="button" class="out" id="prm">Remover foto</button>':''}</div></div></div><div class="note">A foto é recortada em formato quadrado e reduzida antes de ser salva. Ela aparece na barra lateral.</div></div>`}
 function ajustes(){
-  post=()=>{$('fcdi').onsubmit=async e=>{e.preventDefault();cdi=+$('cdi').value;render();try{await setDoc(D('config/geral'),{cdi});msg('')}catch(x){msg('Não foi possível salvar o CDI.')}}};
-  return `<div class="card"><form id="fcdi"><div><label>CDI anual (% a.a.)</label><input type="number" id="cdi" step="0.01" value="${cdi}"></div><button class="p">Atualizar CDI</button></form><div class="note">O CDI é compartilhado entre vocês dois e alimenta todas as estimativas. O rendimento é uma estimativa bruta (sem IR/IOF), com juros compostos por dias corridos sobre o CDI anual informado × % da caixinha.</div></div>`}
+  post=()=>{fotoUI();$('fcdi').onsubmit=async e=>{e.preventDefault();cdi=+$('cdi').value;render();try{await setDoc(D('config/geral'),{cdi});msg('')}catch(x){msg('Não foi possível salvar o CDI.')}}};
+  return perfilCard()+`<div class="card"><form id="fcdi"><div><label>CDI anual (% a.a.)</label><input type="number" id="cdi" step="0.01" value="${cdi}"></div><button class="p">Atualizar CDI</button></form><div class="note">O CDI é compartilhado entre vocês dois e alimenta todas as estimativas. O rendimento é uma estimativa bruta (sem IR/IOF), com juros compostos por dias corridos sobre o CDI anual informado × % da caixinha.</div></div>`}
 function render(){
   if(!me)return;
   document.body.classList.add('hn');post=null;
-  $('nav').innerHTML='<div class="brand"><span class="logo">R$</span>Aportes</div>'+PAGES.map(p=>`<a href="#${p[0]}" class="${pg===p[0]?'on':''}"><span>${p[1]}</span>${p[2]}</a>`).join('');
+  $('nav').innerHTML='<div class="brand"><span class="logo">R$</span>Aportes</div>'+PAGES.map(p=>`<a href="#${p[0]}" class="${pg===p[0]?'on':''}"><span>${p[1]}</span>${p[2]}</a>`).join('')+`<a href="#ajustes" class="prof" title="Meu perfil">${av(me)}<div class="pn"><b>${esc(nm(me)||'Minha conta')}</b><small>Meu perfil</small></div></a>`;
   const ids=[...new Set([me,...Object.keys(wallets)])];
-  if($('hi'))$('hi').textContent='Olá, '+(names[me]||'');
+  if($('hi'))$('hi').textContent=first(me)?'Olá, '+first(me):'Olá';if($('hav'))$('hav').innerHTML=av(me);
   if(tab!=='geral'&&!ids.includes(tab))tab='geral';
   charts.forEach(c=>c.destroy());charts=[];
   const l=list(tab),sc=['painel','aportes','caixinhas','projecao'].includes(pg);
@@ -252,13 +272,13 @@ function loginView(){
   draw();
 }
 onAuthStateChanged(auth,u=>{
-  unsubs.forEach(f=>f());unsubs=[];document.body.classList.remove('hn');$('nav').innerHTML='';charts.forEach(c=>c.destroy());charts=[];wallets={};
+  unsubs.forEach(f=>f());unsubs=[];document.body.classList.remove('hn');$('nav').innerHTML='';charts.forEach(c=>c.destroy());charts=[];wallets={};ready=false;
   if(!u){me=null;$('who').innerHTML='';loginView();return}
   me=u.uid;
-  $('who').innerHTML='<span class="hi" id="hi"></span><button class="out" id="out">Sair</button>';$('out').onclick=()=>signOut(auth);
+  $('who').innerHTML='<div class="hav" id="hav"></div><span class="hi" id="hi"></span><button class="out" id="out">Sair</button>';$('out').onclick=()=>signOut(auth);
   unsubs.push(onSnapshot(D('config/geral'),s=>{if(s.exists()){cdi=s.data().cdi||cdi;metaC=s.data().metaC||0;if(!document.activeElement||document.activeElement.id!=='cdi')render()}},()=>msg('Sem permissão para ler os dados. Confira as regras do Firestore.')));
   unsubs.push(onSnapshot(collection(db,'carteiras'),q=>{
-    wallets={};names={};q.docs.forEach(d=>{wallets[d.id]=d.data();names[d.id]=d.data().nome||(d.data().email||'').split('@')[0]});
+    wallets={};names={};q.docs.forEach(d=>{wallets[d.id]=d.data();names[d.id]=d.data().nome||(d.data().email||'').split('@')[0]});ready=true;
     msg('');render();
   },()=>msg('Sem permissão para ler os dados. Confira as regras do Firestore.')));
   render();
