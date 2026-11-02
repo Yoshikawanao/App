@@ -23,24 +23,23 @@ h2{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:6px 0 16px}
 .err{color:var(--rd);font-size:13px;min-height:18px;font-weight:600}
 #nav{display:none}
 body.hn{padding-left:224px}
-body.hn #nav{display:flex;flex-direction:column;gap:4px;position:fixed;left:0;top:0;bottom:0;width:224px;padding:22px 14px;padding-top:calc(22px + env(safe-area-inset-top,0px));background:var(--ac);border-right:0;box-shadow:2px 0 16px rgba(21,35,63,.16);z-index:5}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.01em;margin:0 6px 22px;color:#fff}
-.bimg{display:inline-grid;place-items:center;flex:none;width:40px;height:40px;padding:4px;border-radius:12px;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.22)}.bimg img{width:100%;height:100%;object-fit:contain;display:block}
+body.hn #nav{display:flex;flex-direction:column;gap:4px;position:fixed;left:0;top:0;bottom:0;width:224px;padding:22px 14px;padding-top:calc(22px + env(safe-area-inset-top,0px));background:#e8ecf2;border-right:1px solid #d3dae5;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.01em;margin:0 6px 22px;color:var(--tx)}
+.bimg{display:inline-grid;place-items:center;flex:none;width:40px;height:40px;padding:4px;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(21,35,63,.14)}.bimg img{width:100%;height:100%;object-fit:contain;display:block}
 .logo{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--ac);color:#fff;font-size:13px;font-weight:800;box-shadow:0 4px 10px rgba(37,99,235,.3)}
 .av{display:inline-grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;overflow:hidden;background:var(--ac);color:#fff;font-weight:800;font-size:16px;line-height:1;user-select:none}
 .av img{width:100%;height:100%;object-fit:cover;display:block}
 .av.lg{width:88px;height:88px;font-size:34px}
 .tab{display:inline-flex;align-items:center;gap:8px}.tab .av{width:24px;height:24px;font-size:12px}.tab.on .av{box-shadow:0 0 0 2px rgba(255,255,255,.75)}
 .hav{display:none}.hav .av{width:34px;height:34px;font-size:14px}
-#nav a.prof{margin-top:auto;gap:11px;padding:10px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.25)}
-#nav a.prof:hover{background:rgba(0,0,0,.32);border-color:rgba(255,255,255,.4)}
-#nav .av{background:#fff;color:var(--ac-d);box-shadow:0 0 0 2px rgba(255,255,255,.5)}
-.pn{min-width:0;line-height:1.25}.pn b{display:block;color:#fff;font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pn small{display:block;color:rgba(255,255,255,.82);font-size:12px;font-weight:600}
+#nav a.prof{margin-top:auto;gap:11px;padding:10px;background:#fff;border:1px solid #d3dae5}
+#nav a.prof:hover{background:var(--ac-s);border-color:#c7d8fa}
+.pn{min-width:0;line-height:1.25}.pn b{display:block;color:var(--tx);font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pn small{display:block;color:var(--mut);font-size:12px;font-weight:600}
 .pfr{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:12px}.pfb{display:flex;flex-direction:column;gap:10px;min-width:0}.pfa{display:flex;gap:10px;flex-wrap:wrap}.pfn{font-weight:800;font-size:17px;overflow-wrap:anywhere}
-#nav a{display:flex;gap:12px;align-items:center;padding:11px 12px;border-radius:12px;color:#e6efff;text-decoration:none;font-weight:600;transition:background .18s,color .18s,transform .18s}
+#nav a{display:flex;gap:12px;align-items:center;padding:11px 12px;border-radius:12px;color:#475269;text-decoration:none;font-weight:600;transition:background .18s,color .18s,transform .18s}
 #nav a span{display:inline-block;font-size:17px;transition:transform .2s}
-#nav a:hover{background:rgba(0,0,0,.2);color:#fff;transform:translateX(3px)}#nav a:hover span{transform:scale(1.18)}
-#nav a.on{background:#fff;color:var(--ac-d);font-weight:800;box-shadow:inset 3px 0 0 var(--ac),0 4px 12px rgba(0,0,0,.18)}#nav a:focus-visible{outline-color:#fff}
+#nav a:hover{background:#d5dce8;color:var(--tx);transform:translateX(3px)}#nav a:hover span{transform:scale(1.18)}
+#nav a.on{background:#fff;color:var(--ac-d);font-weight:800;box-shadow:inset 3px 0 0 var(--ac),0 2px 8px rgba(21,35,63,.12)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
 .tab{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 16px;border-radius:999px;cursor:pointer;font:inherit;font-weight:600;transition:all .18s}
 .tab:hover{border-color:var(--ac);color:var(--ac-d);background:var(--ac-s);transform:translateY(-2px)}
@@ -85,8 +84,8 @@ a.p{display:inline-block;margin-top:10px;text-decoration:none;color:#fff}
 .bar{height:12px;border-radius:99px;background:var(--ac-s);overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;border-radius:99px;background:var(--ac);transition:width .8s ease}
 .login{max-width:410px;margin:56px auto;padding:28px}.login form{display:grid;grid-template-columns:1fr;gap:12px}
 .lb{display:flex;align-items:center;gap:12px;margin-bottom:20px}.lb b{display:block;font-size:19px;font-weight:800}.lb span:not(.logo){color:var(--mut);font-size:13.5px}
-.lb .logo{width:44px;height:44px;font-size:15px}
-@media(max-width:720px){main{padding:16px 14px 40px}body.hn{padding-left:0;padding-bottom:78px}body.hn #nav{top:auto;width:auto;right:0;flex-direction:row;justify-content:space-around;gap:0;border-right:0;border-top:0;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 20px rgba(21,35,63,.2)}.brand{display:none}#nav a{flex-direction:column;gap:0;font-size:11px;padding:5px 7px}#nav a:hover{transform:none}#nav a.on{box-shadow:inset 0 3px 0 var(--ac)}h2{font-size:22px}.hi{max-width:38vw}.hav{display:block}#nav a.prof{display:none}}
+.lb .logo{width:44px;height:44px;font-size:15px}.lb .bimg{width:48px;height:48px;box-shadow:0 0 0 1px var(--bd),0 4px 10px rgba(21,35,63,.08)}
+@media(max-width:720px){main{padding:16px 14px 40px}body.hn{padding-left:0;padding-bottom:78px}body.hn #nav{top:auto;width:auto;right:0;flex-direction:row;justify-content:space-around;gap:0;border-right:0;border-top:1px solid #d3dae5;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 20px rgba(21,35,63,.08)}.brand{display:none}#nav a{flex-direction:column;gap:0;font-size:11px;padding:5px 7px}#nav a:hover{transform:none}#nav a.on{box-shadow:inset 0 3px 0 var(--ac)}h2{font-size:22px}.hi{max-width:38vw}.hav{display:block}#nav a.prof{display:none}}
 .row>*,.grid>*,main>*{min-width:0}
 .rt td:empty{display:none}
 @media(max-width:720px){
@@ -287,7 +286,7 @@ async function add(e){e.preventDefault();const o=$('fc').selectedOptions[0],v=o.
 async function remove(id){wallets[me]={...wallets[me],aportes:(wallets[me]?.aportes||[]).filter(a=>a.id!==id)};render();try{await save();msg('')}catch(x){msg('Não foi possível remover. Tente de novo.')}}
 function loginView(){
   let novo=false;
-  const draw=()=>{$('app').innerHTML=`<div class="card login"><div class="lb"><span class="logo">R$</span><div><b>Meus aportes</b><span>${novo?'Crie sua conta para começar':'Entre para ver seus aportes'}</span></div></div><form id="lf">${novo?'<div><label>Como você quer ser chamado?</label><input id="ln" required maxlength="40" placeholder="Ex.: Rei Chiquita" autocomplete="nickname"></div>':''}<div><label>E-mail</label><input id="le" type="email" required autocomplete="email"></div><div><label>Senha</label><input id="lp" type="password" minlength="6" required autocomplete="${novo?'new-password':'current-password'}"></div><button class="p">${novo?'Criar conta':'Entrar'}</button><button type="button" class="lk" id="t1">${novo?'Já tenho conta':'Criar conta'}</button>${novo?'':'<button type="button" class="lk" id="t2">Esqueci a senha</button>'}</form></div>`;
+  const draw=()=>{$('app').innerHTML=`<div class="card login"><div class="lb"><span class="bimg"><img src="${LOGO}" alt=""></span><div><b>Finanças</b><span>${novo?'Crie sua conta para começar':'Entre para ver seus aportes'}</span></div></div><form id="lf">${novo?'<div><label>Como você quer ser chamado?</label><input id="ln" required maxlength="40" placeholder="Ex.: Rei Chiquita" autocomplete="nickname"></div>':''}<div><label>E-mail</label><input id="le" type="email" required autocomplete="email"></div><div><label>Senha</label><input id="lp" type="password" minlength="6" required autocomplete="${novo?'new-password':'current-password'}"></div><button class="p">${novo?'Criar conta':'Entrar'}</button><button type="button" class="lk" id="t1">${novo?'Já tenho conta':'Criar conta'}</button>${novo?'':'<button type="button" class="lk" id="t2">Esqueci a senha</button>'}</form></div>`;
     $('t1').onclick=()=>{novo=!novo;msg('');draw()};
     if($('t2'))$('t2').onclick=async()=>{const e=$('le').value;if(!e){msg('Digite seu e-mail primeiro.');return}try{await sendPasswordResetEmail(auth,e);msg('Enviamos um link para redefinir a senha.')}catch(x){msg('Não foi possível enviar o e-mail.')}};
     $('lf').onsubmit=async ev=>{ev.preventDefault();msg('');const e=$('le').value.trim(),p=$('lp').value;
