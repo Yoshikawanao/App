@@ -55,20 +55,20 @@ const fb=initializeApp(firebaseConfig),auth=getAuth(fb),db=getFirestore(fb);
 let unsubs=[];
 const R=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 let me,names={},wallets={},cdi=14.5,tab='geral',charts=[];
-function val(a,t){const d=(t-new Date(a.data+'T12:00:00'))/864e5;if(d<0)return 0;const r=(cdi/100)*(a.pct/100);return a.valor*Math.pow(1+r,d/365)}
-const inv=(l,t)=>l.reduce((s,a)=>s+(new Date(a.data+'T12:00:00')<=t?a.valor:0),0);
+function val(a,t){const d=(t-new Date(a.data+'T00:00:00'))/864e5;if(d<0)return 0;const r=(cdi/100)*(a.pct/100);return a.valor*Math.pow(1+r,d/365)}
+const inv=(l,t)=>l.reduce((s,a)=>s+(new Date(a.data+'T00:00:00')<=t?a.valor:0),0);
 const cur=(l,t)=>l.reduce((s,a)=>s+val(a,t),0);
 function list(sc){return sc==='geral'?Object.values(wallets).flatMap(w=>w.aportes||[]):(wallets[sc]?.aportes||[])}
 function who(id){return id===me?'Eu':(names[id]||'Outra pessoa')}
 const D=id=>doc(db,...id.split('/'));
-function months(l){if(!l.length)return[];const ds=l.map(a=>new Date(a.data+'T12:00:00')).sort((a,b)=>a-b);const out=[];let d=new Date(ds[0].getFullYear(),ds[0].getMonth()+1,0,23);const now=new Date();while(d<now){out.push(new Date(d));d=new Date(d.getFullYear(),d.getMonth()+2,0,23)}out.push(now);return out}
+function months(l){if(!l.length)return[];const ds=l.map(a=>new Date(a.data+'T00:00:00')).sort((a,b)=>a-b);const out=[];let d=new Date(ds[0].getFullYear(),ds[0].getMonth()+1,0,23);const now=new Date();while(d<now){out.push(new Date(d));d=new Date(d.getFullYear(),d.getMonth()+2,0,23)}out.push(now);return out}
 const PAGES=[['painel','📊','Painel'],['aportes','➕','Aportes'],['caixinhas','🗂️','Caixinhas'],['projecao','📈','Projeção'],['metas','🎯','Metas'],['ajustes','⚙️','Ajustes']];
 let pg=(location.hash||'#painel').slice(1),flt='',post=null,metaC=0,proj={c:null,anos:10,cdi:null,pct:null};
 if(!PAGES.some(p=>p[0]===pg))pg='painel';
 addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(PAGES.some(p=>p[0]===h)){pg=h;render();scrollTo(0,0)}});
 const P=v=>v.toFixed(2).replace('.',',')+'%';
 const PAL=['#0f766e','#b45309','#6366f1','#db2777','#65a30d','#0891b2','#9333ea','#ea580c'];
-function stats(l){const now=new Date(),s=new Date(now);s.setMonth(s.getMonth()-6);const rc=l.filter(a=>{const d=new Date(a.data+'T12:00:00');return d>s&&d<=now}),T=l.reduce((x,a)=>x+a.valor,0);return{V0:cur(l,now),A0:inv(l,now),c:Math.round(rc.reduce((x,a)=>x+a.valor,0)/6*100)/100,w:T?Math.round(l.reduce((x,a)=>x+a.valor*a.pct,0)/T*10)/10:100}}
+function stats(l){const now=new Date(),s=new Date(now);s.setMonth(s.getMonth()-6);const rc=l.filter(a=>{const d=new Date(a.data+'T00:00:00');return d>s&&d<=now}),T=l.reduce((x,a)=>x+a.valor,0);return{V0:cur(l,now),A0:inv(l,now),c:Math.round(rc.reduce((x,a)=>x+a.valor,0)/6*100)/100,w:T?Math.round(l.reduce((x,a)=>x+a.valor*a.pct,0)/T*10)/10:100}}
 const mrate=(cd,pc)=>Math.pow(1+Math.max(cd,0)/100*pc/100,1/12)-1;
 function serie(V0,c,cd,pc,N){const r=mrate(cd,pc),o=[V0];for(let m=1;m<=N;m++)o.push(o[m-1]*(1+r)+c);return o}
 function eta(V0,c,T,pc){if(V0>=T)return 0;const r=mrate(cdi,pc);let v=V0;for(let m=1;m<=600;m++){v=v*(1+r)+c;if(v>=T)return m}return null}
@@ -86,7 +86,7 @@ function aportes(l,ids){
   const all=rowsOf(ids),cx=[...new Set(all.map(a=>a.caixinha))].sort();
   if(flt&&!cx.includes(flt))flt='';
   const rows=flt?all.filter(a=>a.caixinha===flt):all,tot=rows.reduce((s,a)=>s+a.valor,0);
-  post=()=>{if($('f')){$('fd').value=new Date().toISOString().slice(0,10);$('f').onsubmit=add}
+  post=()=>{if($('f')){$('fd').value=(d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10))(new Date());$('f').onsubmit=add}
     $('fx').onchange=e=>{flt=e.target.value;render()};
     $('ex').onclick=()=>{const q=x=>'"'+String(x).replace(/"/g,'""')+'"',csv='Data;Pessoa;Caixinha;Aporte;% CDI\n'+rows.map(a=>[a.data,who(a.o),a.caixinha,String(a.valor).replace('.',','),a.pct].map(q).join(';')).join('\n'),u=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'})),k=document.createElement('a');k.href=u;k.download='aportes.csv';k.click();URL.revokeObjectURL(u)}};
   return (tab===me?`<div class="card" style="margin-bottom:16px"><form id="f"><div><label>Data</label><input type="date" id="fd" required></div><div><label>Valor (R$)</label><input type="number" id="fv" step="0.01" min="0.01" required></div><div><label>Caixinha</label><input id="fc" list="cxs" placeholder="Ex.: Reserva" required></div><div><label>% do CDI</label><input type="number" id="fp" step="0.1" min="1" value="100" required></div><button class="p">Adicionar aporte</button></form><datalist id="cxs">${cx.map(c=>`<option value="${esc(c)}">`).join('')}</datalist></div>`:'')+`<div class="card sc"><div class="top" style="margin-bottom:8px"><div><label>Filtrar por caixinha</label><select id="fx"><option value="">Todas</option>${cx.map(c=>`<option value="${esc(c)}" ${c===flt?'selected':''}>${esc(c)}</option>`).join('')}</select></div><button class="p" id="ex">Exportar CSV</button></div>${table(rows,true)}<div class="note">${rows.length} aporte(s) listado(s). Total aportado: ${R(tot)}.</div></div>`}
