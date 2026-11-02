@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Troque pelos e-mails das duas pessoas que usarão o painel.
+    function permitido() {
+      return request.auth != null
+        && request.auth.token.email in ['SEU_EMAIL@exemplo.com', 'EMAIL_DA_OUTRA_PESSOA@exemplo.com'];
+    }
+    // Cada pessoa só grava na própria carteira; as duas podem ler.
+    match /carteiras/{uid} {
+      allow read: if permitido();
+      allow write: if permitido() && request.auth.uid == uid;
+    }
+    match /config/{doc} {
+      allow read, write: if permitido();
+    }
+  }
+}

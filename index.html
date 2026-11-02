@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meus aportes</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1b1f24;--mut:#68707a;--bd:#e3e6ea;--ac:#0f766e;--ac2:#b45309;--gr:#15803d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111418;--card:#1a1f26;--tx:#e8eaed;--mut:#9aa3ad;--bd:#2a313a;--ac:#2dd4bf;--ac2:#f59e0b;--gr:#4ade80;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111418;--card:#1a1f26;--tx:#e8eaed;--mut:#9aa3ad;--bd:#2a313a;--ac:#2dd4bf;--ac2:#f59e0b;--gr:#4ade80;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:980px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tab{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 14px;border-radius:999px;cursor:pointer;font:inherit}
+.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px}
+.k{color:var(--mut);font-size:13px}.v{font-size:24px;font-weight:650;margin-top:2px}.g{color:var(--gr)}
+.row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:720px){.row{grid-template-columns:1fr}}
+.cv{position:relative;height:260px}
+form{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;align-items:end}
+label{font-size:12px;color:var(--mut);display:block;margin-bottom:3px}
+input{width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}
+button.p{padding:10px 14px;border:0;border-radius:8px;background:var(--ac);color:#fff;font:inherit;cursor:pointer}
+.sc{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mut);font-weight:500}
+.x{background:none;border:0;color:var(--mut);cursor:pointer;font-size:16px}
+.note{color:var(--mut);font-size:12.5px;margin-top:10px}
+.login{max-width:360px;margin:40px auto}.login form{display:grid;gap:10px}.top{display:flex;justify-content:space-between;align-items:center;gap:8px}.lk{background:none;border:0;color:var(--ac);cursor:pointer;font:inherit;padding:0}.err{color:#dc2626;font-size:13px;min-height:18px}</style>
+</head>
+<body>
+<main>
+<div class="top"><div><h1>Meus aportes</h1><p class="sub">Cada pessoa registra os próprios aportes; o painel Geral soma tudo.</p></div><div id="who"></div></div>
+<div class="err" id="msg"></div>
+<div id="app"><div class="card">Carregando…</div></div>
+</main>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,doc,onSnapshot,setDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {firebaseConfig} from "./firebase-config.js";
+const $=id=>document.getElementById(id);
+function msg(t){$('msg').textContent=t||''}
+if(String(firebaseConfig.apiKey).startsWith('COLE')){$('app').innerHTML='<div class="card">Falta configurar o Firebase. Siga o passo a passo do README e preencha o arquivo firebase-config.js.</div>';throw new Error('config')}
+const fb=initializeApp(firebaseConfig),auth=getAuth(fb),db=getFirestore(fb);
+let unsubs=[];
+const R=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+let me,names={},wallets={},cdi=14.5,tab='geral',charts=[];
+function val(a,t){const d=(t-new Date(a.data+'T12:00:00'))/864e5;if(d<0)return 0;const r=(cdi/100)*(a.pct/100);return a.valor*Math.pow(1+r,d/365)}
+const inv=(l,t)=>l.reduce((s,a)=>s+(new Date(a.data+'T12:00:00')<=t?a.valor:0),0);
+const cur=(l,t)=>l.reduce((s,a)=>s+val(a,t),0);
+function list(sc){return sc==='geral'?Object.values(wallets).flatMap(w=>w.aportes||[]):(wallets[sc]?.aportes||[])}
+function who(id){return id===me?'Eu':(names[id]||'Outra pessoa')}
+const D=id=>doc(db,...id.split('/'));
+function months(l){if(!l.length)return[];const ds=l.map(a=>new Date(a.data+'T12:00:00')).sort((a,b)=>a-b);const out=[];let d=new Date(ds[0].getFullYear(),ds[0].getMonth()+1,0,23);const now=new Date();while(d<now){out.push(new Date(d));d=new Date(d.getFullYear(),d.getMonth()+2,0,23)}out.push(now);return out}
+function render(){
+  const ids=[...new Set([me,...Object.keys(wallets)])];
+  if(tab!=='geral'&&!ids.includes(tab))tab='geral';
+  const l=list(tab),now=new Date(),tot=inv(l,now),atual=cur(l,now),rend=atual-tot;
+  let h=`<div class="tabs"><button class="tab ${tab==='geral'?'on':''}" data-t="geral">Geral</button>`+ids.map(i=>`<button class="tab ${tab===i?'on':''}" data-t="${i}">${who(i)}</button>`).join('')+`</div>`;
+  h+=`<div class="grid"><div class="card"><div class="k">Total aportado</div><div class="v">${R(tot)}</div></div><div class="card"><div class="k">Valor atual estimado</div><div class="v">${R(atual)}</div></div><div class="card"><div class="k">Rendimento estimado</div><div class="v g">${R(rend)}</div></div><div class="card"><div class="k">Rentabilidade</div><div class="v g">${tot?(rend/tot*100).toFixed(2).replace('.',','):'0,00'}%</div></div></div>`;
+  h+=`<div class="row"><div class="card"><div class="k">Evolução: aportado × valor estimado</div><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><div class="k">${tab==='geral'?'Valor atual por pessoa':'Valor por caixinha'}</div><div class="cv"><canvas id="c2"></canvas></div></div></div>`;
+  if(tab===me)h+=`<div class="card" style="margin-bottom:16px"><form id="f"><div><label>Data</label><input type="date" id="fd" required></div><div><label>Valor (R$)</label><input type="number" id="fv" step="0.01" min="0.01" required></div><div><label>Caixinha</label><input id="fc" placeholder="Ex.: Reserva" required></div><div><label>% do CDI</label><input type="number" id="fp" step="0.1" min="1" value="100" required></div><button class="p">Adicionar aporte</button></form></div>`;
+  const rows=(tab==='geral'?ids.flatMap(i=>(wallets[i]?.aportes||[]).map(a=>({...a,o:i}))):(wallets[tab]?.aportes||[]).map(a=>({...a,o:tab}))).sort((a,b)=>b.data.localeCompare(a.data));
+  h+=`<div class="card sc"><table><tr><th>Data</th>${tab==='geral'?'<th>Pessoa</th>':''}<th>Caixinha</th><th>Aporte</th><th>% CDI</th><th>Hoje (est.)</th><th></th></tr>`+(rows.map(a=>`<tr><td>${a.data.split('-').reverse().join('/')}</td>${tab==='geral'?`<td>${who(a.o)}</td>`:''}<td>${esc(a.caixinha)}</td><td>${R(a.valor)}</td><td>${a.pct}%</td><td>${R(val(a,now))}</td><td>${a.o===me?`<button class="x" data-d="${a.id}" title="Remover">×</button>`:''}</td></tr>`).join('')||`<tr><td colspan="7" style="color:var(--mut)">Nenhum aporte ainda.</td></tr>`)+`</table></div>`;
+  h+=`<div class="card" style="margin-top:16px"><form id="fcdi"><div><label>CDI anual (% a.a.)</label><input type="number" id="cdi" step="0.01" value="${cdi}"></div><button class="p">Atualizar CDI</button></form><div class="note">Estimativa bruta (sem IR/IOF), juros compostos por dias corridos sobre o CDI anual informado × % da caixinha. O CDI é compartilhado entre os dois.</div></div>`;
+  $('app').innerHTML=h;
+  $('app').querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render()});
+  $('app').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{if(b.dataset.arm){remove(b.dataset.d);return}b.dataset.arm='1';b.textContent='Remover?';b.style.color='#dc2626';b.style.fontSize='13px';setTimeout(()=>{if(b.isConnected){delete b.dataset.arm;b.textContent='×';b.style.color='';b.style.fontSize=''}},3000)});
+  if($('f')){$('fd').value=now.toISOString().slice(0,10);$('f').onsubmit=add}
+  $('fcdi').onsubmit=async e=>{e.preventDefault();cdi=+$('cdi').value;try{await setDoc(D('config/geral'),{cdi})}catch(x){msg('Não foi possível salvar o CDI.')}render()};
+  draw(l,ids);
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function draw(l,ids){
+  charts.forEach(c=>c.destroy());charts=[];
+  const css=getComputedStyle(document.documentElement),ac=css.getPropertyValue('--ac').trim(),ac2=css.getPropertyValue('--ac2').trim(),mut=css.getPropertyValue('--mut').trim(),bd=css.getPropertyValue('--bd').trim();
+  const sc={x:{ticks:{color:mut},grid:{color:bd}},y:{ticks:{color:mut,callback:v=>'R$ '+v.toLocaleString('pt-BR')},grid:{color:bd}}};
+  const ms=months(l);
+  charts.push(new Chart($('c1'),{type:'line',data:{labels:ms.map(d=>d.toLocaleDateString('pt-BR',{month:'short',year:'2-digit'})),datasets:[{label:'Aportado',data:ms.map(d=>inv(l,d)),borderColor:ac2,backgroundColor:ac2,tension:.25,pointRadius:2},{label:'Valor estimado',data:ms.map(d=>cur(l,d)),borderColor:ac,backgroundColor:ac,tension:.25,pointRadius:2}]},options:{maintainAspectRatio:false,scales:sc,plugins:{legend:{labels:{color:mut}}}}}));
+  let labels,aport,atual;const now=new Date();
+  if(tab==='geral'){labels=ids.map(who);aport=ids.map(i=>inv(wallets[i]?.aportes||[],now));atual=ids.map(i=>cur(wallets[i]?.aportes||[],now))}
+  else{const g={};l.forEach(a=>{const k=a.caixinha;g[k]=g[k]||[];g[k].push(a)});labels=Object.keys(g);aport=labels.map(k=>inv(g[k],now));atual=labels.map(k=>cur(g[k],now))}
+  charts.push(new Chart($('c2'),{type:'bar',data:{labels,datasets:[{label:'Aportado',data:aport,backgroundColor:ac2},{label:'Atual',data:atual,backgroundColor:ac}]},options:{maintainAspectRatio:false,scales:sc,plugins:{legend:{labels:{color:mut}}}}}));
+}
+
+async function save(){await setDoc(D('carteiras/'+me),{aportes:wallets[me]?.aportes||[]},{merge:true})}
+async function add(e){e.preventDefault();const a={id:Date.now().toString(36),data:$('fd').value,valor:+$('fv').value,caixinha:$('fc').value.trim(),pct:+$('fp').value};wallets[me]={...wallets[me],aportes:[...(wallets[me]?.aportes||[]),a]};render();try{await save();msg('')}catch(x){msg('Não foi possível salvar. Verifique sua conexão e tente de novo.')}}
+async function remove(id){wallets[me]={...wallets[me],aportes:(wallets[me]?.aportes||[]).filter(a=>a.id!==id)};render();try{await save();msg('')}catch(x){msg('Não foi possível remover. Tente de novo.')}}
+function loginView(){
+  let novo=false;
+  const draw=()=>{$('app').innerHTML=`<div class="card login"><form id="lf">${novo?'<div><label>Seu nome</label><input id="ln" required autocomplete="name"></div>':''}<div><label>E-mail</label><input id="le" type="email" required autocomplete="email"></div><div><label>Senha</label><input id="lp" type="password" minlength="6" required autocomplete="${novo?'new-password':'current-password'}"></div><button class="p">${novo?'Criar conta':'Entrar'}</button><button type="button" class="lk" id="t1">${novo?'Já tenho conta':'Criar conta'}</button>${novo?'':'<button type="button" class="lk" id="t2">Esqueci a senha</button>'}</form></div>`;
+    $('t1').onclick=()=>{novo=!novo;msg('');draw()};
+    if($('t2'))$('t2').onclick=async()=>{const e=$('le').value;if(!e){msg('Digite seu e-mail primeiro.');return}try{await sendPasswordResetEmail(auth,e);msg('Enviamos um link para redefinir a senha.')}catch(x){msg('Não foi possível enviar o e-mail.')}};
+    $('lf').onsubmit=async ev=>{ev.preventDefault();msg('');const e=$('le').value.trim(),p=$('lp').value;
+      try{if(novo){const c=await createUserWithEmailAndPassword(auth,e,p);await setDoc(D('carteiras/'+c.user.uid),{nome:$('ln').value.trim(),email:e},{merge:true})}else await signInWithEmailAndPassword(auth,e,p)}
+      catch(x){msg(({'auth/invalid-credential':'E-mail ou senha incorretos.','auth/email-already-in-use':'Este e-mail já tem conta. Use Entrar.','auth/weak-password':'A senha precisa ter pelo menos 6 caracteres.','auth/too-many-requests':'Muitas tentativas. Aguarde um pouco.'})[x.code]||'Não foi possível entrar. Tente de novo.')}}};
+  draw();
+}
+onAuthStateChanged(auth,u=>{
+  unsubs.forEach(f=>f());unsubs=[];charts.forEach(c=>c.destroy());charts=[];wallets={};
+  if(!u){me=null;$('who').innerHTML='';loginView();return}
+  me=u.uid;
+  $('who').innerHTML='<button class="lk" id="out">Sair</button>';$('out').onclick=()=>signOut(auth);
+  unsubs.push(onSnapshot(D('config/geral'),s=>{if(s.exists()){cdi=s.data().cdi||cdi;if(!document.activeElement||document.activeElement.id!=='cdi')render()}},()=>msg('Sem permissão para ler os dados. Confira as regras do Firestore.')));
+  unsubs.push(onSnapshot(collection(db,'carteiras'),q=>{
+    wallets={};names={};q.docs.forEach(d=>{wallets[d.id]=d.data();names[d.id]=d.data().nome||(d.data().email||'').split('@')[0]});
+    msg('');render();
+  },()=>msg('Sem permissão para ler os dados. Confira as regras do Firestore.')));
+  render();
+});
+</script>
+</body>
+</html>
