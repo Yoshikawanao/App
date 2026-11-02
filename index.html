@@ -3,16 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Finanças</title>
-<link rel="manifest" href="manifest.json">
+<title>Meus aportes</title>
+<link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#f6f9fd">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Finanças">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" href="icon-192.png">
-<script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))</script>
+<meta name="apple-mobile-web-app-title" content="Aportes">
+<link rel="icon" type="image/png" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<script>
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+let dp=null;
+const inst=()=>document.getElementById('inst');
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;if(inst())inst().hidden=false});
+addEventListener('appinstalled',()=>{dp=null;if(inst())inst().hidden=true});
+addEventListener('DOMContentLoaded',()=>{const b=inst();if(!b)return;if(dp)b.hidden=false;b.onclick=async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;b.hidden=true}});
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -122,12 +128,13 @@ form{grid-template-columns:repeat(2,1fr)}form .p{grid-column:1/-1}
 }
 @media(hover:none){.grid>.card:hover,.tab:hover,.p:hover,#nav a:hover,.out:hover,.kp:hover .ic{transform:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+#inst[hidden]{display:none!important}
 </style>
 </head>
 <body>
 <nav id="nav"></nav>
 <main>
-<div class="hdr"><div><h1>Meus aportes</h1><p class="sub">Cada pessoa registra os próprios aportes; o painel Geral soma tudo.</p></div><div id="who"></div></div>
+<div class="hdr"><div><h1>Meus aportes</h1><p class="sub">Cada pessoa registra os próprios aportes; o painel Geral soma tudo.</p></div><button class="out" id="inst" hidden>Instalar app</button><div id="who"></div></div>
 <div class="err" id="msg"></div>
 <div id="app"><div class="card">Carregando…</div></div>
 </main>
