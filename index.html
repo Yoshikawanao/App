@@ -50,9 +50,9 @@ label{font-size:12.5px;color:var(--mut);font-weight:600;display:block;margin-bot
 input,select{width:100%;padding:10px 12px;border-radius:11px;border:1px solid var(--bd);background:#fff;color:var(--tx);font:inherit;transition:border-color .18s,box-shadow .18s}
 input:hover,select:hover{border-color:#c4d2ea}
 input:focus,select:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 4px rgba(37,99,235,.13)}
-button.p{padding:11px 20px;border:0;border-radius:11px;background:var(--ac);color:#fff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 3px 8px rgba(37,99,235,.28);transition:transform .15s,box-shadow .2s,background .2s}
-button.p:hover{background:var(--ac-d);transform:translateY(-2px);box-shadow:0 8px 18px rgba(37,99,235,.35)}
-button.p:active{transform:translateY(0) scale(.97);box-shadow:0 2px 5px rgba(37,99,235,.3)}
+.p{padding:11px 20px;border:0;border-radius:11px;background:var(--ac);color:#fff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 3px 8px rgba(37,99,235,.28);transition:transform .15s,box-shadow .2s,background .2s}
+.p:hover{background:var(--ac-d);transform:translateY(-2px);box-shadow:0 8px 18px rgba(37,99,235,.35)}
+.p:active{transform:translateY(0) scale(.97);box-shadow:0 2px 5px rgba(37,99,235,.3)}
 button:focus-visible,a:focus-visible{outline:3px solid rgba(37,99,235,.4);outline-offset:2px}
 .sc{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--bd);white-space:nowrap}
@@ -62,6 +62,9 @@ tr:not(:first-child){transition:background .15s}tr:not(:first-child):hover{backg
 tr:last-child td{border-bottom:0}
 .x{min-width:30px;height:30px;padding:0 8px;border-radius:99px;background:none;border:0;color:var(--mut);cursor:pointer;font-size:17px;transition:all .15s}
 .x:hover{background:#fee2e2;color:var(--rd);transform:scale(1.12)}
+.lnk{color:var(--ac);font-weight:700;text-decoration:none}.lnk:hover{text-decoration:underline}
+a.p{display:inline-block;margin-top:10px;text-decoration:none;color:#fff}
+.cxl{margin-top:12px}.cxi{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--bd)}.cxi b{flex:1;min-width:0;overflow-wrap:anywhere}.cxi label{display:flex;align-items:center;gap:8px;margin:0}.cxi input{width:88px}
 .note{color:var(--mut);font-size:12.5px;margin-top:10px}
 .bar{height:12px;border-radius:99px;background:var(--ac-s);overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;border-radius:99px;background:var(--ac);transition:width .8s ease}
 .login{max-width:410px;margin:56px auto;padding:28px}.login form{display:grid;grid-template-columns:1fr;gap:12px}
@@ -81,7 +84,7 @@ tr:last-child td{border-bottom:0}
 .cv{height:230px!important}
 .tabs{flex-wrap:nowrap;overflow-x:auto;margin:0 -14px 14px;padding:2px 14px 6px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{flex:none}
 input,select{font-size:16px}
-form{grid-template-columns:repeat(2,1fr)}form button.p{grid-column:1/-1}
+form{grid-template-columns:repeat(2,1fr)}form .p{grid-column:1/-1}
 .fl{flex-direction:column;align-items:stretch}.fl>div{max-width:none}
 .rt,.rt tbody,.rt tr,.rt td{display:block;width:100%}
 .rt tr:first-child{display:none}
@@ -93,7 +96,7 @@ form{grid-template-columns:repeat(2,1fr)}form button.p{grid-column:1/-1}
 .card table:not(.rt) td{white-space:normal}
 .login{margin:24px auto;padding:22px}.login form{grid-template-columns:1fr}
 }
-@media(hover:none){.grid>.card:hover,.tab:hover,button.p:hover,#nav a:hover,.out:hover,.kp:hover .ic{transform:none}}
+@media(hover:none){.grid>.card:hover,.tab:hover,.p:hover,#nav a:hover,.out:hover,.kp:hover .ic{transform:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -144,21 +147,32 @@ function table(rows,del){const now=new Date(),g=tab==='geral';return `<table cla
 function painel(l,ids){
   post=()=>draw(l,ids);
   return kpis(l)+`<div class="row"><div class="card"><div class="k">Evolução: aportado × valor estimado</div><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><div class="k">${tab==='geral'?'Valor atual por pessoa':'Valor por caixinha'}</div><div class="cv"><canvas id="c2"></canvas></div></div></div><div class="card sc"><div class="k" style="margin-bottom:6px">Últimos aportes</div>${table(rowsOf(ids).slice(0,5),false)}</div>`}
+const NOCX='<div class="card" style="margin-bottom:16px"><b>Crie sua primeira caixinha</b><div class="note">Antes de lançar um aporte, cadastre a caixinha (nome e % do CDI) na página Caixinhas.</div><a class="p" href="#caixinhas">Criar caixinha</a></div>';
 function aportes(l,ids){
-  const all=rowsOf(ids),cx=[...new Set(all.map(a=>a.caixinha))].sort();
+  const mc=myCx(),all=rowsOf(ids),cx=[...new Set(all.map(a=>a.caixinha))].sort();
   if(flt&&!cx.includes(flt))flt='';
   const rows=flt?all.filter(a=>a.caixinha===flt):all,tot=rows.reduce((s,a)=>s+a.valor,0);
-  post=()=>{if($('f')){$('fd').value=(d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10))(new Date());$('f').onsubmit=add}
+  post=()=>{if($('f')){$('fd').value=(d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10))(new Date());$('f').onsubmit=add;$('fc').onchange=()=>{$('fp').value=$('fc').selectedOptions[0].dataset.p};$('fc').onchange()}
     $('fx').onchange=e=>{flt=e.target.value;render()};
     $('ex').onclick=()=>{const q=x=>'"'+String(x).replace(/"/g,'""')+'"',csv='Data;Pessoa;Caixinha;Aporte;% CDI\n'+rows.map(a=>[a.data,who(a.o),a.caixinha,String(a.valor).replace('.',','),a.pct].map(q).join(';')).join('\n'),u=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'})),k=document.createElement('a');k.href=u;k.download='aportes.csv';k.click();URL.revokeObjectURL(u)}};
-  return (tab===me?`<div class="card" style="margin-bottom:16px"><form id="f"><div><label>Data</label><input type="date" id="fd" required></div><div><label>Valor (R$)</label><input type="number" id="fv" step="0.01" min="0.01" required></div><div><label>Caixinha</label><input id="fc" list="cxs" placeholder="Ex.: Reserva" required></div><div><label>% do CDI</label><input type="number" id="fp" step="0.1" min="1" value="100" required></div><button class="p">Adicionar aporte</button></form><datalist id="cxs">${cx.map(c=>`<option value="${esc(c)}">`).join('')}</datalist></div>`:'')+`<div class="card sc"><div class="fl"><div><label>Filtrar por caixinha</label><select id="fx"><option value="">Todas</option>${cx.map(c=>`<option value="${esc(c)}" ${c===flt?'selected':''}>${esc(c)}</option>`).join('')}</select></div><button class="p" id="ex">Exportar CSV</button></div>${table(rows,true)}<div class="note">${rows.length} aporte(s) listado(s). Total aportado: ${R(tot)}.</div></div>`}
-function caixinhas(l){
+  return (tab===me?(!mc.length?NOCX:`<div class="card" style="margin-bottom:16px"><form id="f"><div><label>Data</label><input type="date" id="fd" required></div><div><label>Valor (R$)</label><input type="number" id="fv" step="0.01" min="0.01" required></div><div><label>Caixinha</label><select id="fc" required>${mc.map(c=>`<option value="${esc(c.nome)}" data-p="${c.pct}">${esc(c.nome)}</option>`).join('')}</select></div><div><label>% do CDI</label><input type="number" id="fp" step="0.1" min="1" value="100" required></div><button class="p">Adicionar aporte</button></form><div class="note">Precisa de outra caixinha? <a class="lnk" href="#caixinhas">Criar nova</a></div></div>`):'')+`<div class="card sc"><div class="fl"><div><label>Filtrar por caixinha</label><select id="fx"><option value="">Todas</option>${cx.map(c=>`<option value="${esc(c)}" ${c===flt?'selected':''}>${esc(c)}</option>`).join('')}</select></div><button class="p" id="ex">Exportar CSV</button></div>${table(rows,true)}<div class="note">${rows.length} aporte(s) listado(s). Total aportado: ${R(tot)}.</div></div>`}
+function caixinhasResumo(l){
   const now=new Date(),g={};l.forEach(a=>(g[a.caixinha]=g[a.caixinha]||[]).push(a));
   const rs=Object.entries(g).map(([k,x])=>{const t=inv(x,now),c=cur(x,now),sv=x.reduce((s,a)=>s+a.valor,0);return{k,t,c,r:c-t,w:sv?x.reduce((s,a)=>s+a.valor*a.pct,0)/sv:0}}).sort((a,b)=>b.c-a.c),T=rs.reduce((s,r)=>s+r.c,0);
   post=()=>{if(!rs.length)return;charts.push(new Chart($('c3'),{type:'doughnut',data:{labels:rs.map(r=>r.k),datasets:[{data:rs.map(r=>r.c),backgroundColor:rs.map((r,i)=>PAL[i%PAL.length]),borderWidth:0}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:getComputedStyle(document.documentElement).getPropertyValue('--mut').trim()}}}}}))};
   if(!rs.length)return '<div class="card">Nenhum aporte ainda. Registre o primeiro na página Aportes.</div>';
   const top=[...rs].sort((a,b)=>b.r-a.r)[0];
   return `<div class="row"><div class="card"><div class="k">Resumo por caixinha</div><div class="sc"><table class="rt"><tr><th>Caixinha</th><th>Aportado</th><th>Atual (est.)</th><th>Rendimento</th><th>% CDI médio</th><th>Parte do total</th></tr>${rs.map(r=>`<tr><td data-l="Caixinha">${esc(r.k)}</td><td data-l="Aportado">${R(r.t)}</td><td data-l="Atual (est.)">${R(r.c)}</td><td data-l="Rendimento" class="g">${R(r.r)}</td><td data-l="% CDI médio">${r.w.toFixed(1).replace('.',',')}%</td><td data-l="Parte do total">${P(T?r.c/T*100:0)}</td></tr>`).join('')}</table></div><div class="note">Caixinha que mais rendeu em reais: ${esc(top.k)} (${R(top.r)}). Concentração na maior caixinha: ${P(T?rs[0].c/T*100:0)} do total.</div></div><div class="card"><div class="k">Distribuição do valor atual</div><div class="cv"><canvas id="c3"></canvas></div></div></div>`}
+function myCx(){const reg=(wallets[me]?.caixinhas||[]).map(c=>({...c,reg:1})),m=new Map(reg.map(c=>[c.nome.toLowerCase(),c]));[...(wallets[me]?.aportes||[])].sort((a,b)=>a.data.localeCompare(b.data)).forEach(a=>{const k=a.caixinha.toLowerCase(),c=m.get(k);if(!c)m.set(k,{nome:a.caixinha,pct:a.pct,reg:0});else if(!c.reg)c.pct=a.pct});return [...m.values()].sort((a,b)=>a.nome.localeCompare(b.nome))}
+async function saveCx(list){list=list.map(({nome,pct})=>({nome,pct}));wallets[me]={...wallets[me],caixinhas:list};render();try{await setDoc(D('carteiras/'+me),{caixinhas:list},{merge:true});msg('')}catch(x){msg('Não foi possível salvar a caixinha. Tente de novo.')}}
+function caixinhas(l){
+  const cx=myCx(),used=n=>(wallets[me]?.aportes||[]).some(a=>a.caixinha.toLowerCase()===n.toLowerCase());
+  const body=caixinhasResumo(l),p1=post;
+  post=()=>{if(p1)p1();
+    $('nc').onsubmit=e=>{e.preventDefault();const n=$('ncn').value.trim();if(!n)return;if(cx.some(c=>c.nome.toLowerCase()===n.toLowerCase())){msg('Você já tem uma caixinha com esse nome.');return}saveCx([...cx,{nome:n,pct:+$('ncp').value||100}])};
+    document.querySelectorAll('[data-cp]').forEach(i=>i.onchange=()=>{const v=+i.value||100;saveCx(cx.map(c=>c.nome===i.dataset.cp?{...c,pct:v}:c))});
+    document.querySelectorAll('[data-cr]').forEach(b=>b.onclick=()=>saveCx(cx.filter(c=>c.nome!==b.dataset.cr)))};
+  return `<div class="card" style="margin-bottom:16px"><div class="k">Minhas caixinhas</div><form id="nc" style="margin:10px 0 4px"><div><label>Nome da nova caixinha</label><input id="ncn" required maxlength="40" placeholder="Ex.: Reserva de emergência"></div><div><label>% do CDI</label><input id="ncp" type="number" step="0.1" min="1" value="100" required></div><button class="p">Criar caixinha</button></form>`+(cx.length?`<div class="cxl">${cx.map(c=>`<div class="cxi"><b>${esc(c.nome)}</b><label>% do CDI<input type="number" step="0.1" min="1" value="${c.pct}" data-cp="${esc(c.nome)}"></label>${used(c.nome)?'<span class="note">em uso</span>':`<button class="x" data-cr="${esc(c.nome)}" title="Remover caixinha">×</button>`}</div>`).join('')}</div>`:'<div class="note">Você ainda não criou nenhuma caixinha.</div>')+`<div class="note">O % do CDI é o valor sugerido ao lançar um aporte. Mudar aqui não altera aportes já lançados, e caixinhas com aportes não podem ser removidas.</div></div>`+body}
 function projecao(l){
   const S=stats(l),c=proj.c??S.c,N=proj.anos*12,cd=proj.cdi??cdi,pc=proj.pct??S.w;
   const big=serie(S.V0,c,cd,pc,600),b=big.slice(0,N+1),ot=serie(S.V0,c,cd+2,pc,N),pe=serie(S.V0,c,cd-2,pc,N),sn=serie(S.V0,0,cd,pc,N);
