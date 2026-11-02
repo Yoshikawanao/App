@@ -15,7 +15,7 @@ main{max-width:980px;margin:0 auto;padding:20px 16px 48px}
 h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 16px}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
 .tab{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 14px;border-radius:999px;cursor:pointer;font:inherit}
-.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.tab.on{background:var(--ac);color:var(--bg);border-color:var(--ac)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px}
 .k{color:var(--mut);font-size:13px}.v{font-size:24px;font-weight:650;margin-top:2px}.g{color:var(--gr)}
@@ -25,14 +25,19 @@ h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 16px}
 form{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;align-items:end}
 label{font-size:12px;color:var(--mut);display:block;margin-bottom:3px}
 input{width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}
-button.p{padding:10px 14px;border:0;border-radius:8px;background:var(--ac);color:#fff;font:inherit;cursor:pointer}
+button.p{padding:10px 14px;border:0;border-radius:8px;background:var(--ac);color:var(--bg);font:inherit;cursor:pointer}
 .sc{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mut);font-weight:500}
 .x{background:none;border:0;color:var(--mut);cursor:pointer;font-size:16px}
 .note{color:var(--mut);font-size:12.5px;margin-top:10px}
+h2{font-size:18px;margin:4px 0 12px}select{width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}.bar{height:10px;border-radius:99px;background:var(--bd);overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--ac)}
+#nav{display:none}body.hn{padding-left:200px}body.hn #nav{display:flex;flex-direction:column;gap:2px;position:fixed;left:0;top:0;bottom:0;width:200px;padding:20px 10px;padding-top:calc(20px + env(safe-area-inset-top,0px));background:var(--card);border-right:1px solid var(--bd);z-index:5}
+#nav a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:8px;color:var(--tx);text-decoration:none}#nav a.on{background:var(--ac);color:var(--bg)}
+@media(max-width:720px){body.hn{padding-left:0;padding-bottom:76px}body.hn #nav{top:auto;width:auto;right:0;flex-direction:row;justify-content:space-around;border-right:0;border-top:1px solid var(--bd);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}#nav a{flex-direction:column;gap:0;font-size:11px;padding:4px 6px}}
 .login{max-width:360px;margin:40px auto}.login form{display:grid;gap:10px}.top{display:flex;justify-content:space-between;align-items:center;gap:8px}.lk{background:none;border:0;color:var(--ac);cursor:pointer;font:inherit;padding:0}.err{color:#dc2626;font-size:13px;min-height:18px}</style>
 </head>
 <body>
+<nav id="nav"></nav>
 <main>
 <div class="top"><div><h1>Meus aportes</h1><p class="sub">Cada pessoa registra os próprios aportes; o painel Geral soma tudo.</p></div><div id="who"></div></div>
 <div class="err" id="msg"></div>
@@ -57,23 +62,76 @@ function list(sc){return sc==='geral'?Object.values(wallets).flatMap(w=>w.aporte
 function who(id){return id===me?'Eu':(names[id]||'Outra pessoa')}
 const D=id=>doc(db,...id.split('/'));
 function months(l){if(!l.length)return[];const ds=l.map(a=>new Date(a.data+'T12:00:00')).sort((a,b)=>a-b);const out=[];let d=new Date(ds[0].getFullYear(),ds[0].getMonth()+1,0,23);const now=new Date();while(d<now){out.push(new Date(d));d=new Date(d.getFullYear(),d.getMonth()+2,0,23)}out.push(now);return out}
+const PAGES=[['painel','📊','Painel'],['aportes','➕','Aportes'],['caixinhas','🗂️','Caixinhas'],['projecao','📈','Projeção'],['metas','🎯','Metas'],['ajustes','⚙️','Ajustes']];
+let pg=(location.hash||'#painel').slice(1),flt='',post=null,metaC=0,proj={c:null,anos:10,cdi:null,pct:null};
+if(!PAGES.some(p=>p[0]===pg))pg='painel';
+addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(PAGES.some(p=>p[0]===h)){pg=h;render();scrollTo(0,0)}});
+const P=v=>v.toFixed(2).replace('.',',')+'%';
+const PAL=['#0f766e','#b45309','#6366f1','#db2777','#65a30d','#0891b2','#9333ea','#ea580c'];
+function stats(l){const now=new Date(),s=new Date(now);s.setMonth(s.getMonth()-6);const rc=l.filter(a=>{const d=new Date(a.data+'T12:00:00');return d>s&&d<=now}),T=l.reduce((x,a)=>x+a.valor,0);return{V0:cur(l,now),A0:inv(l,now),c:Math.round(rc.reduce((x,a)=>x+a.valor,0)/6*100)/100,w:T?Math.round(l.reduce((x,a)=>x+a.valor*a.pct,0)/T*10)/10:100}}
+const mrate=(cd,pc)=>Math.pow(1+Math.max(cd,0)/100*pc/100,1/12)-1;
+function serie(V0,c,cd,pc,N){const r=mrate(cd,pc),o=[V0];for(let m=1;m<=N;m++)o.push(o[m-1]*(1+r)+c);return o}
+function eta(V0,c,T,pc){if(V0>=T)return 0;const r=mrate(cdi,pc);let v=V0;for(let m=1;m<=600;m++){v=v*(1+r)+c;if(v>=T)return m}return null}
+const dt=m=>{const d=new Date();d.setMonth(d.getMonth()+m);return d};
+function dur(m){const a=Math.floor(m/12),b=m%12;return [a?a+(a>1?' anos':' ano'):'',b?b+(b>1?' meses':' mês'):''].filter(Boolean).join(' e ')}
+function etaTxt(m){if(m===null)return'Não atinge a meta em 50 anos nesse ritmo.';if(m===0)return'Meta atingida!';return'Previsão: '+dt(m).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})+' (em '+dur(m)+').'}
+function rowsOf(ids){return (tab==='geral'?ids.flatMap(i=>(wallets[i]?.aportes||[]).map(a=>({...a,o:i}))):(wallets[tab]?.aportes||[]).map(a=>({...a,o:tab}))).sort((a,b)=>b.data.localeCompare(a.data))}
+function card(k,v,g){return `<div class="card"><div class="k">${k}</div><div class="v ${g?'g':''}">${v}</div></div>`}
+function kpis(l){const now=new Date(),t=inv(l,now),a=cur(l,now),r=a-t;return `<div class="grid">${card('Total aportado',R(t))+card('Valor atual estimado',R(a))+card('Rendimento estimado',R(r),1)+card('Rentabilidade',P(t?r/t*100:0),1)}</div>`}
+function table(rows,del){const now=new Date(),g=tab==='geral';return `<table><tr><th>Data</th>${g?'<th>Pessoa</th>':''}<th>Caixinha</th><th>Aporte</th><th>% CDI</th><th>Hoje (est.)</th>${del?'<th></th>':''}</tr>`+(rows.map(a=>`<tr><td>${a.data.split('-').reverse().join('/')}</td>${g?`<td>${esc(who(a.o))}</td>`:''}<td>${esc(a.caixinha)}</td><td>${R(a.valor)}</td><td>${a.pct}%</td><td>${R(val(a,now))}</td>${del?`<td>${a.o===me?`<button class="x" data-d="${a.id}" title="Remover">×</button>`:''}</td>`:''}</tr>`).join('')||'<tr><td colspan="7" style="color:var(--mut)">Nenhum aporte ainda.</td></tr>')+'</table>'}
+function painel(l,ids){
+  post=()=>draw(l,ids);
+  return kpis(l)+`<div class="row"><div class="card"><div class="k">Evolução: aportado × valor estimado</div><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><div class="k">${tab==='geral'?'Valor atual por pessoa':'Valor por caixinha'}</div><div class="cv"><canvas id="c2"></canvas></div></div></div><div class="card sc"><div class="k" style="margin-bottom:6px">Últimos aportes</div>${table(rowsOf(ids).slice(0,5),false)}</div>`}
+function aportes(l,ids){
+  const all=rowsOf(ids),cx=[...new Set(all.map(a=>a.caixinha))].sort();
+  if(flt&&!cx.includes(flt))flt='';
+  const rows=flt?all.filter(a=>a.caixinha===flt):all,tot=rows.reduce((s,a)=>s+a.valor,0);
+  post=()=>{if($('f')){$('fd').value=new Date().toISOString().slice(0,10);$('f').onsubmit=add}
+    $('fx').onchange=e=>{flt=e.target.value;render()};
+    $('ex').onclick=()=>{const q=x=>'"'+String(x).replace(/"/g,'""')+'"',csv='Data;Pessoa;Caixinha;Aporte;% CDI\n'+rows.map(a=>[a.data,who(a.o),a.caixinha,String(a.valor).replace('.',','),a.pct].map(q).join(';')).join('\n'),u=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'})),k=document.createElement('a');k.href=u;k.download='aportes.csv';k.click();URL.revokeObjectURL(u)}};
+  return (tab===me?`<div class="card" style="margin-bottom:16px"><form id="f"><div><label>Data</label><input type="date" id="fd" required></div><div><label>Valor (R$)</label><input type="number" id="fv" step="0.01" min="0.01" required></div><div><label>Caixinha</label><input id="fc" list="cxs" placeholder="Ex.: Reserva" required></div><div><label>% do CDI</label><input type="number" id="fp" step="0.1" min="1" value="100" required></div><button class="p">Adicionar aporte</button></form><datalist id="cxs">${cx.map(c=>`<option value="${esc(c)}">`).join('')}</datalist></div>`:'')+`<div class="card sc"><div class="top" style="margin-bottom:8px"><div><label>Filtrar por caixinha</label><select id="fx"><option value="">Todas</option>${cx.map(c=>`<option value="${esc(c)}" ${c===flt?'selected':''}>${esc(c)}</option>`).join('')}</select></div><button class="p" id="ex">Exportar CSV</button></div>${table(rows,true)}<div class="note">${rows.length} aporte(s) listado(s). Total aportado: ${R(tot)}.</div></div>`}
+function caixinhas(l){
+  const now=new Date(),g={};l.forEach(a=>(g[a.caixinha]=g[a.caixinha]||[]).push(a));
+  const rs=Object.entries(g).map(([k,x])=>{const t=inv(x,now),c=cur(x,now),sv=x.reduce((s,a)=>s+a.valor,0);return{k,t,c,r:c-t,w:sv?x.reduce((s,a)=>s+a.valor*a.pct,0)/sv:0}}).sort((a,b)=>b.c-a.c),T=rs.reduce((s,r)=>s+r.c,0);
+  post=()=>{if(!rs.length)return;charts.push(new Chart($('c3'),{type:'doughnut',data:{labels:rs.map(r=>r.k),datasets:[{data:rs.map(r=>r.c),backgroundColor:rs.map((r,i)=>PAL[i%PAL.length]),borderWidth:0}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:getComputedStyle(document.documentElement).getPropertyValue('--mut').trim()}}}}}))};
+  if(!rs.length)return '<div class="card">Nenhum aporte ainda. Registre o primeiro na página Aportes.</div>';
+  const top=[...rs].sort((a,b)=>b.r-a.r)[0];
+  return `<div class="row"><div class="card"><div class="k">Resumo por caixinha</div><div class="sc"><table><tr><th>Caixinha</th><th>Aportado</th><th>Atual (est.)</th><th>Rendimento</th><th>% CDI médio</th><th>Parte do total</th></tr>${rs.map(r=>`<tr><td>${esc(r.k)}</td><td>${R(r.t)}</td><td>${R(r.c)}</td><td class="g">${R(r.r)}</td><td>${r.w.toFixed(1).replace('.',',')}%</td><td>${P(T?r.c/T*100:0)}</td></tr>`).join('')}</table></div><div class="note">Caixinha que mais rendeu em reais: ${esc(top.k)} (${R(top.r)}). Concentração na maior caixinha: ${P(T?rs[0].c/T*100:0)} do total.</div></div><div class="card"><div class="k">Distribuição do valor atual</div><div class="cv"><canvas id="c3"></canvas></div></div></div>`}
+function projecao(l){
+  const S=stats(l),c=proj.c??S.c,N=proj.anos*12,cd=proj.cdi??cdi,pc=proj.pct??S.w;
+  const big=serie(S.V0,c,cd,pc,600),b=big.slice(0,N+1),ot=serie(S.V0,c,cd+2,pc,N),pe=serie(S.V0,c,cd-2,pc,N),sn=serie(S.V0,0,cd,pc,N);
+  const ap=m=>S.A0+c*m,r=mrate(cd,pc),fim=b[N],aT=ap(N),j=fim-aT;
+  const ms=[1e4,5e4,1e5,2.5e5,5e5,1e6].filter(M=>M>S.V0).map(M=>[M,big.findIndex(v=>v>=M)]);
+  post=()=>{const g=(id,k)=>{$(id).onchange=e=>{proj[k]=Number(e.target.value);render()}};g('pa','c');g('py','anos');g('pd','cdi');g('pp','pct');
+    const mut=getComputedStyle(document.documentElement).getPropertyValue('--mut').trim(),bd=getComputedStyle(document.documentElement).getPropertyValue('--bd').trim(),L=b.map((v,m)=>dt(m).toLocaleDateString('pt-BR',{month:'short',year:'2-digit'})),ds=(label,data,color,dash)=>({label,data,borderColor:color,backgroundColor:color,borderDash:dash||[],pointRadius:0,tension:.2,borderWidth:2});
+    charts.push(new Chart($('c4'),{type:'line',data:{labels:L,datasets:[ds('Otimista (CDI +2 p.p.)',ot,'#16a34a'),ds('Base',b,PAL[0]),ds('Pessimista (CDI −2 p.p.)',pe,'#dc2626'),ds('Só o saldo atual, sem novos aportes',sn,mut,[6,4]),ds('Total aportado',b.map((v,m)=>ap(m)),PAL[1],[2,3])]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{x:{ticks:{color:mut,maxTicksLimit:8},grid:{color:bd}},y:{ticks:{color:mut,callback:v=>'R$ '+v.toLocaleString('pt-BR')},grid:{color:bd}}},plugins:{legend:{labels:{color:mut}},tooltip:{callbacks:{label:x=>x.dataset.label+': '+R(x.parsed.y)}}}}}))};
+  const yrs=Array.from({length:proj.anos},(_,i)=>(i+1)*12).filter(m=>m<=N);
+  return `<div class="card" style="margin-bottom:16px"><form><div><label>Aporte mensal (R$)</label><input type="number" id="pa" step="0.01" min="0" value="${c}"></div><div><label>Horizonte</label><select id="py">${[1,2,3,5,10,15,20,30].map(y=>`<option value="${y}" ${y===proj.anos?'selected':''}>${y} ${y>1?'anos':'ano'}</option>`).join('')}</select></div><div><label>CDI esperado (% a.a.)</label><input type="number" id="pd" step="0.01" min="0" value="${cd}"></div><div><label>% do CDI</label><input type="number" id="pp" step="0.1" min="1" value="${pc}"></div></form><div class="note">Valores iniciais: aporte médio dos últimos 6 meses e % do CDI médio ponderado das suas caixinhas. Altere à vontade para simular.</div></div>`
+  +`<div class="grid">${card('Valor em '+proj.anos+(proj.anos>1?' anos':' ano'),R(fim))+card('Total aportado',R(aT))+card('Rendimento acumulado',R(j)+' <span class="k">('+P(fim?j/fim*100:0)+' do total)</span>',1)+card('Rendimento mensal no fim',R(fim*r),1)+card('Sem novos aportes',R(sn[N]))}</div>`
+  +`<div class="card" style="margin-bottom:16px"><div class="k">Projeção do patrimônio</div><div class="cv" style="height:320px"><canvas id="c4"></canvas></div></div>`
+  +(ms.length?`<div class="card" style="margin-bottom:16px"><div class="k">Quando você chega lá (cenário base)</div><table>${ms.map(([M,m])=>`<tr><td>${R(M)}</td><td>${m<0?'Além de 50 anos':dt(m).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})+' (em '+dur(m)+')'}</td></tr>`).join('')}</table></div>`:'')
+  +`<div class="card sc"><div class="k" style="margin-bottom:6px">Ano a ano (cenário base)</div><table><tr><th>Ano</th><th>Aportado</th><th>Valor</th><th>Rendimento</th><th>Rendimento mensal</th></tr>${yrs.map(m=>`<tr><td>${m/12}</td><td>${R(ap(m))}</td><td>${R(b[m])}</td><td class="g">${R(b[m]-ap(m))}</td><td>${R(b[m]*r)}</td></tr>`).join('')}</table><div class="note">Estimativa bruta: considera aportes no fim de cada mês, juros compostos e CDI constante, sem IR/IOF. Os cenários otimista e pessimista variam o CDI em 2 pontos percentuais. Não é garantia de rendimento.</div></div>`}
+function metaBlock(titulo,l,T,id){const S=stats(l),p=T?Math.min(100,S.V0/T*100):0;return `<div class="card" style="margin-bottom:16px"><div class="k">${titulo}</div>${T?`<div class="v">${R(S.V0)} <span class="k">de ${R(T)}</span></div><div class="bar"><i style="width:${p}%"></i></div><div class="note">${P(p)} concluído. Faltam ${R(Math.max(0,T-S.V0))}. ${etaTxt(eta(S.V0,S.c,T,S.w))}</div><div class="note">Cálculo com aporte médio de ${R(S.c)} por mês (últimos 6 meses), ${S.w.toString().replace('.',',')}% do CDI e CDI de ${String(cdi).replace('.',',')}% a.a.</div>`:'<div class="note">Nenhuma meta definida.</div>'}<form id="${id}" style="margin-top:10px"><div><label>Valor da meta (R$)</label><input type="number" id="${id}v" step="0.01" min="0" value="${T||''}"></div><button class="p">Salvar meta</button></form></div>`}
+function metas(){
+  const mine=wallets[me]?.meta||0;
+  post=()=>{const sv=(id,path,key,after)=>{$(id).onsubmit=async e=>{e.preventDefault();const v=+$(id+'v').value||0;after(v);render();try{await setDoc(D(path),{[key]:v},{merge:true});msg('')}catch(x){msg('Não foi possível salvar a meta.')}}};
+    sv('m1','carteiras/'+me,'meta',v=>{wallets[me]={...wallets[me],meta:v}});sv('m2','config/geral','metaC',v=>{metaC=v})};
+  return metaBlock('Minha meta',list(me),mine,'m1')+metaBlock('Meta conjunta (soma dos dois)',list('geral'),metaC,'m2')}
+function ajustes(){
+  post=()=>{$('fcdi').onsubmit=async e=>{e.preventDefault();cdi=+$('cdi').value;render();try{await setDoc(D('config/geral'),{cdi});msg('')}catch(x){msg('Não foi possível salvar o CDI.')}}};
+  return `<div class="card"><form id="fcdi"><div><label>CDI anual (% a.a.)</label><input type="number" id="cdi" step="0.01" value="${cdi}"></div><button class="p">Atualizar CDI</button></form><div class="note">O CDI é compartilhado entre vocês dois e alimenta todas as estimativas. O rendimento é uma estimativa bruta (sem IR/IOF), com juros compostos por dias corridos sobre o CDI anual informado × % da caixinha.</div></div>`}
 function render(){
+  if(!me)return;
+  document.body.classList.add('hn');post=null;
+  $('nav').innerHTML=PAGES.map(p=>`<a href="#${p[0]}" class="${pg===p[0]?'on':''}"><span>${p[1]}</span>${p[2]}</a>`).join('');
   const ids=[...new Set([me,...Object.keys(wallets)])];
   if(tab!=='geral'&&!ids.includes(tab))tab='geral';
-  const l=list(tab),now=new Date(),tot=inv(l,now),atual=cur(l,now),rend=atual-tot;
-  let h=`<div class="tabs"><button class="tab ${tab==='geral'?'on':''}" data-t="geral">Geral</button>`+ids.map(i=>`<button class="tab ${tab===i?'on':''}" data-t="${i}">${who(i)}</button>`).join('')+`</div>`;
-  h+=`<div class="grid"><div class="card"><div class="k">Total aportado</div><div class="v">${R(tot)}</div></div><div class="card"><div class="k">Valor atual estimado</div><div class="v">${R(atual)}</div></div><div class="card"><div class="k">Rendimento estimado</div><div class="v g">${R(rend)}</div></div><div class="card"><div class="k">Rentabilidade</div><div class="v g">${tot?(rend/tot*100).toFixed(2).replace('.',','):'0,00'}%</div></div></div>`;
-  h+=`<div class="row"><div class="card"><div class="k">Evolução: aportado × valor estimado</div><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><div class="k">${tab==='geral'?'Valor atual por pessoa':'Valor por caixinha'}</div><div class="cv"><canvas id="c2"></canvas></div></div></div>`;
-  if(tab===me)h+=`<div class="card" style="margin-bottom:16px"><form id="f"><div><label>Data</label><input type="date" id="fd" required></div><div><label>Valor (R$)</label><input type="number" id="fv" step="0.01" min="0.01" required></div><div><label>Caixinha</label><input id="fc" placeholder="Ex.: Reserva" required></div><div><label>% do CDI</label><input type="number" id="fp" step="0.1" min="1" value="100" required></div><button class="p">Adicionar aporte</button></form></div>`;
-  const rows=(tab==='geral'?ids.flatMap(i=>(wallets[i]?.aportes||[]).map(a=>({...a,o:i}))):(wallets[tab]?.aportes||[]).map(a=>({...a,o:tab}))).sort((a,b)=>b.data.localeCompare(a.data));
-  h+=`<div class="card sc"><table><tr><th>Data</th>${tab==='geral'?'<th>Pessoa</th>':''}<th>Caixinha</th><th>Aporte</th><th>% CDI</th><th>Hoje (est.)</th><th></th></tr>`+(rows.map(a=>`<tr><td>${a.data.split('-').reverse().join('/')}</td>${tab==='geral'?`<td>${who(a.o)}</td>`:''}<td>${esc(a.caixinha)}</td><td>${R(a.valor)}</td><td>${a.pct}%</td><td>${R(val(a,now))}</td><td>${a.o===me?`<button class="x" data-d="${a.id}" title="Remover">×</button>`:''}</td></tr>`).join('')||`<tr><td colspan="7" style="color:var(--mut)">Nenhum aporte ainda.</td></tr>`)+`</table></div>`;
-  h+=`<div class="card" style="margin-top:16px"><form id="fcdi"><div><label>CDI anual (% a.a.)</label><input type="number" id="cdi" step="0.01" value="${cdi}"></div><button class="p">Atualizar CDI</button></form><div class="note">Estimativa bruta (sem IR/IOF), juros compostos por dias corridos sobre o CDI anual informado × % da caixinha. O CDI é compartilhado entre os dois.</div></div>`;
-  $('app').innerHTML=h;
-  $('app').querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render()});
-  $('app').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{if(b.dataset.arm){remove(b.dataset.d);return}b.dataset.arm='1';b.textContent='Remover?';b.style.color='#dc2626';b.style.fontSize='13px';setTimeout(()=>{if(b.isConnected){delete b.dataset.arm;b.textContent='×';b.style.color='';b.style.fontSize=''}},3000)});
-  if($('f')){$('fd').value=now.toISOString().slice(0,10);$('f').onsubmit=add}
-  $('fcdi').onsubmit=async e=>{e.preventDefault();cdi=+$('cdi').value;try{await setDoc(D('config/geral'),{cdi})}catch(x){msg('Não foi possível salvar o CDI.')}render()};
-  draw(l,ids);
+  charts.forEach(c=>c.destroy());charts=[];
+  const l=list(tab),sc=['painel','aportes','caixinhas','projecao'].includes(pg);
+  $('app').innerHTML=`<h2>${PAGES.find(p=>p[0]===pg)[2]}</h2>`+(sc?`<div class="tabs"><button class="tab ${tab==='geral'?'on':''}" data-t="geral">Geral</button>${ids.map(i=>`<button class="tab ${tab===i?'on':''}" data-t="${i}">${esc(who(i))}</button>`).join('')}</div>`:'')+({painel,aportes,caixinhas,projecao,metas,ajustes})[pg](l,ids);
+  $('app').querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;proj.c=proj.pct=proj.cdi=null;flt='';render()});
+  $('app').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{if(b.dataset.arm){remove(b.dataset.d);return}b.dataset.arm='1';b.textContent='Remover?';b.style.color='#dc2626';b.style.fontSize='13px';setTimeout(()=>{if(b.isConnected){delete b.dataset.arm;b.textContent='\u00d7';b.style.color='';b.style.fontSize=''}},3000)});
+  if(post)post();
 }
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function draw(l,ids){
@@ -102,11 +160,11 @@ function loginView(){
   draw();
 }
 onAuthStateChanged(auth,u=>{
-  unsubs.forEach(f=>f());unsubs=[];charts.forEach(c=>c.destroy());charts=[];wallets={};
+  unsubs.forEach(f=>f());unsubs=[];document.body.classList.remove('hn');$('nav').innerHTML='';charts.forEach(c=>c.destroy());charts=[];wallets={};
   if(!u){me=null;$('who').innerHTML='';loginView();return}
   me=u.uid;
   $('who').innerHTML='<button class="lk" id="out">Sair</button>';$('out').onclick=()=>signOut(auth);
-  unsubs.push(onSnapshot(D('config/geral'),s=>{if(s.exists()){cdi=s.data().cdi||cdi;if(!document.activeElement||document.activeElement.id!=='cdi')render()}},()=>msg('Sem permissão para ler os dados. Confira as regras do Firestore.')));
+  unsubs.push(onSnapshot(D('config/geral'),s=>{if(s.exists()){cdi=s.data().cdi||cdi;metaC=s.data().metaC||0;if(!document.activeElement||document.activeElement.id!=='cdi')render()}},()=>msg('Sem permissão para ler os dados. Confira as regras do Firestore.')));
   unsubs.push(onSnapshot(collection(db,'carteiras'),q=>{
     wallets={};names={};q.docs.forEach(d=>{wallets[d.id]=d.data();names[d.id]=d.data().nome||(d.data().email||'').split('@')[0]});
     msg('');render();
