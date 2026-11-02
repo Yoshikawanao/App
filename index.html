@@ -29,6 +29,7 @@ body.hn #nav{display:flex;flex-direction:column;gap:4px;position:fixed;left:0;to
 .av{display:inline-grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;overflow:hidden;background:var(--ac);color:#fff;font-weight:800;font-size:16px;line-height:1;user-select:none}
 .av img{width:100%;height:100%;object-fit:cover;display:block}
 .av.lg{width:88px;height:88px;font-size:34px}
+.tab{display:inline-flex;align-items:center;gap:8px}.tab .av{width:24px;height:24px;font-size:12px}.tab.on .av{box-shadow:0 0 0 2px rgba(255,255,255,.75)}
 .hav{display:none}.hav .av{width:34px;height:34px;font-size:14px}
 #nav a.prof{margin-top:auto;gap:11px;padding:10px;background:var(--bg);border:1px solid var(--bd)}
 #nav a.prof:hover{background:var(--ac-s);border-color:#c7d8fa}
@@ -241,7 +242,7 @@ function render(){
   if(tab!=='geral'&&!ids.includes(tab))tab='geral';
   charts.forEach(c=>c.destroy());charts=[];
   const l=list(tab),sc=['painel','aportes','caixinhas','projecao'].includes(pg);
-  $('app').innerHTML=`<h2>${PAGES.find(p=>p[0]===pg)[2]}</h2>`+(sc?`<div class="tabs"><button class="tab ${tab==='geral'?'on':''}" data-t="geral">Geral</button>${ids.map(i=>`<button class="tab ${tab===i?'on':''}" data-t="${i}">${esc(who(i))}</button>`).join('')}</div>`:'')+({painel,aportes,caixinhas,projecao,metas,ajustes})[pg](l,ids);
+  $('app').innerHTML=`<h2>${PAGES.find(p=>p[0]===pg)[2]}</h2>`+(sc?`<div class="tabs"><button class="tab ${tab==='geral'?'on':''}" data-t="geral">Geral</button>${ids.map(i=>`<button class="tab ${tab===i?'on':''}" data-t="${i}">${av(i)}${esc(who(i))}</button>`).join('')}</div>`:'')+({painel,aportes,caixinhas,projecao,metas,ajustes})[pg](l,ids);
   $('app').querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;proj.c=proj.pct=proj.cdi=null;flt='';render()});
   $('app').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{if(b.dataset.arm){remove(b.dataset.d);return}b.dataset.arm='1';b.textContent='Remover?';b.style.color='#dc2626';b.style.fontSize='13px';setTimeout(()=>{if(b.isConnected){delete b.dataset.arm;b.textContent='\u00d7';b.style.color='';b.style.fontSize=''}},3000)});
   if(post)post();
