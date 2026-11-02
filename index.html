@@ -5,36 +5,70 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Meus aportes</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--tx:#1b1f24;--mut:#68707a;--bd:#e3e6ea;--ac:#0f766e;--ac2:#b45309;--gr:#15803d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111418;--card:#1a1f26;--tx:#e8eaed;--mut:#9aa3ad;--bd:#2a313a;--ac:#2dd4bf;--ac2:#f59e0b;--gr:#4ade80;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#111418;--card:#1a1f26;--tx:#e8eaed;--mut:#9aa3ad;--bd:#2a313a;--ac:#2dd4bf;--ac2:#f59e0b;--gr:#4ade80;color-scheme:dark}
+:root{--bg:#f6f9fd;--card:#fff;--tx:#15233f;--mut:#69768d;--bd:#e5ebf4;--ac:#2563eb;--ac-d:#1d4ed8;--ac-s:#eaf1ff;--ac2:#f59e0b;--gr:#0e9f6e;--gr-s:#e5f6ef;--am-s:#fff4df;--vi-s:#f0eaff;--rd:#dc2626;--sh:0 1px 2px rgba(21,35,63,.04),0 6px 18px rgba(37,99,235,.05);--shh:0 2px 4px rgba(21,35,63,.05),0 14px 30px rgba(37,99,235,.13);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:980px;margin:0 auto;padding:20px 16px 48px}
-h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 16px}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.tab{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 14px;border-radius:999px;cursor:pointer;font:inherit}
-.tab.on{background:var(--ac);color:var(--bg);border-color:var(--ac)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px}
-.k{color:var(--mut);font-size:13px}.v{font-size:24px;font-weight:650;margin-top:2px}.g{color:var(--gr)}
-.row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:16px}
-@media(max-width:720px){.row{grid-template-columns:1fr}}
-.cv{position:relative;height:260px}
-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;align-items:end}
-label{font-size:12px;color:var(--mut);display:block;margin-bottom:3px}
-input{width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}
-button.p{padding:10px 14px;border:0;border-radius:8px;background:var(--ac);color:var(--bg);font:inherit;cursor:pointer}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 'Manrope',system-ui,-apple-system,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+main{max-width:1040px;margin:0 auto;padding:22px 24px 56px}
+h2{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:6px 0 16px}
+.top{display:flex;justify-content:flex-end;align-items:center;gap:12px;min-height:34px}
+.top>div:first-child{display:none}body:not(.hn) .top{display:none}
+.hi{color:var(--mut);font-weight:600}
+.out,.lk{background:none;border:1px solid var(--bd);color:var(--tx);padding:7px 14px;border-radius:999px;cursor:pointer;font:inherit;font-weight:600;transition:all .18s}
+.out:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-s);transform:translateY(-1px)}
+.lk{border:0;color:var(--ac);padding:2px 0;border-radius:6px}.lk:hover{color:var(--ac-d);text-decoration:underline}
+.err{color:var(--rd);font-size:13px;min-height:18px;font-weight:600}
+#nav{display:none}
+body.hn{padding-left:224px}
+body.hn #nav{display:flex;flex-direction:column;gap:4px;position:fixed;left:0;top:0;bottom:0;width:224px;padding:22px 14px;padding-top:calc(22px + env(safe-area-inset-top,0px));background:var(--card);border-right:1px solid var(--bd);z-index:5}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.01em;margin:0 6px 22px}
+.logo{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--ac);color:#fff;font-size:13px;font-weight:800;box-shadow:0 4px 10px rgba(37,99,235,.3)}
+#nav a{display:flex;gap:12px;align-items:center;padding:11px 12px;border-radius:12px;color:var(--mut);text-decoration:none;font-weight:600;transition:background .18s,color .18s,transform .18s}
+#nav a span{display:inline-block;font-size:17px;transition:transform .2s}
+#nav a:hover{background:var(--ac-s);color:var(--ac-d);transform:translateX(3px)}#nav a:hover span{transform:scale(1.18)}
+#nav a.on{background:var(--ac-s);color:var(--ac-d);font-weight:800;box-shadow:inset 3px 0 0 var(--ac)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tab{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 16px;border-radius:999px;cursor:pointer;font:inherit;font-weight:600;transition:all .18s}
+.tab:hover{border-color:var(--ac);color:var(--ac-d);background:var(--ac-s);transform:translateY(-2px)}
+.tab.on{background:var(--ac);color:#fff;border-color:var(--ac);box-shadow:0 5px 14px rgba(37,99,235,.3)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin-bottom:18px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px 20px;box-shadow:var(--sh);transition:transform .22s,box-shadow .22s,border-color .22s}
+.grid>.card:hover{transform:translateY(-4px);box-shadow:var(--shh);border-color:#c7d8fa}
+.kp{display:flex;gap:14px;align-items:center}
+.ic{display:grid;place-items:center;flex:none;width:46px;height:46px;border-radius:14px;background:var(--ac-s);font-size:21px;transition:transform .25s}
+.kp:hover .ic{transform:rotate(-8deg) scale(1.1)}
+.grid>.kp:nth-child(4n+2) .ic{background:var(--gr-s)}.grid>.kp:nth-child(4n+3) .ic{background:var(--am-s)}.grid>.kp:nth-child(4n+4) .ic{background:var(--vi-s)}
+.k{color:var(--mut);font-size:13px;font-weight:600}.v{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-top:1px}.g{color:var(--gr)}
+.row{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:18px}
+@media(max-width:760px){.row{grid-template-columns:1fr}}
+.cv{position:relative;height:270px;margin-top:8px}
+form{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;align-items:end}
+label{font-size:12.5px;color:var(--mut);font-weight:600;display:block;margin-bottom:5px}
+input,select{width:100%;padding:10px 12px;border-radius:11px;border:1px solid var(--bd);background:#fff;color:var(--tx);font:inherit;transition:border-color .18s,box-shadow .18s}
+input:hover,select:hover{border-color:#c4d2ea}
+input:focus,select:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 4px rgba(37,99,235,.13)}
+button.p{padding:11px 20px;border:0;border-radius:11px;background:var(--ac);color:#fff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 3px 8px rgba(37,99,235,.28);transition:transform .15s,box-shadow .2s,background .2s}
+button.p:hover{background:var(--ac-d);transform:translateY(-2px);box-shadow:0 8px 18px rgba(37,99,235,.35)}
+button.p:active{transform:translateY(0) scale(.97);box-shadow:0 2px 5px rgba(37,99,235,.3)}
+button:focus-visible,a:focus-visible{outline:3px solid rgba(37,99,235,.4);outline-offset:2px}
 .sc{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mut);font-weight:500}
-.x{background:none;border:0;color:var(--mut);cursor:pointer;font-size:16px}
+th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--bd);white-space:nowrap}
+th{color:var(--mut);font-weight:600;font-size:12.5px;background:#f8fafd}
+th:first-child{border-radius:10px 0 0 10px}th:last-child{border-radius:0 10px 10px 0}
+tr:not(:first-child){transition:background .15s}tr:not(:first-child):hover{background:#f3f7ff}
+tr:last-child td{border-bottom:0}
+.x{min-width:30px;height:30px;padding:0 8px;border-radius:99px;background:none;border:0;color:var(--mut);cursor:pointer;font-size:17px;transition:all .15s}
+.x:hover{background:#fee2e2;color:var(--rd);transform:scale(1.12)}
 .note{color:var(--mut);font-size:12.5px;margin-top:10px}
-h2{font-size:18px;margin:4px 0 12px}select{width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}.bar{height:10px;border-radius:99px;background:var(--bd);overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--ac)}
-#nav{display:none}body.hn{padding-left:200px}body.hn #nav{display:flex;flex-direction:column;gap:2px;position:fixed;left:0;top:0;bottom:0;width:200px;padding:20px 10px;padding-top:calc(20px + env(safe-area-inset-top,0px));background:var(--card);border-right:1px solid var(--bd);z-index:5}
-#nav a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:8px;color:var(--tx);text-decoration:none}#nav a.on{background:var(--ac);color:var(--bg)}
-@media(max-width:720px){body.hn{padding-left:0;padding-bottom:76px}body.hn #nav{top:auto;width:auto;right:0;flex-direction:row;justify-content:space-around;border-right:0;border-top:1px solid var(--bd);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}#nav a{flex-direction:column;gap:0;font-size:11px;padding:4px 6px}}
-.login{max-width:360px;margin:40px auto}.login form{display:grid;gap:10px}.top{display:flex;justify-content:space-between;align-items:center;gap:8px}.lk{background:none;border:0;color:var(--ac);cursor:pointer;font:inherit;padding:0}.err{color:#dc2626;font-size:13px;min-height:18px}</style>
+.bar{height:12px;border-radius:99px;background:var(--ac-s);overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;border-radius:99px;background:var(--ac);transition:width .8s ease}
+.login{max-width:410px;margin:56px auto;padding:28px}.login form{display:grid;grid-template-columns:1fr;gap:12px}
+.lb{display:flex;align-items:center;gap:12px;margin-bottom:20px}.lb b{display:block;font-size:19px;font-weight:800}.lb span:not(.logo){color:var(--mut);font-size:13.5px}
+.lb .logo{width:44px;height:44px;font-size:15px}
+@media(max-width:720px){main{padding:16px 14px 40px}body.hn{padding-left:0;padding-bottom:78px}body.hn #nav{top:auto;width:auto;right:0;flex-direction:row;justify-content:space-around;gap:0;border-right:0;border-top:1px solid var(--bd);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 20px rgba(21,35,63,.06)}.brand{display:none}#nav a{flex-direction:column;gap:0;font-size:11px;padding:5px 7px}#nav a:hover{transform:none}#nav a.on{box-shadow:inset 0 3px 0 var(--ac)}h2{font-size:22px}.hi{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
 </head>
 <body>
 <nav id="nav"></nav>
@@ -52,6 +86,7 @@ const $=id=>document.getElementById(id);
 function msg(t){$('msg').textContent=t||''}
 if(String(firebaseConfig.apiKey).startsWith('COLE')){$('app').innerHTML='<div class="card">Falta configurar o Firebase. Siga o passo a passo do README e preencha o arquivo firebase-config.js.</div>';throw new Error('config')}
 const fb=initializeApp(firebaseConfig),auth=getAuth(fb),db=getFirestore(fb);
+Chart.defaults.font.family="'Manrope',system-ui,sans-serif";Chart.defaults.elements.bar.borderRadius=6;
 let unsubs=[];
 const R=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 let me,names={},wallets={},cdi=14.5,tab='geral',charts=[];
@@ -67,7 +102,7 @@ let pg=(location.hash||'#painel').slice(1),flt='',post=null,metaC=0,proj={c:null
 if(!PAGES.some(p=>p[0]===pg))pg='painel';
 addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(PAGES.some(p=>p[0]===h)){pg=h;render();scrollTo(0,0)}});
 const P=v=>v.toFixed(2).replace('.',',')+'%';
-const PAL=['#0f766e','#b45309','#6366f1','#db2777','#65a30d','#0891b2','#9333ea','#ea580c'];
+const PAL=['#2563eb','#f59e0b','#10b981','#8b5cf6','#ec4899','#06b6d4','#84cc16','#f97316'];
 function stats(l){const now=new Date(),s=new Date(now);s.setMonth(s.getMonth()-6);const rc=l.filter(a=>{const d=new Date(a.data+'T00:00:00');return d>s&&d<=now}),T=l.reduce((x,a)=>x+a.valor,0);return{V0:cur(l,now),A0:inv(l,now),c:Math.round(rc.reduce((x,a)=>x+a.valor,0)/6*100)/100,w:T?Math.round(l.reduce((x,a)=>x+a.valor*a.pct,0)/T*10)/10:100}}
 const mrate=(cd,pc)=>Math.pow(1+Math.max(cd,0)/100*pc/100,1/12)-1;
 function serie(V0,c,cd,pc,N){const r=mrate(cd,pc),o=[V0];for(let m=1;m<=N;m++)o.push(o[m-1]*(1+r)+c);return o}
@@ -76,8 +111,8 @@ const dt=m=>{const d=new Date();d.setMonth(d.getMonth()+m);return d};
 function dur(m){const a=Math.floor(m/12),b=m%12;return [a?a+(a>1?' anos':' ano'):'',b?b+(b>1?' meses':' mês'):''].filter(Boolean).join(' e ')}
 function etaTxt(m){if(m===null)return'Não atinge a meta em 50 anos nesse ritmo.';if(m===0)return'Meta atingida!';return'Previsão: '+dt(m).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})+' (em '+dur(m)+').'}
 function rowsOf(ids){return (tab==='geral'?ids.flatMap(i=>(wallets[i]?.aportes||[]).map(a=>({...a,o:i}))):(wallets[tab]?.aportes||[]).map(a=>({...a,o:tab}))).sort((a,b)=>b.data.localeCompare(a.data))}
-function card(k,v,g){return `<div class="card"><div class="k">${k}</div><div class="v ${g?'g':''}">${v}</div></div>`}
-function kpis(l){const now=new Date(),t=inv(l,now),a=cur(l,now),r=a-t;return `<div class="grid">${card('Total aportado',R(t))+card('Valor atual estimado',R(a))+card('Rendimento estimado',R(r),1)+card('Rentabilidade',P(t?r/t*100:0),1)}</div>`}
+function card(k,v,g,i){const t=`<div><div class="k">${k}</div><div class="v ${g?'g':''}">${v}</div></div>`;return i?`<div class="card kp"><span class="ic">${i}</span>${t}</div>`:`<div class="card">${t}</div>`}
+function kpis(l){const now=new Date(),t=inv(l,now),a=cur(l,now),r=a-t;return `<div class="grid">${card('Total aportado',R(t),0,'💼')+card('Valor atual estimado',R(a),0,'💰')+card('Rendimento estimado',R(r),1,'📈')+card('Rentabilidade',P(t?r/t*100:0),1,'✨')}</div>`}
 function table(rows,del){const now=new Date(),g=tab==='geral';return `<table><tr><th>Data</th>${g?'<th>Pessoa</th>':''}<th>Caixinha</th><th>Aporte</th><th>% CDI</th><th>Hoje (est.)</th>${del?'<th></th>':''}</tr>`+(rows.map(a=>`<tr><td>${a.data.split('-').reverse().join('/')}</td>${g?`<td>${esc(who(a.o))}</td>`:''}<td>${esc(a.caixinha)}</td><td>${R(a.valor)}</td><td>${a.pct}%</td><td>${R(val(a,now))}</td>${del?`<td>${a.o===me?`<button class="x" data-d="${a.id}" title="Remover">×</button>`:''}</td>`:''}</tr>`).join('')||'<tr><td colspan="7" style="color:var(--mut)">Nenhum aporte ainda.</td></tr>')+'</table>'}
 function painel(l,ids){
   post=()=>draw(l,ids);
@@ -107,7 +142,7 @@ function projecao(l){
     charts.push(new Chart($('c4'),{type:'line',data:{labels:L,datasets:[ds('Otimista (CDI +2 p.p.)',ot,'#16a34a'),ds('Base',b,PAL[0]),ds('Pessimista (CDI −2 p.p.)',pe,'#dc2626'),ds('Só o saldo atual, sem novos aportes',sn,mut,[6,4]),ds('Total aportado',b.map((v,m)=>ap(m)),PAL[1],[2,3])]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{x:{ticks:{color:mut,maxTicksLimit:8},grid:{color:bd}},y:{ticks:{color:mut,callback:v=>'R$ '+v.toLocaleString('pt-BR')},grid:{color:bd}}},plugins:{legend:{labels:{color:mut}},tooltip:{callbacks:{label:x=>x.dataset.label+': '+R(x.parsed.y)}}}}}))};
   const yrs=Array.from({length:proj.anos},(_,i)=>(i+1)*12).filter(m=>m<=N);
   return `<div class="card" style="margin-bottom:16px"><form><div><label>Aporte mensal (R$)</label><input type="number" id="pa" step="0.01" min="0" value="${c}"></div><div><label>Horizonte</label><select id="py">${[1,2,3,5,10,15,20,30].map(y=>`<option value="${y}" ${y===proj.anos?'selected':''}>${y} ${y>1?'anos':'ano'}</option>`).join('')}</select></div><div><label>CDI esperado (% a.a.)</label><input type="number" id="pd" step="0.01" min="0" value="${cd}"></div><div><label>% do CDI</label><input type="number" id="pp" step="0.1" min="1" value="${pc}"></div></form><div class="note">Valores iniciais: aporte médio dos últimos 6 meses e % do CDI médio ponderado das suas caixinhas. Altere à vontade para simular.</div></div>`
-  +`<div class="grid">${card('Valor em '+proj.anos+(proj.anos>1?' anos':' ano'),R(fim))+card('Total aportado',R(aT))+card('Rendimento acumulado',R(j)+' <span class="k">('+P(fim?j/fim*100:0)+' do total)</span>',1)+card('Rendimento mensal no fim',R(fim*r),1)+card('Sem novos aportes',R(sn[N]))}</div>`
+  +`<div class="grid">${card('Valor em '+proj.anos+(proj.anos>1?' anos':' ano'),R(fim),0,'🏁')+card('Total aportado',R(aT),0,'💼')+card('Rendimento acumulado',R(j)+' <span class="k">('+P(fim?j/fim*100:0)+' do total)</span>',1,'📈')+card('Rendimento mensal no fim',R(fim*r),1,'💵')+card('Sem novos aportes',R(sn[N]),0,'🐢')}</div>`
   +`<div class="card" style="margin-bottom:16px"><div class="k">Projeção do patrimônio</div><div class="cv" style="height:320px"><canvas id="c4"></canvas></div></div>`
   +(ms.length?`<div class="card" style="margin-bottom:16px"><div class="k">Quando você chega lá (cenário base)</div><table>${ms.map(([M,m])=>`<tr><td>${R(M)}</td><td>${m<0?'Além de 50 anos':dt(m).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})+' (em '+dur(m)+')'}</td></tr>`).join('')}</table></div>`:'')
   +`<div class="card sc"><div class="k" style="margin-bottom:6px">Ano a ano (cenário base)</div><table><tr><th>Ano</th><th>Aportado</th><th>Valor</th><th>Rendimento</th><th>Rendimento mensal</th></tr>${yrs.map(m=>`<tr><td>${m/12}</td><td>${R(ap(m))}</td><td>${R(b[m])}</td><td class="g">${R(b[m]-ap(m))}</td><td>${R(b[m]*r)}</td></tr>`).join('')}</table><div class="note">Estimativa bruta: considera aportes no fim de cada mês, juros compostos e CDI constante, sem IR/IOF. Os cenários otimista e pessimista variam o CDI em 2 pontos percentuais. Não é garantia de rendimento.</div></div>`}
@@ -123,8 +158,9 @@ function ajustes(){
 function render(){
   if(!me)return;
   document.body.classList.add('hn');post=null;
-  $('nav').innerHTML=PAGES.map(p=>`<a href="#${p[0]}" class="${pg===p[0]?'on':''}"><span>${p[1]}</span>${p[2]}</a>`).join('');
+  $('nav').innerHTML='<div class="brand"><span class="logo">R$</span>Aportes</div>'+PAGES.map(p=>`<a href="#${p[0]}" class="${pg===p[0]?'on':''}"><span>${p[1]}</span>${p[2]}</a>`).join('');
   const ids=[...new Set([me,...Object.keys(wallets)])];
+  if($('hi'))$('hi').textContent='Olá, '+(names[me]||'');
   if(tab!=='geral'&&!ids.includes(tab))tab='geral';
   charts.forEach(c=>c.destroy());charts=[];
   const l=list(tab),sc=['painel','aportes','caixinhas','projecao'].includes(pg);
@@ -151,7 +187,7 @@ async function add(e){e.preventDefault();const a={id:Date.now().toString(36),dat
 async function remove(id){wallets[me]={...wallets[me],aportes:(wallets[me]?.aportes||[]).filter(a=>a.id!==id)};render();try{await save();msg('')}catch(x){msg('Não foi possível remover. Tente de novo.')}}
 function loginView(){
   let novo=false;
-  const draw=()=>{$('app').innerHTML=`<div class="card login"><form id="lf">${novo?'<div><label>Seu nome</label><input id="ln" required autocomplete="name"></div>':''}<div><label>E-mail</label><input id="le" type="email" required autocomplete="email"></div><div><label>Senha</label><input id="lp" type="password" minlength="6" required autocomplete="${novo?'new-password':'current-password'}"></div><button class="p">${novo?'Criar conta':'Entrar'}</button><button type="button" class="lk" id="t1">${novo?'Já tenho conta':'Criar conta'}</button>${novo?'':'<button type="button" class="lk" id="t2">Esqueci a senha</button>'}</form></div>`;
+  const draw=()=>{$('app').innerHTML=`<div class="card login"><div class="lb"><span class="logo">R$</span><div><b>Meus aportes</b><span>${novo?'Crie sua conta para começar':'Entre para ver seus aportes'}</span></div></div><form id="lf">${novo?'<div><label>Seu nome</label><input id="ln" required autocomplete="name"></div>':''}<div><label>E-mail</label><input id="le" type="email" required autocomplete="email"></div><div><label>Senha</label><input id="lp" type="password" minlength="6" required autocomplete="${novo?'new-password':'current-password'}"></div><button class="p">${novo?'Criar conta':'Entrar'}</button><button type="button" class="lk" id="t1">${novo?'Já tenho conta':'Criar conta'}</button>${novo?'':'<button type="button" class="lk" id="t2">Esqueci a senha</button>'}</form></div>`;
     $('t1').onclick=()=>{novo=!novo;msg('');draw()};
     if($('t2'))$('t2').onclick=async()=>{const e=$('le').value;if(!e){msg('Digite seu e-mail primeiro.');return}try{await sendPasswordResetEmail(auth,e);msg('Enviamos um link para redefinir a senha.')}catch(x){msg('Não foi possível enviar o e-mail.')}};
     $('lf').onsubmit=async ev=>{ev.preventDefault();msg('');const e=$('le').value.trim(),p=$('lp').value;
@@ -163,7 +199,7 @@ onAuthStateChanged(auth,u=>{
   unsubs.forEach(f=>f());unsubs=[];document.body.classList.remove('hn');$('nav').innerHTML='';charts.forEach(c=>c.destroy());charts=[];wallets={};
   if(!u){me=null;$('who').innerHTML='';loginView();return}
   me=u.uid;
-  $('who').innerHTML='<button class="lk" id="out">Sair</button>';$('out').onclick=()=>signOut(auth);
+  $('who').innerHTML='<span class="hi" id="hi"></span><button class="out" id="out">Sair</button>';$('out').onclick=()=>signOut(auth);
   unsubs.push(onSnapshot(D('config/geral'),s=>{if(s.exists()){cdi=s.data().cdi||cdi;metaC=s.data().metaC||0;if(!document.activeElement||document.activeElement.id!=='cdi')render()}},()=>msg('Sem permissão para ler os dados. Confira as regras do Firestore.')));
   unsubs.push(onSnapshot(collection(db,'carteiras'),q=>{
     wallets={};names={};q.docs.forEach(d=>{wallets[d.id]=d.data();names[d.id]=d.data().nome||(d.data().email||'').split('@')[0]});
