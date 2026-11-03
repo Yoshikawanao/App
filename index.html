@@ -52,9 +52,8 @@ body.hn #nav{display:flex;flex-direction:column;gap:4px;position:fixed;left:0;to
 .pn{min-width:0;line-height:1.25}.pn b{display:block;color:var(--tx);font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pn small{display:block;color:var(--mut);font-size:12px;font-weight:600}
 .pfr{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:12px}.pfb{display:flex;flex-direction:column;gap:10px;min-width:0}.pfa{display:flex;gap:10px;flex-wrap:wrap}.pfn{font-weight:800;font-size:17px;overflow-wrap:anywhere}
 #nav a{display:flex;gap:12px;align-items:center;padding:11px 12px;border-radius:12px;color:#475269;text-decoration:none;font-weight:600;transition:background .18s,color .18s,transform .18s}
-#nav a span{display:inline-block;font-size:17px;transition:transform .2s}
-#nav a:hover{background:#d5dce8;color:var(--tx);transform:translateX(3px)}#nav a:hover span{transform:scale(1.18)}
-#nav a.on{background:#fff;color:var(--ac-d);font-weight:800;box-shadow:inset 3px 0 0 var(--ac),0 2px 8px rgba(21,35,63,.12)}
+#nav a:hover{background:#d5dce8;color:var(--tx);transform:translateX(3px)}#nav a:hover .ni{transform:scale(1.1) rotate(-6deg)}
+#nav a.on{background:#fff;color:var(--sd,var(--ac-d));font-weight:800;box-shadow:inset 3px 0 0 var(--sd,var(--ac)),0 2px 8px rgba(21,35,63,.12)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
 .tab{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 16px;border-radius:999px;cursor:pointer;font:inherit;font-weight:600;transition:all .18s}
 .tab:hover{border-color:var(--ac);color:var(--ac-d);background:var(--ac-s);transform:translateY(-2px)}
@@ -68,7 +67,7 @@ body.hn #nav{display:flex;flex-direction:column;gap:4px;position:fixed;left:0;to
 .sb{font-size:12px;line-height:1.4;color:var(--mut);margin-top:3px;font-weight:500}
 .ic{display:grid;place-items:center;flex:none;width:46px;height:46px;border-radius:14px;background:var(--ac-s);font-size:21px;transition:transform .25s}
 .kp:hover .ic{transform:rotate(-8deg) scale(1.1)}
-.grid>.kp:nth-child(4n+2) .ic{background:var(--gr-s)}.grid>.kp:nth-child(4n+3) .ic{background:var(--am-s)}.grid>.kp:nth-child(4n+4) .ic{background:var(--vi-s)}
+
 .k{color:var(--mut);font-size:13px;font-weight:600}.v{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-top:1px}.g{color:var(--gr)}
 .row{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:18px}
 @media(max-width:760px){.row{grid-template-columns:1fr}}
@@ -100,7 +99,7 @@ a.p{display:inline-block;margin-top:10px;text-decoration:none;color:#fff}
 .login{max-width:410px;margin:56px auto;padding:28px}.login form{display:grid;grid-template-columns:1fr;gap:12px}
 .lb{display:flex;align-items:center;gap:12px;margin-bottom:20px}.lb b{display:block;font-size:19px;font-weight:800}.lb span:not(.logo){color:var(--mut);font-size:13.5px}
 .lb .logo{width:44px;height:44px;font-size:15px}.lb .bimg{width:48px;height:48px;box-shadow:0 0 0 1px var(--bd),0 4px 10px rgba(21,35,63,.08)}
-@media(max-width:720px){main{padding:16px 14px 40px}body.hn{padding-left:0;padding-bottom:78px}body.hn #nav{top:auto;width:auto;right:0;flex-direction:row;justify-content:space-around;gap:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;border-right:0;border-top:1px solid #d3dae5;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 20px rgba(21,35,63,.08)}.brand{display:none}#nav a{flex-direction:column;gap:0;font-size:11px;padding:5px 10px;flex:1 0 auto;min-width:66px;text-align:center}#nav a:hover{transform:none}#nav a.on{box-shadow:inset 0 3px 0 var(--ac)}h2{font-size:22px}.hi{max-width:38vw}.hav{display:block}#nav a.prof{display:none}}
+@media(max-width:720px){main{padding:16px 14px 40px}body.hn{padding-left:0;padding-bottom:78px}body.hn #nav{top:auto;width:auto;right:0;flex-direction:row;justify-content:space-around;gap:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;border-right:0;border-top:1px solid #d3dae5;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 20px rgba(21,35,63,.08)}.brand{display:none}#nav a{flex-direction:column;gap:0;font-size:11px;padding:5px 10px;flex:1 0 auto;min-width:66px;text-align:center}#nav a:hover{transform:none}#nav a.on{box-shadow:inset 0 3px 0 var(--sd,var(--ac))}h2{font-size:22px}.hi{max-width:38vw}.hav{display:block}#nav a.prof{display:none}}
 .row>*,.grid>*,main>*{min-width:0}
 .rt td:empty{display:none}
 @media(max-width:720px){
@@ -179,6 +178,99 @@ body.dsc input[type=number]:not(:focus){filter:blur(5px)}
 .dica{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}.dica>div:last-child{min-width:0}.dica .ic{background:var(--am-s)}.dica .big{margin-bottom:4px}
 @media(max-width:720px){.dica{margin-bottom:14px;gap:12px}}
 .inc{margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--ac-s);font-size:14px;font-weight:600}
+/* ===== v2: ícones de linha, cores de apoio, boas-vindas e capas dos sonhos ===== */
+.s-bl{--sc:#2563eb;--ss:#eaf1ff;--sd:#1d4ed8}
+.s-gn{--sc:#059669;--ss:#e3f5ee;--sd:#047857}
+.s-am{--sc:#d97706;--ss:#fff4df;--sd:#b45309}
+.ico{width:1.15em;height:1.15em;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em}
+.ic{background:var(--ss,var(--ac-s));color:var(--sd,var(--ac-d))}
+.ic .ico{width:23px;height:23px;vertical-align:middle}
+#nav a .ni{display:grid;place-items:center;flex:none;width:32px;height:32px;border-radius:10px;background:var(--ss);color:var(--sd);transition:transform .2s,background .18s,color .18s}
+#nav a .ni .ico{width:18px;height:18px;vertical-align:middle}
+#nav a.on .ni{background:var(--sd);color:#fff}
+.ph{display:flex;align-items:center;gap:12px}
+.ph .ti{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:13px;background:var(--ss);color:var(--sd)}
+.ph .ti .ico{width:22px;height:22px;vertical-align:middle}
+.x{display:inline-grid;place-items:center}
+.x .ico{width:17px;height:17px;vertical-align:middle}
+.out .ico,.p .ico{width:1.1em;height:1.1em;vertical-align:-.18em}
+.eye .ico{width:18px;height:18px;display:block}
+.bdg .ico{width:12px;height:12px;vertical-align:-1px;margin-right:3px}
+.note .ico{width:13px;height:13px;vertical-align:-2px}
+.rx .ico{width:16px;height:16px;vertical-align:-3px}
+.lfoto .av .ico{width:30px;height:30px;stroke-width:1.6}
+
+/* Painel: boas-vindas */
+.hrow{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:14px;margin-bottom:18px}
+.hero{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:26px 30px;border-radius:24px;color:#fff;background:radial-gradient(80% 110% at 100% 100%,rgba(34,211,238,.55),rgba(34,211,238,0) 70%),repeating-radial-gradient(circle at 100% 100%,rgba(255,255,255,.08) 0 2px,transparent 2px 46px),linear-gradient(135deg,#1e3a8a,#2563eb);box-shadow:0 10px 30px rgba(37,99,235,.26)}
+.htop{display:flex;align-items:center;gap:18px;margin-bottom:14px}
+.hpair{display:flex;flex:none}
+.hpair .av{width:84px;height:84px;font-size:32px;border:4px solid rgba(255,255,255,.95);box-shadow:0 6px 16px rgba(10,20,60,.3);background:rgba(255,255,255,.2);color:#fff}
+.hpair .av+.av{margin-left:-20px;background:#f59e0b;color:#4a2b00}
+.ht{min-width:0}
+.hg{margin:0 0 2px;font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-.02em;overflow-wrap:anywhere}
+.hq{font-size:14px;font-weight:600;color:rgba(255,255,255,.92)}
+.hv{font-size:clamp(34px,4.6vw,52px);font-weight:800;letter-spacing:-.03em;line-height:1.1;overflow-wrap:anywhere}
+.hn2{font-size:13px;font-weight:600;color:rgba(255,255,255,.9);margin-top:4px}
+.hs{display:flex;flex-direction:column;justify-content:center;padding:20px 22px}
+.hy{font-size:clamp(22px,2.4vw,27px);font-weight:800;letter-spacing:-.02em;line-height:1.25;color:#047857;margin-top:2px}
+.hy small{font-size:14px;font-weight:700;color:var(--mut);letter-spacing:0}
+.sp{position:relative;margin-top:12px}
+.spark{display:block;width:100%;height:84px;overflow:visible}
+.spd{position:absolute;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#059669;box-shadow:0 0 0 3px #fff,0 0 0 5px rgba(5,150,105,.25)}
+.hl{display:flex;justify-content:space-between;margin-top:6px;font-size:11.5px;font-weight:700;color:var(--mut);text-transform:capitalize}
+body.dsc .sp{filter:blur(7px)}
+
+/* Sonhos: capa e anel de progresso */
+.sn{padding:0;overflow:hidden}
+.cov{position:relative;isolation:isolate;min-height:176px;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:16px 18px;color:#fff}
+.cov .cimg,.cov .cfx{position:absolute;inset:0;width:100%;height:100%;z-index:-2}
+.cov .cimg{object-fit:cover}
+.cov::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(15,23,42,.28) 0%,rgba(15,23,42,.3) 40%,rgba(15,23,42,.8) 100%)}
+.cbig{position:absolute;right:112px;top:50%;transform:translateY(-58%);font-size:118px;line-height:1;opacity:.28}
+.cov .sna{position:absolute;top:12px;right:12px;display:flex;gap:6px}
+.cov .x{color:#fff;background:rgba(15,23,42,.45);backdrop-filter:blur(4px)}
+.cov .x:hover{background:rgba(15,23,42,.72);color:#fff;transform:scale(1.08)}
+.covt{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.covt .emo{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:16px;background:rgba(255,255,255,.22);backdrop-filter:blur(6px);font-size:26px;line-height:1}
+.covn{min-width:0}
+.covn b{display:block;font-size:20px;line-height:1.2;overflow-wrap:anywhere;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.covn .cp{font-size:13px;font-weight:600;margin-top:3px;text-shadow:0 1px 6px rgba(0,0,0,.35)}
+.rg{position:relative;flex:none;width:92px;height:92px}
+.rg::before{content:"";position:absolute;inset:7px;border-radius:50%;background:rgba(15,23,42,.38)}
+.rg>svg{position:relative;width:100%;height:100%;transform:rotate(-90deg)}
+.rg circle{fill:none;stroke-width:9}
+.rgt{stroke:rgba(255,255,255,.3)}
+.rgp{stroke:#fcd34d;stroke-linecap:round}
+.rgp.ok{stroke:#6ee7b7}
+.rg span{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:20px;letter-spacing:-.02em}
+.rg .ico{width:30px;height:30px;stroke-width:2.4}
+.snx{padding:16px 20px 18px}
+.snp{background:var(--ss,var(--ac-s))}
+.capr{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.capp{display:grid;place-items:center;width:128px;aspect-ratio:16/9;border-radius:12px;border:1.5px dashed #c4d2ea;background:var(--ac-s);color:var(--ac);overflow:hidden}
+.capp.on{border:0}
+.capp img{width:100%;height:100%;object-fit:cover;display:block}
+.capp .ico{width:26px;height:26px;stroke-width:1.6}
+#fs>.p{justify-self:start;white-space:nowrap;padding:11px 24px}
+
+@media(max-width:1100px){.hrow{grid-template-columns:1fr}}
+@media(max-width:720px){
+.hero{padding:20px 18px 18px;border-radius:20px}
+.hpair .av{width:68px;height:68px;font-size:26px;border-width:3px}.hpair .av+.av{margin-left:-16px}
+.htop{gap:14px;margin-bottom:12px}
+.hv{font-size:clamp(30px,10vw,40px)}
+.hs{padding:16px}
+.ic .ico{width:20px;height:20px}
+#nav a .ni{width:34px;height:28px;margin-bottom:2px}
+.ph .ti{width:34px;height:34px;border-radius:11px}
+.cov{min-height:160px;padding:14px}
+.rg{width:76px;height:76px}.rg span{font-size:17px}.rg .ico{width:26px;height:26px}
+.covn b{font-size:18px}.covt .emo{width:42px;height:42px;font-size:23px}
+.cbig{right:92px;font-size:96px}
+.snx{padding:14px 16px 16px}
+#fs>.p{justify-self:stretch}
+}
 </style>
 </head>
 <body>
@@ -207,7 +299,7 @@ let rn=null;
 let me,ready=false,names={},wallets={},cdi=14.5,tab='geral',charts=[];
 let cfgOk=false,fresh=false,sonhos=[],conqS={};
 const fo={ap:false,cx:false,sn:false};
-const fbtn=(k,t)=>`<button type="button" class="${fo[k]?'out':'p'} fbt" data-fo="${k}" aria-expanded="${fo[k]}">${fo[k]?'✕ Fechar':t}</button>`;
+const fbtn=(k,t)=>`<button type="button" class="${fo[k]?'out':'p'} fbt" data-fo="${k}" aria-expanded="${fo[k]}">${fo[k]?ico('x')+'Fechar':ico('plus')+t}</button>`;
 function val(a,t){t=capT(a,t);const d=(t-new Date(a.data+'T00:00:00'))/864e5;if(d<0)return 0;const r=(cdi/100)*(a.pct/100);return a.valor*Math.pow(1+r,d/365)}
 const inv=(l,t)=>l.reduce((s,a)=>s+(new Date(a.data+'T00:00:00')<=t?a.valor:0),0);
 const cur=(l,t)=>l.reduce((s,a)=>s+val(a,t),0);
@@ -218,7 +310,35 @@ function who(id){return id===me?(first(id)?first(id)+' (você)':'Eu'):(names[id]
 function av(id,c){const f=wallets[id]?.foto,n=nm(id);return `<div class="av ${c||''}">${f?`<img src="${esc(f)}" alt="">`:esc((n.charAt(0)||'').toUpperCase())}</div>`}
 const D=id=>doc(db,...id.split('/'));
 function months(l){if(!l.length)return[];const ds=l.map(a=>new Date(a.data+'T00:00:00')).sort((a,b)=>a-b);const out=[];let d=new Date(ds[0].getFullYear(),ds[0].getMonth()+1,0,23);const now=new Date();while(d<now){out.push(new Date(d));d=new Date(d.getFullYear(),d.getMonth()+2,0,23)}out.push(now);return out}
-const PAGES=[['painel','📊','Painel'],['mural','🎉','Mural'],['aportes','➕','Aportes'],['caixinhas','🗂️','Caixinhas'],['projecao','📈','Projeção'],['metas','✨','Sonhos'],['conquistas','🏅','Conquistas'],['ajustes','⚙️','Ajustes']];
+const IC={
+dash:'<rect x="3" y="3" width="7" height="9" rx="1.6"/><rect x="14" y="3" width="7" height="5" rx="1.6"/><rect x="14" y="12" width="7" height="9" rx="1.6"/><rect x="3" y="16" width="7" height="5" rx="1.6"/>',
+chat:'<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 4v-4A1.5 1.5 0 0 1 4 14.5Z"/><path d="M8 9h8M8 12.5h5"/>',
+plusc:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',
+box:'<rect x="3" y="4" width="18" height="4.5" rx="1.2"/><path d="M5 8.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5M10 12.5h4"/>',
+trend:'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+spark:'<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9Z"/><path d="M19 16l.7 1.8 1.8.7-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7Z"/>',
+award:'<path d="M8 4h8v5a4 4 0 0 1-8 0Z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v7M8.5 20h7"/>',
+sliders:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+wallet:'<path d="M20 8.5V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5"/><path d="M20 8.5h-3.5a3 3 0 0 0 0 7H20a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1Z"/><path d="M16.6 12h.01"/>',
+coins:'<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
+bank:'<path d="M3 9.5 12 4l9 5.5Z"/><path d="M6 12v5.5M10 12v5.5M14 12v5.5M18 12v5.5M3.5 20.5h17"/>',
+checkc:'<circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16.2 9.5"/>',
+check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6"/>',
+flag:'<path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/>',
+banknote:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5h.01M18 14.5h.01"/>',
+hourglass:'<path d="M7 3h10M7 21h10"/><path d="M8 3c0 5 3 6 4 9-1 3-4 4-4 9M16 3c0 5-3 6-4 9 1 3 4 4 4 9"/>',
+bulb:'<path d="M9.5 17.5h5M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.4 1.1 2.2v.5h5v-.5c0-.8.4-1.6 1.1-2.2A6 6 0 0 0 12 3Z"/>',
+x:'<path d="M6 6l12 12M18 6 6 18"/>',
+pencil:'<path d="M4 20l4.2-1L19.2 8a2.1 2.1 0 0 0-3-3L5.2 16 4 20Z"/><path d="M14.5 6.7l2.8 2.8"/>',
+lock:'<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
+eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/>',
+eyeoff:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/>',
+camera:'<path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.4-2h6.2l1.4 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5Z"/><circle cx="12" cy="13" r="3.2"/>'
+};
+const ico=n=>`<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${IC[n]||''}</svg>`;
+const PAGES=[['painel','dash','Painel','bl'],['mural','chat','Mural','am'],['aportes','plusc','Aportes','gn'],['caixinhas','box','Caixinhas','gn'],['projecao','trend','Projeção','bl'],['metas','spark','Sonhos','am'],['conquistas','award','Conquistas','am'],['ajustes','sliders','Ajustes','bl']];
 let pg=(location.hash||'#painel').slice(1),flt='',post=null,metaC=0,proj={c:null,anos:10,cdi:null,pct:null};
 if(!PAGES.some(p=>p[0]===pg))pg='painel';
 addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(PAGES.some(p=>p[0]===h)){pg=h;rn=null;render();scrollTo(0,0)}});
@@ -238,15 +358,34 @@ const dt=m=>{const d=new Date();d.setMonth(d.getMonth()+m);return d};
 function dur(m){const a=Math.floor(m/12),b=m%12;return [a?a+(a>1?' anos':' ano'):'',b?b+(b>1?' meses':' mês'):''].filter(Boolean).join(' e ')}
 function etaTxt(m,n){if(m===null)return'Não atinge a meta em 50 anos nesse ritmo.';if(m===0)return n?'Meta atingida, '+esc(n)+'!':'Meta atingida!';return'Previsão: '+dt(m).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})+' (em '+dur(m)+').'}
 function rowsOf(ids){return (tab==='geral'?ids.flatMap(i=>(wallets[i]?.aportes||[]).map(a=>({...a,o:i}))):(wallets[tab]?.aportes||[]).map(a=>({...a,o:tab}))).sort((a,b)=>b.data.localeCompare(a.data))}
-function card(k,v,g,i,sb){const t=`<div><div class="k">${k}</div><div class="v ${g?'g':''}">${v}</div>${sb?`<div class="sb">${sb}</div>`:''}</div>`;return i?`<div class="card kp"><span class="ic">${i}</span>${t}</div>`:`<div class="card">${t}</div>`}
-function kpis(l){const now=new Date(),t=inv(l,now),a=cur(l,now),r=a-t,tx_=impT(l,now),ln=a-tx_.iof-tx_.ir,rl=ln-t;return `<div class="grid">${card('Total aportado',R(t),0,'💼')+card('Valor bruto estimado',R(a),0,'💰','Sem descontar impostos')+card('Valor líquido estimado',R(ln),0,'🏦','Após IOF e IR')+card('Rendimento bruto',R(r),1,'📈',P(t?r/t*100:0)+' sobre o aportado')+card('Rendimento líquido',R(rl),1,'✅',P(t?rl/t*100:0)+' sobre o aportado')+card('Impostos estimados',R(tx_.iof+tx_.ir),0,'🧾','IR '+R(tx_.ir)+' e IOF '+R(tx_.iof))}</div><div class="note" style="margin:-6px 0 16px">Líquido é o valor se você resgatasse tudo hoje, descontando o IOF (resgates com menos de 30 dias) e o IR regressivo (22,5% a 15%) sobre o rendimento de cada aporte, conforme o tempo de cada um. Vale para CDB/RDB; caixinhas isentas, como LCI/LCA, não seguem esse cálculo.</div>`}
-function table(rows,del){const now=new Date(),g=tab==='geral';return `<table class="rt"><tr><th>Data</th>${g?'<th>Pessoa</th>':''}<th>Caixinha</th><th>Aporte</th><th>% CDI</th><th>Bruto hoje</th><th>Líquido hoje</th>${del?'<th></th>':''}</tr>`+(rows.map(a=>`<tr><td data-l="Data">${a.data.split('-').reverse().join('/')}</td>${g?`<td data-l="Pessoa">${esc(who(a.o))}</td>`:''}<td data-l="Caixinha">${esc(a.caixinha)}${a.venc?` <span class="bdg">🔒 ${fd(a.venc)}</span>`:''}</td><td data-l="Aporte">${R(a.valor)}</td><td data-l="% do CDI">${a.pct}%</td><td data-l="Bruto hoje">${R(val(a,now))}</td><td data-l="Líquido hoje">${R(liqA(a,now))}</td>${del?`<td data-l="">${a.o===me?`<button class="x" data-d="${a.id}" title="Remover">×</button>`:''}</td>`:''}</tr>`).join('')||'<tr><td colspan="7" style="color:var(--mut)">Nenhum aporte ainda.</td></tr>')+'</table>'}
+function card(k,v,g,i,sb,tn){const t=`<div><div class="k">${k}</div><div class="v ${g?'g':''}">${v}</div>${sb?`<div class="sb">${sb}</div>`:''}</div>`;return i?`<div class="card kp${tn?' s-'+tn:''}"><span class="ic">${i}</span>${t}</div>`:`<div class="card">${t}</div>`}
+function kpis(l){const now=new Date(),t=inv(l,now),a=cur(l,now),r=a-t,tx_=impT(l,now),ln=a-tx_.iof-tx_.ir,rl=ln-t;return `<div class="grid">${card('Total aportado',R(t),0,ico('wallet'),'','bl')+card('Valor bruto estimado',R(a),0,ico('coins'),'Sem descontar impostos','bl')+card('Valor líquido estimado',R(ln),0,ico('bank'),'Após IOF e IR','bl')+card('Rendimento bruto',R(r),1,ico('trend'),P(t?r/t*100:0)+' sobre o aportado','gn')+card('Rendimento líquido',R(rl),1,ico('checkc'),P(t?rl/t*100:0)+' sobre o aportado','gn')+card('Impostos estimados',R(tx_.iof+tx_.ir),0,ico('receipt'),'IR '+R(tx_.ir)+' e IOF '+R(tx_.iof),'am')}</div><div class="note" style="margin:-6px 0 16px">Líquido é o valor se você resgatasse tudo hoje, descontando o IOF (resgates com menos de 30 dias) e o IR regressivo (22,5% a 15%) sobre o rendimento de cada aporte, conforme o tempo de cada um. Vale para CDB/RDB; caixinhas isentas, como LCI/LCA, não seguem esse cálculo.</div>`}
+function table(rows,del){const now=new Date(),g=tab==='geral';return `<table class="rt"><tr><th>Data</th>${g?'<th>Pessoa</th>':''}<th>Caixinha</th><th>Aporte</th><th>% CDI</th><th>Bruto hoje</th><th>Líquido hoje</th>${del?'<th></th>':''}</tr>`+(rows.map(a=>`<tr><td data-l="Data">${a.data.split('-').reverse().join('/')}</td>${g?`<td data-l="Pessoa">${esc(who(a.o))}</td>`:''}<td data-l="Caixinha">${esc(a.caixinha)}${a.venc?` <span class="bdg">${ico('lock')}${fd(a.venc)}</span>`:''}</td><td data-l="Aporte">${R(a.valor)}</td><td data-l="% do CDI">${a.pct}%</td><td data-l="Bruto hoje">${R(val(a,now))}</td><td data-l="Líquido hoje">${R(liqA(a,now))}</td>${del?`<td data-l="">${a.o===me?`<button class="x" data-d="${a.id}" title="Remover" aria-label="Remover aporte">${ico('x')}</button>`:''}</td>`:''}</tr>`).join('')||'<tr><td colspan="7" style="color:var(--mut)">Nenhum aporte ainda.</td></tr>')+'</table>'}
+function spark(vs){
+  if(vs.length<2)return '<div class="note" style="margin:14px 0 0">A evolução aparece a partir do segundo mês de aportes.</div>';
+  const W=240,Hh=84,pd=4,mn=Math.min(...vs),mx=Math.max(...vs),
+    pt=vs.map((v,i)=>[pd+i*(W-2*pd)/(vs.length-1),mx===mn?Hh/2:10+(1-(v-mn)/(mx-mn))*(Hh-18)]),f=n=>n.toFixed(1);
+  let d='M'+f(pt[0][0])+','+f(pt[0][1]);
+  for(let i=1;i<pt.length;i++){const [x0,y0]=pt[i-1],[x1,y1]=pt[i],cx=f((x0+x1)/2);d+=`C${cx},${f(y0)} ${cx},${f(y1)} ${f(x1)},${f(y1)}`}
+  const e=pt[pt.length-1];
+  return `<div class="sp"><svg class="spark" viewBox="0 0 ${W} ${Hh}" preserveAspectRatio="none" role="img" aria-label="Evolução do valor acumulado nos últimos meses"><defs><linearGradient id="spg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#059669" stop-opacity=".3"/><stop offset="1" stop-color="#059669" stop-opacity="0"/></linearGradient></defs><path d="${d}L${f(e[0])},${Hh}L${f(pt[0][0])},${Hh}Z" fill="url(#spg)"/><path d="${d}" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><span class="spd" style="left:${(e[0]/W*100).toFixed(2)}%;top:${(e[1]/Hh*100).toFixed(2)}%"></span></div>`}
+function hero(){
+  const all=list('geral'),now=new Date(),H=hoje(),
+    noMes=all.filter(a=>a.data&&a.data<=H&&a.data.slice(0,7)===H.slice(0,7)).reduce((x,a)=>x+a.valor,0),
+    V=cur(all,now),V0=cur(all,new Date(new Date(now.getFullYear(),now.getMonth(),1)-1)),rend=Math.max(0,V-V0-noMes),liq=liqL(all,now),
+    hr=now.getHours(),sau=hr<12?'Bom dia':hr<18?'Boa tarde':'Boa noite',
+    outros=Object.keys(wallets).filter(i=>i!==me),par=[me,...outros.slice(0,1)],
+    eu=first(me),ou=outros.length?(first(outros[0])||'a outra pessoa'):'',
+    mes=now.toLocaleDateString('pt-BR',{month:'long'}),
+    ms=months(all).slice(-7),vs=ms.map(d=>cur(all,d)),mm=d=>d.toLocaleDateString('pt-BR',{month:'short'}).replace('.','');
+  const rd=rend>=.005?`+${R(rend)} <small>em ${mes}</small>`:`Sem rendimento <small>em ${mes} ainda</small>`;
+  return `<div class="hrow"><section class="hero"><div class="htop"><div class="hpair">${par.map(i=>av(i)).join('')}</div><div class="ht"><h2 class="hg">${sau}${eu?', '+esc(eu):''}</h2><div class="hq">${ou?'Você e '+esc(ou)+' já acumularam':'Você já acumulou'}</div></div></div><div class="hv">${R(V)}</div><div class="hn2">Líquido estimado, após IOF e IR: ${R(liq)}</div></section><div class="card hs"><div class="k">Evolução do acumulado</div><div class="hy">${rd}</div>${spark(vs)}${ms.length>1?`<div class="hl"><span>${mm(ms[0])}</span><span>hoje</span></div>`:''}</div></div>`}
 function painel(l,ids){
   post=()=>{draw(l,ids)};
   return kpis(l)+`<div class="row"><div class="card"><div class="k">Evolução: aportado × valor bruto e líquido</div><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><div class="k">${tab==='geral'?'Valor atual por pessoa':'Valor por caixinha'}</div><div class="cv"><canvas id="c2"></canvas></div></div></div>${casalCards(ids)}<div class="card sc"><div class="k" style="margin-bottom:6px">Últimos aportes</div>${table(rowsOf(ids).slice(0,5),false)}</div>`}
 const DICAS=[["Pague-se primeiro", "Aporte logo que o salário cair, antes de pagar o resto. O que sobra no fim do mês costuma ser menos do que parece."], ["Escolham um dia fixo", "Combinem um dia do mês para aportar, de preferência logo depois do pagamento. Rotina vence força de vontade."], ["Comecem pequeno", "Aportar R$ 50 todo mês vale mais do que esperar o valor ideal. O hábito vem antes do valor."], ["Regra das 48 horas", "Para compras fora do planejado, esperem dois dias antes de decidir. Muita vontade passa sozinha."], ["Arredondem para cima", "Se dava para aportar R$ 487, aportem R$ 500. O arredondamento quase não pesa e soma bastante no ano."], ["Metade do aumento", "Quando o salário subir, guardem pelo menos metade do aumento antes de ele entrar no padrão de gastos."], ["13º e restituição", "Dinheiro que chega fora do mês, como 13º, bônus e restituição do IR, rende mais guardado do que gasto no impulso."], ["Fatura paga por inteiro", "Os juros do rotativo do cartão costumam ser muito maiores que o rendimento do CDI. Pagar a fatura toda é o melhor investimento."], ["Antes de parcelar", "Perguntem: se tivesse que pagar à vista, eu compraria? Se a resposta for não, o parcelamento só esconde o preço."], ["Revisem as assinaturas", "Uma vez por trimestre, listem streamings e apps pagos. Cancelem o que não usaram no último mês."], ["Lista de compras", "Vão ao mercado com lista e depois de comer. Quem vai com fome compra mais do que precisa."], ["Preço por unidade", "Comparem o preço por quilo ou por litro, não só o da embalagem. O maior pacote nem sempre é o mais barato."], ["Uma refeição a mais em casa", "Cozinhar uma refeição a mais por semana, em vez de pedir ou comer fora, costuma pagar um aporte no mês."], ["Negociem uma vez por ano", "Internet, celular, seguros e planos: liguem para negociar ou comparem concorrentes uma vez por ano."], ["Caixinha para gastos anuais", "IPVA, seguro, presentes e matrícula chegam todo ano. Uma caixinha só para eles evita o susto."], ["Reserva de emergência", "Uma boa meta inicial é guardar de 3 a 6 meses de despesas em uma caixinha com resgate fácil."], ["Cada sonho, uma caixinha", "Dinheiro de sonho misturado com o do dia a dia some. Uma caixinha por sonho deixa o progresso visível."], ["15 minutos por mês", "Marquem um café mensal para olhar o painel juntos. Combinar cedo evita briga por dinheiro depois."], ["Divisão justa", "Se as rendas são diferentes, considerem dividir o aporte de forma proporcional à renda de cada um."], ["Desafio das 52 semanas", "Aportem R$ 1 na primeira semana, R$ 2 na segunda e assim por diante. No fim do ano são R$ 1.378."], ["Vendam o que não usam", "Roupas, eletrônicos e móveis parados em casa podem virar um aporte extra."], ["Pesquisem três preços", "Para compras acima de um valor combinado, olhem pelo menos três lojas antes de fechar."], ["Planejem o cardápio", "Planejar as refeições da semana reduz o desperdício de comida, e isso é dinheiro que fica no bolso."], ["O pequeno e frequente", "O café de todo dia não é vilão, mas soma mais do que muita compra grande. Vale olhar o total do mês."], ["Dia sem gastar", "Escolham um dia por semana sem gastos extras, só o essencial. É fácil e rende."], ["Meta com data", "Metas com prazo funcionam melhor. Usem a página Sonhos para saber quanto guardar por mês."], ["Cuidado com o padrão de vida", "Quando a renda sobe, os gastos tendem a subir junto. Decidam o aporte antes de ajustar o padrão."], ["Tarifas bancárias", "Já conferiram quanto pagam de tarifas? Muitos bancos oferecem conta sem mensalidade."], ["Comemorem as conquistas", "Guardar dinheiro cansa. Comemorem cada selo e cada meta com algo barato e especial."], ["Dinheiro parado", "Dinheiro na conta corrente costuma não render. Mantenham nela só o necessário e o resto em caixinhas."]];
 let dicaI=Math.floor(Math.random()*DICAS.length);try{const u=+localStorage.getItem('dica');if(dicaI===u)dicaI=(dicaI+1+Math.floor(Math.random()*(DICAS.length-1)))%DICAS.length;localStorage.setItem('dica',dicaI)}catch(e){}
-const dicaCard=()=>`<div class="card dica"><span class="ic">💡</span><div><div class="k">Dica para guardar dinheiro</div><div class="big">${esc(DICAS[dicaI][0])}</div><div class="note" style="margin:0">${esc(DICAS[dicaI][1])}</div></div></div>`;
+const dicaCard=()=>`<div class="card dica s-am"><span class="ic">${ico('bulb')}</span><div><div class="k">Dica para guardar dinheiro</div><div class="big">${esc(DICAS[dicaI][0])}</div><div class="note" style="margin:0">${esc(DICAS[dicaI][1])}</div></div></div>`;
 function paceMes(l){const H=hoje(),ls=l.filter(a=>a.data&&a.data<=H);if(!ls.length)return 0;const now=new Date(H+'T00:00:00'),f=ls.reduce((m,a)=>a.data<m?a.data:m,H),dias=Math.max(30,Math.min(180,(now-new Date(f+'T00:00:00'))/864e5)),ini=new Date(now-dias*864e5);return ls.filter(a=>new Date(a.data+'T00:00:00')>ini).reduce((x,a)=>x+a.valor,0)/(dias/30.4375)}
 function casalCards(ids){
   if(tab!=='geral'||!Object.keys(wallets).length)return '';
@@ -283,14 +422,14 @@ function aportes(l,ids){
   post=()=>{if($('f')){$('fd').value=(d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10))(new Date());$('f').onsubmit=add}
     $('fx').onchange=e=>{flt=e.target.value;render()};
     $('ex').onclick=()=>{const q=x=>'"'+String(x).replace(/"/g,'""')+'"',csv='Data;Pessoa;Caixinha;Aporte;% CDI\n'+rows.map(a=>[a.data,a.o===me?(nm(me)||'Eu'):who(a.o),a.caixinha,String(a.valor).replace('.',','),a.pct].map(q).join(';')).join('\n'),u=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'})),k=document.createElement('a');k.href=u;k.download='aportes.csv';k.click();URL.revokeObjectURL(u)}};
-  return (tab===me?(!mc.length?nocx():`<div class="ftop">${fbtn('ap','➕ Novo aporte')}</div>${fo.ap?`<div class="card" style="margin-bottom:16px"><form id="f"><div><label>Data</label><input type="date" id="fd" required></div><div><label>Valor (R$)</label><input type="number" id="fv" step="0.01" min="0.01" required></div><div><label>Caixinha</label><select id="fc" required>${mc.map(c=>{const ex=c.venc&&c.venc<hoje();return `<option value="${esc(c.nome)}" data-p="${c.pct}" data-v="${c.venc||''}"${ex?' disabled':''}>${esc(c.nome)}${c.venc?(ex?' 🔒 (vencida)':' 🔒 vence em '+fd(c.venc)):''}</option>`}).join('')}</select></div><div style="grid-column:1/-1"><label>Recadinho (opcional)</label><input id="fr" maxlength="100" placeholder="Ex.: para a viagem a Lisboa ✈️" autocomplete="off"><div class="note" style="margin:4px 0 0">Aparece no Mural para a outra pessoa.</div></div><button class="p">Adicionar aporte</button></form><div class="note">O rendimento usa o % do CDI definido na caixinha. Precisa de outra? <a class="lnk" href="#caixinhas" data-open="cx">Criar nova</a></div></div>`:''}`):'')+`<div class="card sc"><div class="fl"><div><label>Filtrar por caixinha</label><select id="fx"><option value="">Todas</option>${cx.map(c=>`<option value="${esc(c)}" ${c===flt?'selected':''}>${esc(c)}</option>`).join('')}</select></div><button class="p" id="ex">Exportar CSV</button></div>${table(rows,true)}<div class="note">${rows.length} aporte(s) listado(s). Total aportado: ${R(tot)}.</div></div>`}
+  return (tab===me?(!mc.length?nocx():`<div class="ftop">${fbtn('ap','Novo aporte')}</div>${fo.ap?`<div class="card" style="margin-bottom:16px"><form id="f"><div><label>Data</label><input type="date" id="fd" required></div><div><label>Valor (R$)</label><input type="number" id="fv" step="0.01" min="0.01" required></div><div><label>Caixinha</label><select id="fc" required>${mc.map(c=>{const ex=c.venc&&c.venc<hoje();return `<option value="${esc(c.nome)}" data-p="${c.pct}" data-v="${c.venc||''}"${ex?' disabled':''}>${esc(c.nome)}${c.venc?(ex?' (vencida)':' (vence em '+fd(c.venc)+')'):''}</option>`}).join('')}</select></div><div style="grid-column:1/-1"><label>Recadinho (opcional)</label><input id="fr" maxlength="100" placeholder="Ex.: para a viagem a Lisboa ✈️" autocomplete="off"><div class="note" style="margin:4px 0 0">Aparece no Mural para a outra pessoa.</div></div><button class="p">Adicionar aporte</button></form><div class="note">O rendimento usa o % do CDI definido na caixinha. Precisa de outra? <a class="lnk" href="#caixinhas" data-open="cx">Criar nova</a></div></div>`:''}`):'')+`<div class="card sc"><div class="fl"><div><label>Filtrar por caixinha</label><select id="fx"><option value="">Todas</option>${cx.map(c=>`<option value="${esc(c)}" ${c===flt?'selected':''}>${esc(c)}</option>`).join('')}</select></div><button class="p" id="ex">Exportar CSV</button></div>${table(rows,true)}<div class="note">${rows.length} aporte(s) listado(s). Total aportado: ${R(tot)}.</div></div>`}
 function caixinhasResumo(l){
   const now=new Date(),g={};l.forEach(a=>(g[a.caixinha]=g[a.caixinha]||[]).push(a));
   const rs=Object.entries(g).map(([k,x])=>{const t=inv(x,now),c=cur(x,now),sv=x.reduce((s,a)=>s+a.valor,0);return{k,v:(x.find(a=>a.venc)||{}).venc,t,c,n:liqL(x,now),r:c-t,w:sv?x.reduce((s,a)=>s+a.valor*a.pct,0)/sv:0}}).sort((a,b)=>b.c-a.c),T=rs.reduce((s,r)=>s+r.c,0);
   post=()=>{if(!rs.length)return;charts.push(new Chart($('c3'),{type:'doughnut',data:{labels:rs.map(r=>r.k),datasets:[{data:rs.map(r=>r.c),backgroundColor:rs.map((r,i)=>PAL[i%PAL.length]),borderWidth:0}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:getComputedStyle(document.documentElement).getPropertyValue('--mut').trim()}}}}}))};
   if(!rs.length)return '<div class="card">Nenhum aporte ainda. Registre o primeiro na página Aportes.</div>';
   const top=[...rs].sort((a,b)=>b.r-a.r)[0];
-  return `<div class="row"><div class="card"><div class="k">Resumo por caixinha</div><div class="sc"><table class="rt"><tr><th>Caixinha</th><th>Aportado</th><th>Bruto (est.)</th><th>Líquido (est.)</th><th>Rendimento</th><th>% CDI médio</th><th>Parte do total</th></tr>${rs.map(r=>`<tr><td data-l="Caixinha">${esc(r.k)}${r.v?` <span class="bdg">🔒 ${fd(r.v)}</span>`:''}</td><td data-l="Aportado">${R(r.t)}</td><td data-l="Bruto (est.)">${R(r.c)}</td><td data-l="Líquido (est.)">${R(r.n)}</td><td data-l="Rendimento" class="g">${R(r.r)}</td><td data-l="% CDI médio">${r.w.toFixed(1).replace('.',',')}%</td><td data-l="Parte do total">${P(T?r.c/T*100:0)}</td></tr>`).join('')}</table></div><div class="note">Caixinha que mais rendeu em reais: ${esc(top.k)} (${R(top.r)}). Concentração na maior caixinha: ${P(T?rs[0].c/T*100:0)} do total.</div></div><div class="card"><div class="k">Distribuição do valor atual</div><div class="cv"><canvas id="c3"></canvas></div></div></div>`}
+  return `<div class="row"><div class="card"><div class="k">Resumo por caixinha</div><div class="sc"><table class="rt"><tr><th>Caixinha</th><th>Aportado</th><th>Bruto (est.)</th><th>Líquido (est.)</th><th>Rendimento</th><th>% CDI médio</th><th>Parte do total</th></tr>${rs.map(r=>`<tr><td data-l="Caixinha">${esc(r.k)}${r.v?` <span class="bdg">${ico('lock')}${fd(r.v)}</span>`:''}</td><td data-l="Aportado">${R(r.t)}</td><td data-l="Bruto (est.)">${R(r.c)}</td><td data-l="Líquido (est.)">${R(r.n)}</td><td data-l="Rendimento" class="g">${R(r.r)}</td><td data-l="% CDI médio">${r.w.toFixed(1).replace('.',',')}%</td><td data-l="Parte do total">${P(T?r.c/T*100:0)}</td></tr>`).join('')}</table></div><div class="note">Caixinha que mais rendeu em reais: ${esc(top.k)} (${R(top.r)}). Concentração na maior caixinha: ${P(T?rs[0].c/T*100:0)} do total.</div></div><div class="card"><div class="k">Distribuição do valor atual</div><div class="cv"><canvas id="c3"></canvas></div></div></div>`}
 function myCx(){const reg=(wallets[me]?.caixinhas||[]).map(c=>({...c,reg:1})),m=new Map(reg.map(c=>[c.nome.toLowerCase(),c]));[...(wallets[me]?.aportes||[])].sort((a,b)=>a.data.localeCompare(b.data)).forEach(a=>{const k=a.caixinha.toLowerCase(),c=m.get(k);if(!c)m.set(k,{nome:a.caixinha,pct:a.pct,reg:0,venc:a.venc});else if(!c.reg){c.pct=a.pct;c.venc=a.venc}});return [...m.values()].sort((a,b)=>a.nome.localeCompare(b.nome))}
 async function saveCx(list){list=list.map(({nome,pct,venc})=>venc?{nome,pct,venc}:{nome,pct});wallets[me]={...wallets[me],caixinhas:list};render();try{await setDoc(D('carteiras/'+me),{caixinhas:list},{merge:true});msg('')}catch(x){msg('Não foi possível salvar a caixinha. Tente de novo.')}}
 async function renCx(old,novo){novo=novo.trim();if(!novo||novo===old){rn=null;render();return}
@@ -313,9 +452,9 @@ function caixinhas(l){
     if(rn===c.nome)return `<div class="cxi"><div class="cxn"><input id="rni" maxlength="40" value="${esc(c.nome)}" aria-label="Novo nome da caixinha"></div><button type="button" class="p" id="rns">Salvar</button><button type="button" class="lk" id="rnc">Cancelar</button></div>`;
     let info='';
     if(vc){const ap=(wallets[me]?.aportes||[]).filter(a=>a.caixinha.toLowerCase()===c.nome.toLowerCase()),f=ap.reduce((s,a)=>s+val(a,new Date(vc+'T00:00:00')),0),h=ap.reduce((s,a)=>s+val(a,now),0);
-      info=`<span class="note">${ex?'Vencida em ':'🔒 Vence em '}${fd(vc)}${ap.length?(ex?` · valor final: ${R(f)}`:` · hoje: ${R(h)} (entra na soma) · no vencimento: ${R(f)} (estimado, não entra na soma)`):''}</span>`}
-    return `<div class="cxi"><div class="cxn"><b>${esc(c.nome)}</b>${info}</div><button class="x" data-cn="${esc(c.nome)}" title="Renomear caixinha">✏️</button><label>% do CDI<input type="number" step="0.1" min="1" value="${c.pct}" data-cp="${esc(c.nome)}"></label>${used(c.nome)?'<span class="note">em uso</span>':`<button class="x" data-cr="${esc(c.nome)}" title="Remover caixinha">×</button>`}</div>`};
-  return `<div class="card" style="margin-bottom:16px"><div class="fh"><div class="k">Minhas caixinhas</div>${fbtn('cx','➕ Nova caixinha')}</div>${fo.cx?`<form id="nc" style="margin:10px 0 4px"><div><label>Nome da nova caixinha</label><input id="ncn" required maxlength="40" placeholder="Ex.: Reserva de emergência"></div><div><label>% do CDI</label><input id="ncp" type="number" step="0.1" min="1" value="100" required></div><div style="grid-column:1/-1"><label class="ck"><input type="checkbox" id="ncf">Caixinha com tempo determinado</label><div class="note" style="margin-top:4px">O dinheiro fica guardado até o vencimento, sem poder sacar. Na soma entra só o que já rendeu até hoje.</div></div><div id="ncvw" style="display:none"><label>Data de vencimento</label><input type="date" id="ncv"></div><button class="p">Criar caixinha</button></form>`:''}`+(cx.length?`<div class="cxl">${cx.map(linha).join('')}</div>`:'<div class="note">Você ainda não criou nenhuma caixinha.</div>')+`<div class="note">O % do CDI é o valor sugerido ao lançar um aporte. Mudar aqui não altera aportes já lançados, e caixinhas com aportes não podem ser removidas. Ao renomear, os aportes já lançados acompanham o novo nome.</div></div>`+body}
+      info=`<span class="note">${ex?'Vencida em ':ico('lock')+' Vence em '}${fd(vc)}${ap.length?(ex?` · valor final: ${R(f)}`:` · hoje: ${R(h)} (entra na soma) · no vencimento: ${R(f)} (estimado, não entra na soma)`):''}</span>`}
+    return `<div class="cxi"><div class="cxn"><b>${esc(c.nome)}</b>${info}</div><button class="x" data-cn="${esc(c.nome)}" title="Renomear caixinha" aria-label="Renomear caixinha">${ico('pencil')}</button><label>% do CDI<input type="number" step="0.1" min="1" value="${c.pct}" data-cp="${esc(c.nome)}"></label>${used(c.nome)?'<span class="note">em uso</span>':`<button class="x" data-cr="${esc(c.nome)}" title="Remover caixinha" aria-label="Remover caixinha">${ico('x')}</button>`}</div>`};
+  return `<div class="card" style="margin-bottom:16px"><div class="fh"><div class="k">Minhas caixinhas</div>${fbtn('cx','Nova caixinha')}</div>${fo.cx?`<form id="nc" style="margin:10px 0 4px"><div><label>Nome da nova caixinha</label><input id="ncn" required maxlength="40" placeholder="Ex.: Reserva de emergência"></div><div><label>% do CDI</label><input id="ncp" type="number" step="0.1" min="1" value="100" required></div><div style="grid-column:1/-1"><label class="ck"><input type="checkbox" id="ncf">Caixinha com tempo determinado</label><div class="note" style="margin-top:4px">O dinheiro fica guardado até o vencimento, sem poder sacar. Na soma entra só o que já rendeu até hoje.</div></div><div id="ncvw" style="display:none"><label>Data de vencimento</label><input type="date" id="ncv"></div><button class="p">Criar caixinha</button></form>`:''}`+(cx.length?`<div class="cxl">${cx.map(linha).join('')}</div>`:'<div class="note">Você ainda não criou nenhuma caixinha.</div>')+`<div class="note">O % do CDI é o valor sugerido ao lançar um aporte. Mudar aqui não altera aportes já lançados, e caixinhas com aportes não podem ser removidas. Ao renomear, os aportes já lançados acompanham o novo nome.</div></div>`+body}
 function netSerie(l,S,c,cd,pc,N){
   const now=new Date(),r=mrate(cd,pc),sn=serie(S.V0,0,cd,pc,N),K=30.4375,o=[];let sc=0;
   const ex=l.filter(a=>new Date(a.data+'T00:00:00')<=now).map(a=>({w:a.valor/(S.A0||1),d:(now-new Date(a.data+'T00:00:00'))/864e5}));
@@ -332,13 +471,13 @@ function projecao(l){
     charts.push(new Chart($('c4'),{type:'line',data:{labels:L,datasets:[ds('Otimista (CDI +2 p.p.)',ot,'#16a34a'),ds('Base (bruto)',b,PAL[0]),ds('Base líquida (após IR e IOF)',nt,'#0e9f6e'),ds('Pessimista (CDI −2 p.p.)',pe,'#dc2626'),ds('Só o saldo atual, sem novos aportes',sn,mut,[6,4]),ds('Total aportado',b.map((v,m)=>ap(m)),PAL[1],[2,3])]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{x:{ticks:{color:mut,maxTicksLimit:8},grid:{color:bd}},y:{ticks:{color:mut,callback:v=>'R$ '+v.toLocaleString('pt-BR')},grid:{color:bd}}},plugins:{legend:{labels:{color:mut}},tooltip:{callbacks:{label:x=>x.dataset.label+': '+R(x.parsed.y)}}}}}))};
   const yrs=Array.from({length:proj.anos},(_,i)=>(i+1)*12).filter(m=>m<=N);
   return `<div class="card" style="margin-bottom:16px"><form><div><label>Aporte mensal (R$)</label><input type="number" id="pa" step="0.01" min="0" value="${c}"></div><div><label>Horizonte</label><select id="py">${[1,2,3,5,10,15,20,30].map(y=>`<option value="${y}" ${y===proj.anos?'selected':''}>${y} ${y>1?'anos':'ano'}</option>`).join('')}</select></div><div><label>CDI esperado (% a.a.)</label><input type="number" id="pd" step="0.01" min="0" value="${cd}"></div><div><label>% do CDI</label><input type="number" id="pp" step="0.1" min="1" value="${pc}"></div></form><div class="note">Valores iniciais: aporte mensal de ${R(APORTE)} e % do CDI médio ponderado das suas caixinhas. Altere à vontade para simular.</div></div>`
-  +`<div class="grid">${card('Valor bruto em '+an,R(fim),0,'🏁','Sem descontar impostos')+card('Valor líquido em '+an,R(lf),0,'🏦','Após IOF e IR')+card('Total aportado',R(aT),0,'💼')+card('Rendimento líquido',R(jl),1,'✅','Bruto: '+R(j))+card('Impostos estimados',R(fim-lf),0,'🧾','Pagos ao resgatar')+card('Rendimento mensal no fim',R(fim*r),1,'💵','Valor bruto')+card('Sem novos aportes',R(sn[N]),0,'🐢','Valor bruto')}</div>`
+  +`<div class="grid">${card('Valor bruto em '+an,R(fim),0,ico('flag'),'Sem descontar impostos','bl')+card('Valor líquido em '+an,R(lf),0,ico('bank'),'Após IOF e IR','bl')+card('Total aportado',R(aT),0,ico('wallet'),'','bl')+card('Rendimento líquido',R(jl),1,ico('checkc'),'Bruto: '+R(j),'gn')+card('Impostos estimados',R(fim-lf),0,ico('receipt'),'Pagos ao resgatar','am')+card('Rendimento mensal no fim',R(fim*r),1,ico('banknote'),'Valor bruto','gn')+card('Sem novos aportes',R(sn[N]),0,ico('hourglass'),'Valor bruto','bl')}</div>`
   +`<div class="card" style="margin-bottom:16px"><div class="k">Projeção do patrimônio</div><div class="cv" style="height:320px"><canvas id="c4"></canvas></div></div>`
   +(ms.length?`<div class="card" style="margin-bottom:16px"><div class="k">Quando você chega lá (cenário base)</div><table>${ms.map(([M,m])=>`<tr><td>${R(M)}</td><td>${m<0?'Além de 50 anos':dt(m).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})+' (em '+dur(m)+')'}</td></tr>`).join('')}</table></div>`:'')
   +`<div class="card sc"><div class="k" style="margin-bottom:6px">Ano a ano (cenário base)</div><table class="rt"><tr><th>Ano</th><th>Aportado</th><th>Bruto</th><th>Líquido</th><th>Rendimento</th><th>Rendimento mensal</th></tr>${yrs.map(m=>`<tr><td data-l="Ano">${m/12}</td><td data-l="Aportado">${R(ap(m))}</td><td data-l="Bruto">${R(b[m])}</td><td data-l="Líquido">${R(nt[m])}</td><td data-l="Rendimento" class="g">${R(b[m]-ap(m))}</td><td data-l="Rendimento mensal">${R(b[m]*r)}</td></tr>`).join('')}</table><div class="note">Estimativa: considera aportes no fim de cada mês, juros compostos e CDI constante. O líquido desconta IOF e IR regressivo sobre o rendimento de cada aporte, como se você resgatasse tudo na data indicada; o bruto não desconta impostos. Os cenários otimista e pessimista variam o CDI em 2 pontos percentuais. Não é garantia de rendimento.</div></div>`}
 function metaBlock(titulo,l,T,id,n){const S=stats(l),p=T?Math.min(100,S.V0/T*100):0;return `<div class="card" style="margin-bottom:16px"><div class="k">${titulo}</div>${T?`<div class="v">${R(S.V0)} <span class="k">de ${R(T)}</span></div><div class="bar"><i style="width:${p}%"></i></div><div class="note">${P(p)} concluído. Faltam ${R(Math.max(0,T-S.V0))}. ${etaTxt(eta(S.V0,S.c,T,S.w),n)}</div><div class="note">Cálculo com aporte mensal de ${R(S.c)}, ${S.w.toString().replace('.',',')}% do CDI e CDI de ${String(cdi).replace('.',',')}% a.a.</div>`:'<div class="note">Nenhuma meta definida.</div>'}<form id="${id}" style="margin-top:10px"><div><label>Valor da meta (R$)</label><input type="number" id="${id}v" step="0.01" min="0" value="${T||''}"></div><button class="p">Salvar meta</button></form></div>`}
 /* ===== Sonhos ===== */
-const EMS=['✈️','🏠','💍','🚗','🎓','👶','🏝️','🎯'],sdNovo=()=>({em:'🎯',nome:'',alvo:'',prazo:'',cx:[]});
+const EMS=['✈️','🏠','💍','🚗','🎓','👶','🏝️','🎯'],sdNovo=()=>({em:'🎯',nome:'',alvo:'',prazo:'',cx:[],capa:''});
 let sd=sdNovo(),sed=null;
 const toISO=d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
 function cxNomes(){const m=new Map();Object.values(wallets).forEach(w=>{[...(w.caixinhas||[]).map(c=>c.nome),...(w.aportes||[]).map(a=>a.caixinha)].forEach(n=>{if(n&&!m.has(n.toLowerCase()))m.set(n.toLowerCase(),n)})});return [...m.values()].sort((a,b)=>a.localeCompare(b,'pt-BR'))}
@@ -348,15 +487,29 @@ function sonhoCalc(s){
   const S=stats(l),V0=S.V0,T=+s.alvo||0,dias=Math.ceil((new Date(s.prazo+'T00:00:00')-new Date(hoje()+'T00:00:00'))/864e5),N=Math.max(0,Math.ceil(dias/30.4375)),r=mrate(cdi,S.w);
   const feito=T>0&&V0>=T;
   return{V0,T,p:T?Math.min(100,V0/T*100):0,falta:Math.max(0,T-V0),dias,N,pc:S.w,feito,venc:!feito&&dias<=0,c:feito||dias<=0?0:needMes(V0,T,r,Math.max(1,N))}}
+const CAPAS=['linear-gradient(135deg,#1d4ed8,#38bdf8)','linear-gradient(135deg,#047857,#6ee7b7)','linear-gradient(135deg,#b45309,#fbbf24)','linear-gradient(135deg,#5b21b6,#60a5fa)','linear-gradient(135deg,#be123c,#fb923c)'];
+const capaOk=c=>typeof c==='string'&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(c);
+function capaDe(file){return new Promise((ok,no)=>{const u=URL.createObjectURL(file),im=new Image();im.onload=()=>{URL.revokeObjectURL(u);const W=640,Hh=360,r=W/Hh;let sw=im.width,sh=sw/r;if(sh>im.height){sh=im.height;sw=sh*r}const c=document.createElement('canvas');c.width=W;c.height=Hh;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,Hh);x.drawImage(im,(im.width-sw)/2,(im.height-sh)/2,sw,sh,0,0,W,Hh);let d=c.toDataURL('image/jpeg',.72);if(d.length>140000)d=c.toDataURL('image/jpeg',.5);ok(d)};im.onerror=()=>{URL.revokeObjectURL(u);no(new Error('img'))};im.src=u})}
+function capaUI(sync){
+  if(!$('scb'))return;
+  $('scb').onclick=()=>$('scf').click();
+  $('scf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(!f.type.startsWith('image/')){msg('Escolha um arquivo de imagem.');return}
+    let d;try{d=await capaDe(f)}catch(x){msg('Não foi possível ler essa imagem. Tente outra.');return}
+    if($('se'))sync();sd.capa=d;msg('');render()};
+  if($('scr'))$('scr').onclick=()=>{if($('se'))sync();sd.capa='';render()}}
+function anel(p,feito){const C=2*Math.PI*42,d=Math.max(0,Math.min(100,p))/100*C,pc=Math.min(99,Math.floor(p));
+  return `<div class="rg" role="img" aria-label="${feito?'Sonho alcançado':pc+'% concluído'}"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="rgt" cx="50" cy="50" r="42"/>${d>.5?`<circle class="rgp${feito?' ok':''}" cx="50" cy="50" r="42" stroke-dasharray="${d.toFixed(1)} ${C.toFixed(1)}"/>`:''}</svg><span>${feito?ico('check'):pc+'%'}</span></div>`}
 function sonhoCard(s){
   const k=sonhoCalc(s),n=Math.max(1,Object.keys(wallets).length);
   const falta=k.dias<30?k.dias+(k.dias===1?' dia':' dias'):dur(k.N);
   const prazo=k.feito?`Prazo: ${fd(s.prazo)}`:k.venc?`Prazo venceu em ${fd(s.prazo)}`:`Prazo: ${fd(s.prazo)} · faltam ${falta}`;
-  const nec=k.feito?`<b>🎉 Sonho alcançado!</b> Vocês já têm ${R(k.V0)} para ele.`:k.venc?`Faltam ${R(k.falta)} e o prazo já passou. Use ✏️ para combinar uma nova data.`:k.c<.005?`Só com o rendimento estimado vocês já chegam lá no prazo. Novos aportes são bônus.`:`Para chegar a tempo: <b>${R(k.c)}</b> por mês no total${n>1?`, ou <b>${R(k.c/n)}</b> por pessoa`:''}.`;
-  return `<div class="card sn"><div class="snh"><span class="ic">${esc(s.emoji||'🎯')}</span><div class="snb"><b>${esc(s.nome)}</b><div class="note" style="margin:2px 0 0">${prazo}</div></div><div class="sna"><button type="button" class="x" data-se="${esc(s.id)}" title="Editar" aria-label="Editar sonho">✏️</button><button type="button" class="x" data-sx="${esc(s.id)}" title="Remover" aria-label="Remover sonho">×</button></div></div>
-  <div style="margin-top:12px"><div class="v">${R(k.V0)} <span class="k">de ${R(k.T)}</span></div><div class="bar"><i style="width:${k.p}%"></i></div><div class="note">${P(k.p)} concluído.${k.feito?'':' Faltam '+R(k.falta)+'.'}</div></div>
+  const nec=k.feito?`<b>🎉 Sonho alcançado!</b> Vocês já têm ${R(k.V0)} para ele.`:k.venc?`Faltam ${R(k.falta)} e o prazo já passou. Use o botão de editar para combinar uma nova data.`:k.c<.005?`Só com o rendimento estimado vocês já chegam lá no prazo. Novos aportes são bônus.`:`Para chegar a tempo: <b>${R(k.c)}</b> por mês no total${n>1?`, ou <b>${R(k.c/n)}</b> por pessoa`:''}.`;
+  const hs=[...String(s.id||s.nome)].reduce((x,c)=>(x*31+c.charCodeAt(0))>>>0,7)%CAPAS.length,em=esc(s.emoji||'🎯');
+  const fundo=capaOk(s.capa)?`<img class="cimg" src="${s.capa}" alt="">`:`<div class="cfx" style="background:${CAPAS[hs]}"><span class="cbig" aria-hidden="true">${em}</span></div>`;
+  return `<div class="card sn s-am"><div class="cov">${fundo}<div class="sna"><button type="button" class="x" data-se="${esc(s.id)}" title="Editar" aria-label="Editar sonho">${ico('pencil')}</button><button type="button" class="x" data-sx="${esc(s.id)}" title="Remover" aria-label="Remover sonho">${ico('x')}</button></div><div class="covt"><span class="emo">${em}</span><div class="covn"><b>${esc(s.nome)}</b><div class="cp">${prazo}</div></div></div>${anel(k.p,k.feito)}</div>
+  <div class="snx"><div class="v">${R(k.V0)} <span class="k">de ${R(k.T)}</span></div><div class="note">${P(k.p)} concluído.${k.feito?'':' Faltam '+R(k.falta)+'.'}</div>
   <div class="snp">${nec}</div>
-  <div class="snc">Conta: ${(s.cx||[]).length?esc(s.cx.join(', ')):'tudo que vocês já guardaram'}</div></div>`}
+  <div class="snc">Conta: ${(s.cx||[]).length?esc(s.cx.join(', ')):'tudo que vocês já guardaram'}</div></div></div>`}
 async function gravaSonhos(erro){try{await setDoc(D('config/geral'),{sonhos},{merge:true});msg('')}catch(x){msg(erro)}}
 function sonhosForm(){
   const ed=sed&&sonhos.some(x=>x.id===sed),cxs=cxNomes(),sel=(sd.cx||[]).map(x=>x.toLowerCase());
@@ -366,6 +519,7 @@ function sonhosForm(){
   <div><label>Quanto custa (R$)</label><input id="sv" type="number" step="0.01" min="1" required value="${esc(sd.alvo)}"></div>
   <div><label>Prazo</label><input id="sp" type="date" required ${ed?'':`min="${hoje()}"`} value="${esc(sd.prazo)}"></div>
   <div style="grid-column:1/-1"><label>Caixinhas que contam para este sonho</label>${cxs.length?`<div class="cxs">${cxs.map(n=>`<label><input type="checkbox" data-cx="${esc(n)}" ${sel.includes(n.toLowerCase())?'checked':''}>${esc(n)}</label>`).join('')}</div>`:''}<div class="note" style="margin:6px 0 0">Sem seleção, conta tudo que vocês já guardaram.</div></div>
+  <div style="grid-column:1/-1"><label>Foto de capa (opcional)</label><div class="capr"><div class="capp${capaOk(sd.capa)?' on':''}">${capaOk(sd.capa)?`<img src="${sd.capa}" alt="">`:ico('camera')}</div><div class="pfb"><input type="file" id="scf" accept="image/*" style="display:none"><div class="pfa"><button type="button" class="out" id="scb">${capaOk(sd.capa)?'Trocar foto':'Escolher foto'}</button>${capaOk(sd.capa)?'<button type="button" class="lk" id="scr">Remover foto</button>':''}</div></div></div><div class="note" style="margin:6px 0 0">Aparece no fundo do cartão do sonho. Sem foto, usamos um fundo colorido com o emoji.</div></div>
   <button class="p">${ed?'Salvar alterações':'Adicionar sonho'}</button>${ed?'<button type="button" class="out" id="sc2">Cancelar</button>':''}</form></div>`}
 function metas(){
   const mine=wallets[me]?.meta||0,ord=[...sonhos].sort((a,b)=>String(a.prazo).localeCompare(String(b.prazo)));
@@ -374,19 +528,19 @@ function metas(){
     ['se','sn','sv','sp'].forEach(id=>{const el=$(id);if(el)el.oninput=el.onchange=sync});
     f.querySelectorAll('[data-em]').forEach(b=>b.onclick=()=>{sync();sd.em=b.dataset.em;render()});
     f.querySelectorAll('[data-cx]').forEach(c=>c.onchange=()=>{const n=c.dataset.cx;sd.cx=c.checked?[...sd.cx,n]:sd.cx.filter(x=>x!==n)});
-    if($('sc2'))$('sc2').onclick=()=>{sed=null;sd=sdNovo();fo.sn=false;render()};
+    capaUI(sync);if($('sc2'))$('sc2').onclick=()=>{sed=null;sd=sdNovo();fo.sn=false;render()};
     f.onsubmit=async e=>{e.preventDefault();sync();const nome=sd.nome.trim(),alvo=+sd.alvo,prazo=sd.prazo,old=sonhos.find(x=>x.id===sed);
       if(!nome||!(alvo>0)||!prazo)return;if(!old&&prazo<=hoje()){msg('Escolha um prazo no futuro.');return}
-      const novo={id:old?old.id:Date.now().toString(36),nome,emoji:(sd.em||'').trim()||'🎯',alvo,prazo,cx:sd.cx,criado:old?old.criado:hoje()};
-      sonhos=old?sonhos.map(x=>x.id===old.id?novo:x):[...sonhos,novo];sed=null;sd=sdNovo();fo.sn=false;render();await gravaSonhos('Não foi possível salvar o sonho. Tente de novo.')};
-    $('app').querySelectorAll('[data-se]').forEach(b=>b.onclick=()=>{const x=sonhos.find(z=>z.id===b.dataset.se);if(!x)return;sed=x.id;fo.sn=true;sd={em:x.emoji||'🎯',nome:x.nome,alvo:String(x.alvo),prazo:x.prazo,cx:[...(x.cx||[])]};render();$('fs').scrollIntoView({behavior:'smooth',block:'center'})});
-    $('app').querySelectorAll('[data-sx]').forEach(b=>b.onclick=async()=>{if(!b.dataset.arm){b.dataset.arm='1';b.textContent='Remover?';b.style.color='#dc2626';b.style.fontSize='13px';b.style.width='auto';b.style.padding='0 8px';return}
+      const novo={id:old?old.id:Date.now().toString(36),nome,emoji:(sd.em||'').trim()||'🎯',alvo,prazo,cx:sd.cx,criado:old?old.criado:hoje(),...(capaOk(sd.capa)?{capa:sd.capa}:{})};
+      const nl=old?sonhos.map(x=>x.id===old.id?novo:x):[...sonhos,novo];if(JSON.stringify(nl).length>900000){msg('As fotos de capa ocupam espaço demais. Tire a capa de algum sonho e tente de novo.');return}sonhos=nl;sed=null;sd=sdNovo();fo.sn=false;render();await gravaSonhos('Não foi possível salvar o sonho. Tente de novo.')};
+    $('app').querySelectorAll('[data-se]').forEach(b=>b.onclick=()=>{const x=sonhos.find(z=>z.id===b.dataset.se);if(!x)return;sed=x.id;fo.sn=true;sd={em:x.emoji||'🎯',nome:x.nome,alvo:String(x.alvo),prazo:x.prazo,cx:[...(x.cx||[])],capa:capaOk(x.capa)?x.capa:''};render();$('fs').scrollIntoView({behavior:'smooth',block:'center'})});
+    $('app').querySelectorAll('[data-sx]').forEach(b=>b.onclick=async()=>{if(!b.dataset.arm){b.dataset.arm='1';b.textContent='Remover?';b.style.color='#dc2626';b.style.fontSize='13px';b.style.width='auto';b.style.padding='0 10px';b.style.background='#fff';return}
       sonhos=sonhos.filter(x=>x.id!==b.dataset.sx);if(sed===b.dataset.sx){sed=null;sd=sdNovo();fo.sn=false}render();await gravaSonhos('Não foi possível remover o sonho. Tente de novo.')});
     if($('sleg'))$('sleg').onclick=()=>{sd={...sdNovo(),nome:'Meta conjunta',alvo:String(metaC)};fo.sn=true;render();$('fs').scrollIntoView({behavior:'smooth',block:'center'})};
     const sv=(id,path,key,after)=>{$(id).onsubmit=async e=>{e.preventDefault();const v=+$(id+'v').value||0;after(v);render();try{await setDoc(D(path),{[key]:v},{merge:true});msg('')}catch(x){msg('Não foi possível salvar a meta.')}}};
     sv('m1','carteiras/'+me,'meta',v=>{wallets[me]={...wallets[me],meta:v}})};
   const leg=metaC>0&&!sonhos.length?`<div class="card" style="margin-bottom:14px"><div class="note" style="margin:0 0 10px">Vocês tinham uma meta conjunta de ${R(metaC)}. Agora cada objetivo vira um sonho, com emoji, prazo e valor mensal.</div><button type="button" class="out" id="sleg">Transformar em sonho</button></div>`:'';
-  return leg+`<div class="ftop">${fbtn('sn','✨ Novo sonho')}</div>`+(fo.sn?sonhosForm():'')+(ord.length?ord.map(sonhoCard).join(''):'<div class="card" style="margin-bottom:14px">Nenhum sonho ainda. Use o botão acima para cadastrar o primeiro: viagem, casa, casamento…</div>')
+  return leg+`<div class="ftop">${fbtn('sn','Novo sonho')}</div>`+(fo.sn?sonhosForm():'')+(ord.length?ord.map(sonhoCard).join(''):'<div class="card" style="margin-bottom:14px">Nenhum sonho ainda. Use o botão acima para cadastrar o primeiro: viagem, casa, casamento…</div>')
    +(ord.length?`<div class="note" style="margin:0 0 16px">Estimativa com CDI de ${String(cdi).replace('.',',')}% a.a. e o % do CDI médio das caixinhas de cada sonho, com aportes no fim de cada mês e valor dividido igualmente entre as pessoas. Não é garantia de rendimento.</div>`:'')
    +metaBlock('Minha meta pessoal',list(me),mine,'m1',first(me))}
 
@@ -460,8 +614,8 @@ function mural(){
     const chips=MJ.map(e=>{const us=r[e]||[],n=us.length,on=us.includes(me),tt=esc(us.map(nomeM).join(', '));
       if(mine)return n?`<span class="rx ro" title="${tt}">${e} ${n}</span>`:'';
       return `<button type="button" class="rx${on?' on':''}" data-rx="${k}" data-e="${e}" title="${tt}" aria-pressed="${on}">${e}${n?' '+n:''}</button>`}).join('');
-    const com=cc=>`<div class="cc">${av(cc.u)}<div class="ct"><b>${esc(nomeM(cc.u))}</b><small>${quando(cc.ts||0)}</small><div>${esc(cc.texto||'')}</div></div>${cc.u===me?`<button type="button" class="x" data-dc="${esc(cc.id)}" title="Apagar comentário" aria-label="Apagar comentário">×</button>`:''}</div>`;
-    return `<div class="card mi">${av(o)}<div class="mb"><div class="mt"><b>${esc(nomeM(o))}</b> aportou <b>${R(a.valor)}</b> na <b>${esc(a.caixinha)}</b></div><div class="mw">${quando(t)}</div>${a.recado?`<div class="rec">“${esc(a.recado)}”</div>`:''}<div class="mr">${chips}<button type="button" class="rx" data-cm="${k}">💬 ${c.length||'Comentar'}</button></div>${c.length?`<div class="cl">${c.map(com).join('')}</div>`:''}${mu.open.has(k)?`<form class="cf" data-cf="${k}"><input class="cmi" data-ci="${k}" maxlength="280" placeholder="Escreva um comentário…" autocomplete="off" aria-label="Comentário"><button class="p">Enviar</button></form>`:''}</div></div>`};
+    const com=cc=>`<div class="cc">${av(cc.u)}<div class="ct"><b>${esc(nomeM(cc.u))}</b><small>${quando(cc.ts||0)}</small><div>${esc(cc.texto||'')}</div></div>${cc.u===me?`<button type="button" class="x" data-dc="${esc(cc.id)}" title="Apagar comentário" aria-label="Apagar comentário">${ico('x')}</button>`:''}</div>`;
+    return `<div class="card mi">${av(o)}<div class="mb"><div class="mt"><b>${esc(nomeM(o))}</b> aportou <b>${R(a.valor)}</b> na <b>${esc(a.caixinha)}</b></div><div class="mw">${quando(t)}</div>${a.recado?`<div class="rec">“${esc(a.recado)}”</div>`:''}<div class="mr">${chips}<button type="button" class="rx" data-cm="${k}">${ico('chat')} ${c.length||'Comentar'}</button></div>${c.length?`<div class="cl">${c.map(com).join('')}</div>`:''}${mu.open.has(k)?`<form class="cf" data-cf="${k}"><input class="cmi" data-ci="${k}" maxlength="280" placeholder="Escreva um comentário…" autocomplete="off" aria-label="Comentário"><button class="p">Enviar</button></form>`:''}</div></div>`};
   return `<div class="mu">${es.slice(0,mu.lim).map(item).join('')}</div>`+(es.length>mu.lim?'<div style="text-align:center;margin-top:14px"><button class="out" id="mmore">Ver mais</button></div>':'')}
 function ajustes(){
   post=()=>{fotoUI();$('fcdi').onsubmit=async e=>{e.preventDefault();cdi=+$('cdi').value;render();try{await setDoc(D('config/geral'),{cdi},{merge:true});msg('')}catch(x){msg('Não foi possível salvar o CDI.')}}};
@@ -469,21 +623,21 @@ function ajustes(){
 function render(){
   if(!me)return;
   document.body.classList.add('hn');document.body.classList.toggle('dsc',dsc);post=null;
-  const nv=$('nav'),nsl=nv.scrollLeft;nv.innerHTML='<div class="brand"><span class="bimg"><img src="'+LOGO+'" alt=""></span>Finanças</div>'+PAGES.map(p=>`<a href="#${p[0]}" class="${pg===p[0]?'on':''}"><span>${p[1]}</span>${p[2]}</a>`).join('')+`<a href="#ajustes" class="prof" title="Meu perfil">${av(me)}<div class="pn"><b>${esc(nm(me)||'Minha conta')}</b><small>Meu perfil</small></div></a>`;nv.scrollLeft=nsl;nv.querySelector('a.on')?.scrollIntoView({inline:'nearest',block:'nearest'});
+  const nv=$('nav'),nsl=nv.scrollLeft;nv.innerHTML='<div class="brand"><span class="bimg"><img src="'+LOGO+'" alt=""></span>Finanças</div>'+PAGES.map(p=>`<a href="#${p[0]}" class="s-${p[3]}${pg===p[0]?' on':''}"><span class="ni">${ico(p[1])}</span>${p[2]}</a>`).join('')+`<a href="#ajustes" class="prof" title="Meu perfil">${av(me)}<div class="pn"><b>${esc(nm(me)||'Minha conta')}</b><small>Meu perfil</small></div></a>`;nv.scrollLeft=nsl;nv.querySelector('a.on')?.scrollIntoView({inline:'nearest',block:'nearest'});
   const ids=[...new Set([me,...Object.keys(wallets)])];
   if($('hi'))$('hi').textContent=first(me)?'Olá, '+first(me):'Olá';if($('hav'))$('hav').innerHTML=av(me);
   if(tab!=='geral'&&!ids.includes(tab))tab='geral';
   charts.forEach(c=>c.destroy());charts=[];
   const l=list(tab),sc=['painel','aportes','caixinhas','projecao'].includes(pg);
-  $('app').innerHTML=`<h2>${PAGES.find(p=>p[0]===pg)[2]}</h2>`+(sc?`<div class="tabs"><button class="tab ${tab==='geral'?'on':''}" data-t="geral">Geral</button>${ids.map(i=>`<button class="tab ${tab===i?'on':''}" data-t="${i}">${av(i)}${esc(who(i))}</button>`).join('')}</div>`:'')+({painel,mural,aportes,caixinhas,projecao,metas,conquistas,ajustes})[pg](l,ids);
+  $('app').innerHTML=(()=>{const q=PAGES.find(p=>p[0]===pg);return pg==='painel'?hero():`<h2 class="ph s-${q[3]}"><span class="ti">${ico(q[1])}</span>${q[2]}</h2>`})()+(sc?`<div class="tabs"><button class="tab ${tab==='geral'?'on':''}" data-t="geral">Geral</button>${ids.map(i=>`<button class="tab ${tab===i?'on':''}" data-t="${i}">${av(i)}${esc(who(i))}</button>`).join('')}</div>`:'')+({painel,mural,aportes,caixinhas,projecao,metas,conquistas,ajustes})[pg](l,ids);
   $('app').querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;proj.c=proj.pct=proj.cdi=null;flt='';render()});
-  $('app').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{if(b.dataset.arm){remove(b.dataset.d);return}b.dataset.arm='1';b.textContent='Remover?';b.style.color='#dc2626';b.style.fontSize='13px';setTimeout(()=>{if(b.isConnected){delete b.dataset.arm;b.textContent='\u00d7';b.style.color='';b.style.fontSize=''}},3000)});
+  $('app').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{if(b.dataset.arm){remove(b.dataset.d);return}const o=b.innerHTML;b.dataset.arm='1';b.textContent='Remover?';b.style.color='#dc2626';b.style.fontSize='13px';setTimeout(()=>{if(b.isConnected){delete b.dataset.arm;b.innerHTML=o;b.style.color='';b.style.fontSize=''}},3000)});
   $('app').querySelectorAll('[data-fo]').forEach(b=>b.onclick=()=>{const k=b.dataset.fo;fo[k]=!fo[k];if(!fo[k]&&k==='sn'){sed=null;sd=sdNovo()}render();if(fo[k]){const i=$({ap:'fv',cx:'ncn',sn:'sn'}[k]);if(i)i.focus()}});
   $('app').querySelectorAll('[data-open]').forEach(a=>a.addEventListener('click',()=>{fo[a.dataset.open]=true}));
   if(post)post();
   try{syncConq()}catch(e){}
 }
-function paintEye(){const b=$('eye');if(!b)return;b.textContent=dsc?'🙈':'👁️';b.setAttribute('aria-pressed',String(dsc));b.title=dsc?'Mostrar valores':'Esconder valores (modo discreto)';b.setAttribute('aria-label',b.title)}
+function paintEye(){const b=$('eye');if(!b)return;b.innerHTML=ico(dsc?'eyeoff':'eye');b.setAttribute('aria-pressed',String(dsc));b.title=dsc?'Mostrar valores':'Esconder valores (modo discreto)';b.setAttribute('aria-label',b.title)}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function draw(l,ids){
   charts.forEach(c=>c.destroy());charts=[];
@@ -500,12 +654,12 @@ function draw(l,ids){
 async function save(){await setDoc(D('carteiras/'+me),{aportes:wallets[me]?.aportes||[]},{merge:true})}
 async function add(e){e.preventDefault();const o=$('fc').selectedOptions[0],v=o.dataset.v,rc=$('fr').value.trim().slice(0,100);if(v&&$('fd').value>v){msg('Essa caixinha vence em '+fd(v)+'. Escolha uma data até o vencimento.');return}const a={id:Date.now().toString(36),data:$('fd').value,valor:+$('fv').value,caixinha:$('fc').value.trim(),pct:+o.dataset.p,...(v?{venc:v}:{}),...(rc?{recado:rc}:{})};wallets[me]={...wallets[me],aportes:[...(wallets[me]?.aportes||[]),a]};fo.ap=false;render();try{await save();msg('')}catch(x){msg('Não foi possível salvar. Verifique sua conexão e tente de novo.')}}
 async function remove(id){wallets[me]={...wallets[me],aportes:(wallets[me]?.aportes||[]).filter(a=>a.id!==id)};render();try{await save();msg('')}catch(x){msg('Não foi possível remover. Tente de novo.')}}
-const photoBlock=f=>`<div class="lfoto"><div class="av lg" id="lpv" title="Escolher foto">${f?`<img src="${esc(f)}" alt="">`:'📷'}</div><div class="pfb"><button type="button" class="out" id="lpb">${f?'Trocar foto':'Adicionar foto'}</button><button type="button" class="lk" id="lpr" ${f?'':'hidden'}>Remover foto</button><span class="note" style="margin:0">Opcional. Você também pode escolher depois, em Ajustes.</span></div><input type="file" id="lpf" accept="image/*" style="display:none"></div>`;
+const photoBlock=f=>`<div class="lfoto"><div class="av lg" id="lpv" title="Escolher foto">${f?`<img src="${esc(f)}" alt="">`:ico('camera')}</div><div class="pfb"><button type="button" class="out" id="lpb">${f?'Trocar foto':'Adicionar foto'}</button><button type="button" class="lk" id="lpr" ${f?'':'hidden'}>Remover foto</button><span class="note" style="margin:0">Opcional. Você também pode escolher depois, em Ajustes.</span></div><input type="file" id="lpf" accept="image/*" style="display:none"></div>`;
 function loginView(){
   let novo=false,pfoto='';
   const draw=()=>{$('app').innerHTML=`<div class="card login"><div class="lb"><span class="bimg"><img src="${LOGO}" alt=""></span><div><b>Finanças</b><span>${novo?'Crie sua conta para começar':'Entre para ver seus aportes'}</span></div></div><form id="lf">${novo?photoBlock(pfoto)+'<div><label>Como você quer ser chamado?</label><input id="ln" required maxlength="40" placeholder="Ex.: Rei Chiquita" autocomplete="nickname"></div>':''}<div><label>E-mail</label><input id="le" type="email" required autocomplete="email"></div><div><label>Senha</label><input id="lp" type="password" minlength="6" required autocomplete="${novo?'new-password':'current-password'}"></div><button class="p">${novo?'Criar conta':'Entrar'}</button><button type="button" class="lk" id="t1">${novo?'Já tenho conta':'Criar conta'}</button>${novo?'':'<button type="button" class="lk" id="t2">Esqueci a senha</button>'}</form></div>`;
     $('t1').onclick=()=>{novo=!novo;msg('');draw()};
-    if(novo){const prev=()=>{$('lpv').innerHTML=pfoto?`<img src="${pfoto}" alt="">`:'📷';$('lpb').textContent=pfoto?'Trocar foto':'Adicionar foto';$('lpr').hidden=!pfoto};
+    if(novo){const prev=()=>{$('lpv').innerHTML=pfoto?`<img src="${pfoto}" alt="">`:ico('camera');$('lpb').textContent=pfoto?'Trocar foto':'Adicionar foto';$('lpr').hidden=!pfoto};
       $('lpb').onclick=$('lpv').onclick=()=>$('lpf').click();
       $('lpr').onclick=()=>{pfoto='';prev()};
       $('lpf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(!f.type.startsWith('image/')){msg('Escolha um arquivo de imagem.');return}try{pfoto=await fotoDe(f);msg('');prev()}catch(x){msg('Não foi possível ler essa imagem. Tente outra.')}}}
