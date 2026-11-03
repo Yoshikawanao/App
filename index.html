@@ -253,6 +253,10 @@ body.dsc .sp{filter:blur(7px)}
 .capp img{width:100%;height:100%;object-fit:cover;display:block}
 .capp .ico{width:26px;height:26px;stroke-width:1.6}
 #fs>.p{justify-self:start;white-space:nowrap;padding:11px 24px}
+.lg{display:flex;flex-wrap:wrap;gap:6px 18px;margin:10px 0 6px}
+.lgi{display:inline-flex;align-items:center;gap:8px;border:0;background:none;font:inherit;font-size:13px;font-weight:600;color:var(--tx);padding:3px 0;cursor:pointer;text-align:left}
+.lgi.off{opacity:.4;text-decoration:line-through}
+.lgs{display:inline-block;width:26px;height:0;flex:none}
 
 @media(max-width:1100px){.hrow{grid-template-columns:1fr}}
 @media(max-width:720px){
@@ -270,6 +274,11 @@ body.dsc .sp{filter:blur(7px)}
 .cbig{right:92px;font-size:96px}
 .snx{padding:14px 16px 16px}
 #fs>.p{justify-self:stretch}
+.duo{grid-template-columns:1fr;gap:10px;margin-bottom:14px}
+.rsm>div{flex-direction:column;align-items:flex-start;gap:2px;padding:10px 0}
+.rsm b{text-align:left;font-size:19px}
+.lg{flex-direction:column;gap:2px;margin:8px 0 4px}
+.cv.cvp{height:380px!important}
 }
 </style>
 </head>
@@ -460,6 +469,9 @@ function netSerie(l,S,c,cd,pc,N){
   const ex=l.filter(a=>new Date(a.data+'T00:00:00')<=now).map(a=>({w:a.valor/(S.A0||1),d:(now-new Date(a.data+'T00:00:00'))/864e5}));
   for(let m=0;m<=N;m++){if(m>0)sc+=c*(Math.pow(1+r,m-1)-1)*(1-tx((m-1)*K).e);const e=ex.reduce((s,x)=>s+x.w*tx(x.d+m*K).e,0);o.push(S.A0+(sn[m]-S.A0)*(1-e)+c*m+sc)}
   return o}
+function legenda(ch){const el=$('lg4');if(!el)return;
+  el.innerHTML=ch.data.datasets.map((d,i)=>`<button type="button" class="lgi${ch.isDatasetVisible(i)?'':' off'}" data-i="${i}" aria-pressed="${ch.isDatasetVisible(i)}"><i class="lgs" style="border-top:3px ${(d.borderDash||[]).length?(d.borderDash[0]<4?'dotted':'dashed'):'solid'} ${d.borderColor}"></i>${esc(d.label)}</button>`).join('');
+  el.querySelectorAll('.lgi').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;ch.setDatasetVisibility(i,!ch.isDatasetVisible(i));b.classList.toggle('off');b.setAttribute('aria-pressed',String(ch.isDatasetVisible(i)));ch.update()})}
 function projecao(l){
   const S=stats(l),c=proj.c??S.c,N=proj.anos*12,cd=proj.cdi??cdi,pc=proj.pct??S.w;
   const big=serie(S.V0,c,cd,pc,600),b=big.slice(0,N+1),ot=serie(S.V0,c,cd+2,pc,N),pe=serie(S.V0,c,cd-2,pc,N),sn=serie(S.V0,0,cd,pc,N);
@@ -468,11 +480,11 @@ function projecao(l){
   const ms=[1e4,5e4,1e5,2.5e5,5e5,1e6].filter(M=>M>S.V0).map(M=>[M,big.findIndex(v=>v>=M)]);
   post=()=>{const g=(id,k)=>{$(id).onchange=e=>{proj[k]=Number(e.target.value);render()}};g('pa','c');g('py','anos');g('pd','cdi');g('pp','pct');
     const mut=getComputedStyle(document.documentElement).getPropertyValue('--mut').trim(),bd=getComputedStyle(document.documentElement).getPropertyValue('--bd').trim(),L=b.map((v,m)=>dt(m).toLocaleDateString('pt-BR',{month:'short',year:'2-digit'})),ds=(label,data,color,dash)=>({label,data,borderColor:color,backgroundColor:color,borderDash:dash||[],pointRadius:0,tension:.2,borderWidth:2});
-    charts.push(new Chart($('c4'),{type:'line',data:{labels:L,datasets:[ds('Otimista (CDI +2 p.p.)',ot,'#16a34a'),ds('Base (bruto)',b,PAL[0]),ds('Base líquida (após IR e IOF)',nt,'#0e9f6e'),ds('Pessimista (CDI −2 p.p.)',pe,'#dc2626'),ds('Só o saldo atual, sem novos aportes',sn,mut,[6,4]),ds('Total aportado',b.map((v,m)=>ap(m)),PAL[1],[2,3])]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{x:{ticks:{color:mut,maxTicksLimit:8},grid:{color:bd}},y:{ticks:{color:mut,callback:v=>'R$ '+v.toLocaleString('pt-BR')},grid:{color:bd}}},plugins:{legend:{labels:{color:mut}},tooltip:{callbacks:{label:x=>x.dataset.label+': '+R(x.parsed.y)}}}}}))};
+    charts.push(new Chart($('c4'),{type:'line',data:{labels:L,datasets:[ds('Otimista (CDI +2 p.p.)',ot,'#16a34a'),ds('Base (bruto)',b,PAL[0]),ds('Base líquida (após IR e IOF)',nt,'#0e9f6e'),ds('Pessimista (CDI −2 p.p.)',pe,'#dc2626'),ds('Só o saldo atual, sem novos aportes',sn,mut,[6,4]),ds('Total aportado',b.map((v,m)=>ap(m)),PAL[1],[2,3])]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{x:{ticks:{color:mut,maxTicksLimit:innerWidth<720?5:8,maxRotation:innerWidth<720?0:50},grid:{color:bd}},y:{ticks:{color:mut,callback:v=>'R$ '+v.toLocaleString('pt-BR')},grid:{color:bd}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:x=>x.dataset.label+': '+R(x.parsed.y)}}}}}));legenda(charts[charts.length-1])};
   const yrs=Array.from({length:proj.anos},(_,i)=>(i+1)*12).filter(m=>m<=N);
   return `<div class="card" style="margin-bottom:16px"><form><div><label>Aporte mensal (R$)</label><input type="number" id="pa" step="0.01" min="0" value="${c}"></div><div><label>Horizonte</label><select id="py">${[1,2,3,5,10,15,20,30].map(y=>`<option value="${y}" ${y===proj.anos?'selected':''}>${y} ${y>1?'anos':'ano'}</option>`).join('')}</select></div><div><label>CDI esperado (% a.a.)</label><input type="number" id="pd" step="0.01" min="0" value="${cd}"></div><div><label>% do CDI</label><input type="number" id="pp" step="0.1" min="1" value="${pc}"></div></form><div class="note">Valores iniciais: aporte mensal de ${R(APORTE)} e % do CDI médio ponderado das suas caixinhas. Altere à vontade para simular.</div></div>`
   +`<div class="grid">${card('Valor bruto em '+an,R(fim),0,ico('flag'),'Sem descontar impostos','bl')+card('Valor líquido em '+an,R(lf),0,ico('bank'),'Após IOF e IR','bl')+card('Total aportado',R(aT),0,ico('wallet'),'','bl')+card('Rendimento líquido',R(jl),1,ico('checkc'),'Bruto: '+R(j),'gn')+card('Impostos estimados',R(fim-lf),0,ico('receipt'),'Pagos ao resgatar','am')+card('Rendimento mensal no fim',R(fim*r),1,ico('banknote'),'Valor bruto','gn')+card('Sem novos aportes',R(sn[N]),0,ico('hourglass'),'Valor bruto','bl')}</div>`
-  +`<div class="card" style="margin-bottom:16px"><div class="k">Projeção do patrimônio</div><div class="cv" style="height:320px"><canvas id="c4"></canvas></div></div>`
+  +`<div class="card" style="margin-bottom:16px"><div class="k">Projeção do patrimônio</div><div id="lg4" class="lg"></div><div class="cv cvp" style="height:320px"><canvas id="c4"></canvas></div></div>`
   +(ms.length?`<div class="card" style="margin-bottom:16px"><div class="k">Quando você chega lá (cenário base)</div><table>${ms.map(([M,m])=>`<tr><td>${R(M)}</td><td>${m<0?'Além de 50 anos':dt(m).toLocaleDateString('pt-BR',{month:'long',year:'numeric'})+' (em '+dur(m)+')'}</td></tr>`).join('')}</table></div>`:'')
   +`<div class="card sc"><div class="k" style="margin-bottom:6px">Ano a ano (cenário base)</div><table class="rt"><tr><th>Ano</th><th>Aportado</th><th>Bruto</th><th>Líquido</th><th>Rendimento</th><th>Rendimento mensal</th></tr>${yrs.map(m=>`<tr><td data-l="Ano">${m/12}</td><td data-l="Aportado">${R(ap(m))}</td><td data-l="Bruto">${R(b[m])}</td><td data-l="Líquido">${R(nt[m])}</td><td data-l="Rendimento" class="g">${R(b[m]-ap(m))}</td><td data-l="Rendimento mensal">${R(b[m]*r)}</td></tr>`).join('')}</table><div class="note">Estimativa: considera aportes no fim de cada mês, juros compostos e CDI constante. O líquido desconta IOF e IR regressivo sobre o rendimento de cada aporte, como se você resgatasse tudo na data indicada; o bruto não desconta impostos. Os cenários otimista e pessimista variam o CDI em 2 pontos percentuais. Não é garantia de rendimento.</div></div>`}
 function metaBlock(titulo,l,T,id,n){const S=stats(l),p=T?Math.min(100,S.V0/T*100):0;return `<div class="card" style="margin-bottom:16px"><div class="k">${titulo}</div>${T?`<div class="v">${R(S.V0)} <span class="k">de ${R(T)}</span></div><div class="bar"><i style="width:${p}%"></i></div><div class="note">${P(p)} concluído. Faltam ${R(Math.max(0,T-S.V0))}. ${etaTxt(eta(S.V0,S.c,T,S.w),n)}</div><div class="note">Cálculo com aporte mensal de ${R(S.c)}, ${S.w.toString().replace('.',',')}% do CDI e CDI de ${String(cdi).replace('.',',')}% a.a.</div>`:'<div class="note">Nenhuma meta definida.</div>'}<form id="${id}" style="margin-top:10px"><div><label>Valor da meta (R$)</label><input type="number" id="${id}v" step="0.01" min="0" value="${T||''}"></div><button class="p">Salvar meta</button></form></div>`}
