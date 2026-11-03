@@ -163,16 +163,16 @@ body.hn #nav::-webkit-scrollbar{display:none}
 @media(min-width:721px){body.hn #nav{overflow-y:auto}}
 @media(max-width:720px){.cqg{grid-template-columns:repeat(2,1fr);gap:10px}.snh{flex-wrap:wrap}}
 .eye{padding:7px 11px;font-size:16px;line-height:1}.eye[aria-pressed="true"]{background:var(--ac-s);border-color:var(--ac)}
-.ctw{display:flex;gap:22px;align-items:center;flex-wrap:wrap;margin-top:8px}
-.cv.cvs{width:180px;height:180px!important;margin:0;flex:none}
-.ctl{flex:1;min-width:210px;display:flex;flex-direction:column;gap:12px}
-.ctr{display:flex;align-items:center;gap:10px}.ctr i{width:12px;height:12px;border-radius:4px;flex:none}.ctr .av{width:30px;height:30px;font-size:13px;flex:none}
-.ctr span{margin-left:auto;text-align:right;font-weight:700;white-space:nowrap}
 body.dsc canvas{filter:blur(9px)}
 body.dsc input[type=number]:not(:focus){filter:blur(5px)}
-@media(max-width:720px){.ctw{justify-content:center}.ctl{flex-basis:100%}}
+@media(max-width:720px){.duo{grid-template-columns:1fr;gap:10px;margin-bottom:14px}.rsm b{font-size:clamp(13px,3.9vw,18px)}}
 .ftop{margin-bottom:14px}.fh{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.fbt{display:inline-flex;align-items:center;gap:6px}.fh .fbt{padding:8px 16px}
 #inst[hidden]{display:none!important}
+.big{font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.35;margin:2px 0 6px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}.duo>.card{min-width:0}
+.sep{height:1px;background:var(--bd);margin:14px 0 12px}
+.rsm{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 10px}.rsm>div{min-width:0}.rsm .k{display:block}.rsm b{display:block;font-size:18px;font-weight:800;white-space:nowrap}
+.inc{margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--ac-s);font-size:14px;font-weight:600}
 </style>
 </head>
 <body>
@@ -236,17 +236,35 @@ function card(k,v,g,i,sb){const t=`<div><div class="k">${k}</div><div class="v $
 function kpis(l){const now=new Date(),t=inv(l,now),a=cur(l,now),r=a-t,tx_=impT(l,now),ln=a-tx_.iof-tx_.ir,rl=ln-t;return `<div class="grid">${card('Total aportado',R(t),0,'💼')+card('Valor bruto estimado',R(a),0,'💰','Sem descontar impostos')+card('Valor líquido estimado',R(ln),0,'🏦','Após IOF e IR')+card('Rendimento bruto',R(r),1,'📈',P(t?r/t*100:0)+' sobre o aportado')+card('Rendimento líquido',R(rl),1,'✅',P(t?rl/t*100:0)+' sobre o aportado')+card('Impostos estimados',R(tx_.iof+tx_.ir),0,'🧾','IR '+R(tx_.ir)+' e IOF '+R(tx_.iof))}</div><div class="note" style="margin:-6px 0 16px">Líquido é o valor se você resgatasse tudo hoje, descontando o IOF (resgates com menos de 30 dias) e o IR regressivo (22,5% a 15%) sobre o rendimento de cada aporte, conforme o tempo de cada um. Vale para CDB/RDB; caixinhas isentas, como LCI/LCA, não seguem esse cálculo.</div>`}
 function table(rows,del){const now=new Date(),g=tab==='geral';return `<table class="rt"><tr><th>Data</th>${g?'<th>Pessoa</th>':''}<th>Caixinha</th><th>Aporte</th><th>% CDI</th><th>Bruto hoje</th><th>Líquido hoje</th>${del?'<th></th>':''}</tr>`+(rows.map(a=>`<tr><td data-l="Data">${a.data.split('-').reverse().join('/')}</td>${g?`<td data-l="Pessoa">${esc(who(a.o))}</td>`:''}<td data-l="Caixinha">${esc(a.caixinha)}${a.venc?` <span class="bdg">🔒 ${fd(a.venc)}</span>`:''}</td><td data-l="Aporte">${R(a.valor)}</td><td data-l="% do CDI">${a.pct}%</td><td data-l="Bruto hoje">${R(val(a,now))}</td><td data-l="Líquido hoje">${R(liqA(a,now))}</td>${del?`<td data-l="">${a.o===me?`<button class="x" data-d="${a.id}" title="Remover">×</button>`:''}</td>`:''}</tr>`).join('')||'<tr><td colspan="7" style="color:var(--mut)">Nenhum aporte ainda.</td></tr>')+'</table>'}
 function painel(l,ids){
-  post=()=>{draw(l,ids);drawContrib(ids)};
-  return kpis(l)+`<div class="row"><div class="card"><div class="k">Evolução: aportado × valor bruto e líquido</div><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><div class="k">${tab==='geral'?'Valor atual por pessoa':'Valor por caixinha'}</div><div class="cv"><canvas id="c2"></canvas></div></div></div>${tab==='geral'?contribCard(ids):''}<div class="card sc"><div class="k" style="margin-bottom:6px">Últimos aportes</div>${table(rowsOf(ids).slice(0,5),false)}</div>`}
-function contribData(ids){const now=new Date(),rows=[...ids].sort((a,b)=>a===me?-1:b===me?1:nomeM(a).localeCompare(nomeM(b),'pt-BR')).map((u,i)=>({u,v:inv(wallets[u]?.aportes||[],now),col:PAL[i%PAL.length]}));return{rows,tot:rows.reduce((x,r)=>x+r.v,0)}}
-function contribCard(ids){
-  if(tab!=='geral'||ids.length<2)return '';const d=contribData(ids);if(!(d.tot>0))return '';
-  return `<div class="card" style="margin-bottom:16px"><div class="k">Parte de cada um no total do casal</div><div class="v" style="margin-top:4px">Juntos: ${R(d.tot)}</div>
-  <div class="ctw"><div class="cv cvs"><canvas id="c5" role="img" aria-label="Parte de cada pessoa no total aportado pelo casal"></canvas></div>
-  <div class="ctl">${d.rows.map(r=>`<div class="ctr"><i style="background:${r.col}"></i>${av(r.u)}<b>${esc(nomeM(r.u))}</b><span>${R(r.v)} · ${dsc?'••%':Math.round(r.v/d.tot*100)+'%'}</span></div>`).join('')}</div></div>
-  <div class="note" style="margin-top:10px">Cada fatia é a parte de cada pessoa no total aportado, sem contar rendimento.</div></div>`}
-function drawContrib(ids){const el=$('c5');if(!el)return;const d=contribData(ids);
-  charts.push(new Chart(el,{type:'doughnut',data:{labels:d.rows.map(r=>nomeM(r.u)),datasets:[{data:dsc?d.rows.map(()=>1):d.rows.map(r=>r.v),backgroundColor:d.rows.map(r=>r.col),borderColor:'#fff',borderWidth:3,hoverOffset:0}]},options:{maintainAspectRatio:false,cutout:'64%',plugins:{legend:{display:false},tooltip:{enabled:!dsc,callbacks:{label:c=>' '+c.label+': '+R(c.raw)}}}}}))}
+  post=()=>{draw(l,ids)};
+  return kpis(l)+`<div class="row"><div class="card"><div class="k">Evolução: aportado × valor bruto e líquido</div><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><div class="k">${tab==='geral'?'Valor atual por pessoa':'Valor por caixinha'}</div><div class="cv"><canvas id="c2"></canvas></div></div></div>${casalCards(ids)}<div class="card sc"><div class="k" style="margin-bottom:6px">Últimos aportes</div>${table(rowsOf(ids).slice(0,5),false)}</div>`}
+function paceMes(l){const H=hoje(),ls=l.filter(a=>a.data&&a.data<=H);if(!ls.length)return 0;const now=new Date(H+'T00:00:00'),f=ls.reduce((m,a)=>a.data<m?a.data:m,H),dias=Math.max(30,Math.min(180,(now-new Date(f+'T00:00:00'))/864e5)),ini=new Date(now-dias*864e5);return ls.filter(a=>new Date(a.data+'T00:00:00')>ini).reduce((x,a)=>x+a.valor,0)/(dias/30.4375)}
+function casalCards(ids){
+  if(tab!=='geral'||!Object.keys(wallets).length)return '';
+  const H=hoje(),mk=H.slice(0,7),now=new Date(),all=list('geral'),noMes=all.filter(a=>a.data&&a.data<=H&&a.data.slice(0,7)===mk).reduce((x,a)=>x+a.valor,0),
+    V=cur(all,now),V0=cur(all,new Date(new Date(now.getFullYear(),now.getMonth(),1)-1)),rend=Math.max(0,V-V0-noMes),liq=liqL(all,now),
+    ks=sonhos.map(s=>({s,k:sonhoCalc(s)})),alvo=ks.reduce((x,o)=>x+o.k.c,0),p=alvo>0?Math.min(100,noMes/alvo*100):0,
+    mm=d=>d.toLocaleDateString('pt-BR',{month:'long',year:'numeric'}),lk='<a class="lnk" href="#metas">Sonhos</a>';
+  let r1;
+  if(!ks.length)r1=`<div class="big">Vocês já juntaram ${R(noMes)} neste mês</div><div class="note">Criem um sonho em ${lk} para ver quanto o casal precisa juntar por mês.</div>`;
+  else if(alvo<.005)r1=`<div class="big">Vocês já juntaram ${R(noMes)} neste mês</div><div class="note">Nenhum sonho pede um valor mínimo este mês: todos já estão no caminho, foram alcançados ou venceram.</div>`;
+  else r1=`<div class="big">Vocês já juntaram ${R(noMes)} dos ${R(alvo)} deste mês</div><div class="bar"><i style="width:${p}%"></i></div><div class="note">${noMes>=alvo?'Meta do mês batida! Passaram '+R(noMes-alvo)+' do necessário.':'Faltam '+R(alvo-noMes)+' para fechar o mês no ritmo dos sonhos.'} A conta soma o que os sonhos pedem por mês, sem dividir por pessoa.</div>`;
+  const c=conqCalc(),pace=paceMes(all),id=['k1','k10','k50'].find(i=>!(conqS[i]||c.E[i])&&c.G[i]);
+  let m1;
+  if(!id)m1=`<div class="big">Todos os selos de valor já foram conquistados 🎉</div>`;
+  else{const T=c.G[id][1],falta=T-c.tot,rot=CQ.find(x=>x[0]===id)[2].replace(' juntos',''),n=pace>0?Math.ceil(falta/pace):null;
+    m1=`<div class="big">Faltam ${R(falta)} para o selo de ${rot}</div><div class="bar"><i style="width:${Math.min(100,c.tot/T*100)}%"></i></div><div class="note">${n!==null?'Previsão no ritmo atual: '+mm(dt(n))+' (em '+dur(n)+').':'Sem aportes recentes para estimar uma data.'}</div>`}
+  let best=null;
+  ks.forEach(({s,k})=>{if(k.feito)return;const sel=(s.cx||[]).map(x=>x.toLowerCase()),pool=sel.length?all.filter(a=>sel.includes(String(a.caixinha||'').toLowerCase())):all,m=eta(k.V0,paceMes(pool),k.T,k.pc);if(m!==null&&(!best||m<best.m))best={s,k,m}});
+  let s1;
+  if(!ks.length)s1=`<div class="big">Sem sonhos ainda</div><div class="note">Criem o primeiro em ${lk} para ver a previsão.</div>`;
+  else if(ks.every(o=>o.k.feito))s1=`<div class="big">Todos os sonhos foram alcançados 🎉</div>`;
+  else if(!best)s1=`<div class="big">Sem previsão por enquanto</div><div class="note">No ritmo atual, nenhum sonho chega à meta em 50 anos. Aumentem os aportes ou combinem novos prazos.</div>`;
+  else s1=`<div class="big">${esc(best.s.emoji||'🎯')} ${esc(best.s.nome)}</div><div class="note">Próximo sonho no ritmo atual: ${mm(dt(best.m))} (em ${dur(best.m)}). ${best.k.venc?'O prazo já passou ('+fd(best.s.prazo)+').':best.m<=Math.max(1,best.k.N)?'Dentro do prazo de '+fd(best.s.prazo)+'.':'Depois do prazo de '+fd(best.s.prazo)+'. Aportar um pouco mais ajuda.'}</div>`;
+  const fr=noMes<=0?'Este mês ainda não teve aporte. Que tal começar hoje? Qualquer valor ajuda.':alvo>0&&noMes>=alvo?'Meta do mês batida! Vocês estão cada vez mais perto dos sonhos. 🎉':alvo>0&&p>=50?'Mais da metade do caminho do mês. Falta pouco para fechar no ritmo dos sonhos!':alvo>0?'Cada aporte conta, e vocês ainda têm o mês inteiro para chegar lá, juntos.':'Juntar dinheiro em dupla é maratona, não corrida. Continuem assim! 💙';
+  return `<div class="card" style="margin-bottom:14px"><div class="k">Ritmo do mês dos dois</div>${r1}</div>
+  <div class="duo"><div class="card"><div class="k">Próximo marco</div>${m1}<div class="sep"></div><div class="k">Próximo sonho</div>${s1}</div>
+  <div class="card"><div class="k">Resumo de ${now.toLocaleDateString('pt-BR',{month:'long'})}</div><div class="rsm"><div><span class="k">Aportaram</span><b>${R(noMes)}</b></div><div><span class="k">Rendeu</span><b class="g">${R(rend)}</b></div><div><span class="k">Acumulado</span><b>${R(V)}</b></div></div><div class="note" style="margin:0 0 4px">Acumulado líquido estimado (após IOF e IR): ${R(liq)}.</div><div class="inc">${fr}</div></div></div>`}
 
 const nocx=()=>'<div class="card" style="margin-bottom:16px"><b>'+(first(me)?esc(first(me))+', crie':'Crie')+' sua primeira caixinha</b><div class="note">Antes de lançar um aporte, cadastre a caixinha (nome e % do CDI) na página Caixinhas.</div><a class="p" href="#caixinhas" data-open="cx">Criar caixinha</a></div>';
 function aportes(l,ids){
