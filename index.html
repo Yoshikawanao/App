@@ -280,6 +280,18 @@ body.dsc .sp{filter:blur(7px)}
 .lg{flex-direction:column;gap:2px;margin:8px 0 4px}
 .cv.cvp{height:380px!important}
 }
+.dia{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;margin-bottom:18px}.dia>div{min-width:0}
+.dr{width:300px;max-width:100%}.dnv{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.dbtn{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer;display:grid;place-items:center;transition:all .15s}
+.dbtn:hover:not(:disabled){border-color:var(--ac);color:var(--ac-d);background:var(--ac-s)}.dbtn:disabled{opacity:.35;cursor:default}
+.dlb{flex:1;min-width:0;text-align:center;line-height:1.25}.dlb b{display:block;font-size:15px}.dlb span{display:block;color:var(--mut);font-size:12.5px}
+.dbox{border:1px solid var(--bd);border-radius:16px;padding:14px 16px;text-align:center}
+.dbox.ut{background:var(--gr-s);border-color:#bfe6d6}.dbox.nu{background:var(--am-s);border-color:#f3dfb2}.dbox.hj{background:var(--ac-s);border-color:#c7d8fa}
+.dtg{font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--mut)}
+.dv{font-size:clamp(22px,5vw,28px);font-weight:800;letter-spacing:-.02em;margin:2px 0}.dbox.ut .dv{color:var(--gr)}.dbox.nu .dv{color:var(--mut)}
+.ds{font-size:12.5px;color:var(--mut)}.df{margin-top:8px;padding-top:8px;border-top:1px dashed var(--bd);font-size:12.5px;color:var(--mut)}.df b{color:var(--tx)}
+body.dsc .dbox .dv,body.dsc .dbox .df b{filter:blur(7px)}
+@media(max-width:720px){.dia{grid-template-columns:1fr}.dr{width:100%}}
 </style>
 </head>
 <body>
@@ -313,17 +325,34 @@ const fbtn=(k,t)=>`<button type="button" class="${fo[k]?'out':'p'} fbt" data-fo=
    O CDI só "anda" em dias úteis (sem sábado, domingo e feriado nacional), base de 252 dias por ano.
    Feriados: lista nacional da ANBIMA/B3 (inclui Carnaval, Sexta-feira Santa e Corpus Christi, calculados a partir da Páscoa).
    O rendimento de um dia só entra no saldo no dia seguinte (por isso hoje não conta). */
-const DAYMS=864e5,dn=(y,m,d)=>Date.UTC(y,m,d)/DAYMS,sn=s=>{const [y,m,d]=s.slice(0,10).split('-').map(Number);return dn(y,m-1,d)},_fer={};
+const DAYMS=864e5,dn=(y,m,d)=>Date.UTC(y,m,d)/DAYMS,sn=s=>{const [y,m,d]=s.slice(0,10).split('-').map(Number);return dn(y,m-1,d)},_fer={},_fnm={};
 function feriados(y){if(_fer[y])return _fer[y];
   const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),di=((h+l-7*m+114)%31)+1,P=dn(y,mo-1,di);
-  const L=[dn(y,0,1),P-48,P-47,P-2,dn(y,3,21),dn(y,4,1),P+60,dn(y,8,7),dn(y,9,12),dn(y,10,2),dn(y,10,15),dn(y,11,25)];
-  if(y>=2024)L.push(dn(y,10,20)); /* Consciência Negra: feriado nacional desde 2024 */
-  return _fer[y]=L.filter(n=>{const w=(n%7+7)%7;return w!==2&&w!==3}) /* só os que caem em dia de semana (dia 0 = quinta) */}
+  const L=[[dn(y,0,1),'Confraternização Universal'],[P-48,'Carnaval'],[P-47,'Carnaval'],[P-2,'Sexta-feira Santa'],[dn(y,3,21),'Tiradentes'],[dn(y,4,1),'Dia do Trabalho'],[P+60,'Corpus Christi'],[dn(y,8,7),'Independência'],[dn(y,9,12),'Nossa Senhora Aparecida'],[dn(y,10,2),'Finados'],[dn(y,10,15),'Proclamação da República'],[dn(y,11,25),'Natal']];
+  if(y>=2024)L.push([dn(y,10,20),'Consciência Negra']); /* feriado nacional desde 2024 */
+  return _fer[y]=L.filter(([n])=>{const w=(n%7+7)%7;return w!==2&&w!==3}).map(([n,nm])=>(_fnm[n]=nm,n)) /* só os que caem em dia de semana (dia 0 = quinta) */}
 const _wd=n=>{const q=Math.floor(n/7),r=n-q*7;return q*5+[0,1,2,2,2,3,4][r]}; /* dias de semana em [0,n) */
 function du(n0,n1){if(n1<=n0)return 0;let x=_wd(n1)-_wd(n0);const y0=new Date(n0*DAYMS).getUTCFullYear(),y1=new Date(n1*DAYMS).getUTCFullYear();for(let y=y0;y<=y1;y++)for(const n of feriados(y))if(n>=n0&&n<n1)x--;return x}
 /* fator do CDI: o % da caixinha incide sobre a taxa DIÁRIA do CDI (regra de mercado), não sobre a taxa anual */
 const fatorDU=(cd,pc,n)=>Math.pow(1+(Math.pow(1+cd/100,1/252)-1)*(pc/100),n);
 function val(a,t){t=capT(a,t);if(new Date(a.data+'T00:00:00')>t)return 0;const n=du(sn(a.data),dn(...(u=>[u.getFullYear(),u.getMonth(),u.getDate()])(new Date(+t+1))));return a.valor*fatorDU(cdi,a.pct,n)}
+/* ===== Rendimento por dia (card com setas no painel) ===== */
+let diaN=null;
+const ehUtil=n=>du(n,n+1)===1,nDate=n=>{const u=new Date(n*DAYMS);return new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())};
+const motivoSem=n=>{const w=nDate(n).getDay();return w===0?'domingo':w===6?'sábado':(_fnm[n]?'feriado: '+_fnm[n]:'')};
+function diaRange(l){const H=hoje(),ds=l.filter(a=>a.data&&a.data<=H).map(a=>sn(a.data));if(!ds.length)return null;const mn=Math.min(...ds),mx=sn(H);let p=mx-1;while(p>mn&&!ehUtil(p))p--;if(p<mn)p=mx;return{mn,mx,p}}
+function diaInfo(l,n){const t0=nDate(n),t1=nDate(n+1);let r=0,fim=0;l.forEach(a=>{if(!a.data||sn(a.data)>n)return;const v0=val(a,t0),v1=val(a,t1);r+=v1-v0;fim+=v1});return{r,fim}}
+const _ch=d=>`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+function diaCard(l){
+  const g=diaRange(l);
+  if(!g)return `<div class="card dia" id="dia"><div><div class="k">Rendimento por dia</div><div class="note" style="margin:6px 0 0">Registre um aporte para ver quanto ele rendeu em cada dia.</div></div></div>`;
+  const n=Math.max(g.mn,Math.min(g.mx,diaN==null?g.p:diaN)),u=ehUtil(n),hj=n===g.mx,{r,fim}=diaInfo(l,n),d=nDate(n),
+    sem=d.toLocaleDateString('pt-BR',{weekday:'long'}),dat=d.toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'}),
+    cl=hj?'hj':u?'ut':'nu',
+    tag=hj?(u?'Hoje · estimativa':'Hoje'):u?'Dia útil':'Sem rendimento',
+    sub=u?(hj?'Entra no saldo amanhã, quando o dia fecha.':'Já está no saldo.'):('Não rende: '+motivoSem(n)+'.');
+  return `<div class="card dia" id="dia"><div class="dl"><div class="k">Rendimento por dia</div><div class="note" style="margin:6px 0 0">O CDI só rende em dias úteis. Use as setas para ver quanto o dinheiro rendeu em cada dia, inclusive nos fins de semana e feriados (que ficam zerados).</div>${n!==g.p?`<button type="button" class="lk" data-dn="ult" style="margin-top:8px">Voltar ao último dia creditado</button>`:''}</div><div class="dr"><div class="dnv"><button type="button" class="dbtn" data-dn="-1" aria-label="Dia anterior"${n<=g.mn?' disabled':''}>${_ch('M15 6l-6 6 6 6')}</button><div class="dlb"><b>${sem[0].toUpperCase()+sem.slice(1)}</b><span>${dat}</span></div><button type="button" class="dbtn" data-dn="1" aria-label="Próximo dia"${n>=g.mx?' disabled':''}>${_ch('M9 6l6 6-6 6')}</button></div><div class="dbox ${cl}" aria-live="polite"><div class="dtg">${tag}</div><div class="dv">${u?'+':''}${R(r)}</div><div class="ds">${sub}</div><div class="df">Saldo bruto ao fim do dia: <b>${R(fim)}</b></div></div></div></div>`}
+function diaBind(l){const el=$('dia');if(!el)return;el.querySelectorAll('[data-dn]').forEach(b=>b.onclick=()=>{const g=diaRange(l);if(!g)return;const k=b.dataset.dn,cur0=Math.max(g.mn,Math.min(g.mx,diaN==null?g.p:diaN));diaN=k==='ult'?null:Math.max(g.mn,Math.min(g.mx,cur0+Number(k)));el.outerHTML=diaCard(l);diaBind(l)})}
 const inv=(l,t)=>l.reduce((s,a)=>s+(new Date(a.data+'T00:00:00')<=t?a.valor:0),0);
 const cur=(l,t)=>l.reduce((s,a)=>s+val(a,t),0);
 function list(sc){return sc==='geral'?Object.values(wallets).flatMap(w=>w.aportes||[]):(wallets[sc]?.aportes||[])}
@@ -404,8 +433,8 @@ function hero(){
   const rd=rend>=.005?`+${R(rend)} <small>em ${mes}</small>`:`Sem rendimento <small>em ${mes} ainda</small>`;
   return `<div class="hrow"><section class="hero"><div class="htop"><div class="hpair">${par.map(i=>av(i)).join('')}</div><div class="ht"><h2 class="hg">${sau}${eu?', '+esc(eu):''}</h2><div class="hq">${ou?'Você e '+esc(ou)+' já acumularam':'Você já acumulou'}</div></div></div><div class="hv">${R(V)}</div><div class="hn2">Líquido estimado, após IOF e IR: ${R(liq)}</div></section><div class="card hs"><div class="k">Evolução do acumulado</div><div class="hy">${rd}</div>${spark(vs)}${ms.length>1?`<div class="hl"><span>${mm(ms[0])}</span><span>hoje</span></div>`:''}</div></div>`}
 function painel(l,ids){
-  post=()=>{draw(l,ids)};
-  return kpis(l)+`<div class="row"><div class="card"><div class="k">Evolução: aportado × valor bruto e líquido</div><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><div class="k">${tab==='geral'?'Valor atual por pessoa':'Valor por caixinha'}</div><div class="cv"><canvas id="c2"></canvas></div></div></div>${casalCards(ids)}<div class="card sc"><div class="k" style="margin-bottom:6px">Últimos aportes</div>${table(rowsOf(ids).slice(0,5),false)}</div>`}
+  post=()=>{draw(l,ids);diaBind(l)};
+  return kpis(l)+diaCard(l)+`<div class="row"><div class="card"><div class="k">Evolução: aportado × valor bruto e líquido</div><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><div class="k">${tab==='geral'?'Valor atual por pessoa':'Valor por caixinha'}</div><div class="cv"><canvas id="c2"></canvas></div></div></div>${casalCards(ids)}<div class="card sc"><div class="k" style="margin-bottom:6px">Últimos aportes</div>${table(rowsOf(ids).slice(0,5),false)}</div>`}
 const DICAS=[["Pague-se primeiro", "Aporte logo que o salário cair, antes de pagar o resto. O que sobra no fim do mês costuma ser menos do que parece."], ["Escolham um dia fixo", "Combinem um dia do mês para aportar, de preferência logo depois do pagamento. Rotina vence força de vontade."], ["Comecem pequeno", "Aportar R$ 50 todo mês vale mais do que esperar o valor ideal. O hábito vem antes do valor."], ["Regra das 48 horas", "Para compras fora do planejado, esperem dois dias antes de decidir. Muita vontade passa sozinha."], ["Arredondem para cima", "Se dava para aportar R$ 487, aportem R$ 500. O arredondamento quase não pesa e soma bastante no ano."], ["Metade do aumento", "Quando o salário subir, guardem pelo menos metade do aumento antes de ele entrar no padrão de gastos."], ["13º e restituição", "Dinheiro que chega fora do mês, como 13º, bônus e restituição do IR, rende mais guardado do que gasto no impulso."], ["Fatura paga por inteiro", "Os juros do rotativo do cartão costumam ser muito maiores que o rendimento do CDI. Pagar a fatura toda é o melhor investimento."], ["Antes de parcelar", "Perguntem: se tivesse que pagar à vista, eu compraria? Se a resposta for não, o parcelamento só esconde o preço."], ["Revisem as assinaturas", "Uma vez por trimestre, listem streamings e apps pagos. Cancelem o que não usaram no último mês."], ["Lista de compras", "Vão ao mercado com lista e depois de comer. Quem vai com fome compra mais do que precisa."], ["Preço por unidade", "Comparem o preço por quilo ou por litro, não só o da embalagem. O maior pacote nem sempre é o mais barato."], ["Uma refeição a mais em casa", "Cozinhar uma refeição a mais por semana, em vez de pedir ou comer fora, costuma pagar um aporte no mês."], ["Negociem uma vez por ano", "Internet, celular, seguros e planos: liguem para negociar ou comparem concorrentes uma vez por ano."], ["Caixinha para gastos anuais", "IPVA, seguro, presentes e matrícula chegam todo ano. Uma caixinha só para eles evita o susto."], ["Reserva de emergência", "Uma boa meta inicial é guardar de 3 a 6 meses de despesas em uma caixinha com resgate fácil."], ["Cada sonho, uma caixinha", "Dinheiro de sonho misturado com o do dia a dia some. Uma caixinha por sonho deixa o progresso visível."], ["15 minutos por mês", "Marquem um café mensal para olhar o painel juntos. Combinar cedo evita briga por dinheiro depois."], ["Divisão justa", "Se as rendas são diferentes, considerem dividir o aporte de forma proporcional à renda de cada um."], ["Desafio das 52 semanas", "Aportem R$ 1 na primeira semana, R$ 2 na segunda e assim por diante. No fim do ano são R$ 1.378."], ["Vendam o que não usam", "Roupas, eletrônicos e móveis parados em casa podem virar um aporte extra."], ["Pesquisem três preços", "Para compras acima de um valor combinado, olhem pelo menos três lojas antes de fechar."], ["Planejem o cardápio", "Planejar as refeições da semana reduz o desperdício de comida, e isso é dinheiro que fica no bolso."], ["O pequeno e frequente", "O café de todo dia não é vilão, mas soma mais do que muita compra grande. Vale olhar o total do mês."], ["Dia sem gastar", "Escolham um dia por semana sem gastos extras, só o essencial. É fácil e rende."], ["Meta com data", "Metas com prazo funcionam melhor. Usem a página Sonhos para saber quanto guardar por mês."], ["Cuidado com o padrão de vida", "Quando a renda sobe, os gastos tendem a subir junto. Decidam o aporte antes de ajustar o padrão."], ["Tarifas bancárias", "Já conferiram quanto pagam de tarifas? Muitos bancos oferecem conta sem mensalidade."], ["Comemorem as conquistas", "Guardar dinheiro cansa. Comemorem cada selo e cada meta com algo barato e especial."], ["Dinheiro parado", "Dinheiro na conta corrente costuma não render. Mantenham nela só o necessário e o resto em caixinhas."]];
 let dicaI=Math.floor(Math.random()*DICAS.length);try{const u=+localStorage.getItem('dica');if(dicaI===u)dicaI=(dicaI+1+Math.floor(Math.random()*(DICAS.length-1)))%DICAS.length;localStorage.setItem('dica',dicaI)}catch(e){}
 const dicaCard=()=>`<div class="card dica s-am"><span class="ic">${ico('bulb')}</span><div><div class="k">Dica para guardar dinheiro</div><div class="big">${esc(DICAS[dicaI][0])}</div><div class="note" style="margin:0">${esc(DICAS[dicaI][1])}</div></div></div>`;
