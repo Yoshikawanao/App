@@ -292,6 +292,11 @@ body.dsc .sp{filter:blur(7px)}
 .ds{font-size:12.5px;color:var(--mut)}.df{margin-top:8px;padding-top:8px;border-top:1px dashed var(--bd);font-size:12.5px;color:var(--mut)}.df b{color:var(--tx)}
 body.dsc .dbox .dv,body.dsc .dbox .df b{filter:blur(7px)}
 @media(max-width:720px){.dia{grid-template-columns:1fr}.dr{width:100%}}
+.dp{margin-top:10px;border:1px solid var(--bd);border-radius:14px;padding:6px 14px;background:var(--card)}
+.dpi{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;font-size:13.5px}.dpi+.dpi{border-top:1px solid var(--bd)}
+.dpn{display:flex;align-items:center;gap:8px;min-width:0}.dpn .av{width:24px;height:24px;font-size:12px}.dpn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dpi b{color:var(--gr);white-space:nowrap}.dpt{font-weight:800}.dpt>span{color:var(--tx)}
+body.dsc .dpi b{filter:blur(7px)}
 </style>
 </head>
 <body>
@@ -351,7 +356,9 @@ function diaCard(l){
     cl=hj?'hj':u?'ut':'nu',
     tag=hj?(u?'Hoje · estimativa':'Hoje'):u?'Dia útil':'Sem rendimento',
     sub=u?(hj?'Entra no saldo amanhã, quando o dia fecha.':'Já está no saldo.'):('Não rende: '+motivoSem(n)+'.');
-  return `<div class="card dia" id="dia"><div class="dl"><div class="k">Rendimento por dia</div><div class="note" style="margin:6px 0 0">O CDI só rende em dias úteis. Use as setas para ver quanto o dinheiro rendeu em cada dia, inclusive nos fins de semana e feriados (que ficam zerados).</div>${n!==g.p?`<button type="button" class="lk" data-dn="ult" style="margin-top:8px">Voltar ao último dia creditado</button>`:''}</div><div class="dr"><div class="dnv"><button type="button" class="dbtn" data-dn="-1" aria-label="Dia anterior"${n<=g.mn?' disabled':''}>${_ch('M15 6l-6 6 6 6')}</button><div class="dlb"><b>${sem[0].toUpperCase()+sem.slice(1)}</b><span>${dat}</span></div><button type="button" class="dbtn" data-dn="1" aria-label="Próximo dia"${n>=g.mx?' disabled':''}>${_ch('M9 6l6 6-6 6')}</button></div><div class="dbox ${cl}" aria-live="polite"><div class="dtg">${tag}</div><div class="dv">${u?'+':''}${R(r)}</div><div class="ds">${sub}</div><div class="df">Saldo bruto ao fim do dia: <b>${R(fim)}</b></div></div></div></div>`}
+  const ws=tab==='geral'?Object.keys(wallets):[],
+    pp=u&&ws.length>1?`<div class="dp">${ws.map(i=>`<div class="dpi"><span class="dpn">${av(i)}<span>${esc(who(i))}</span></span><b>+${R(diaInfo(wallets[i]?.aportes||[],n).r)}</b></div>`).join('')}<div class="dpi dpt"><span>Total do casal</span><b>+${R(r)}</b></div></div>`:'';
+  return `<div class="card dia" id="dia"><div class="dl"><div class="k">Rendimento por dia</div><div class="note" style="margin:6px 0 0">O CDI só rende em dias úteis. Use as setas para ver quanto o dinheiro rendeu em cada dia, inclusive nos fins de semana e feriados (que ficam zerados).</div>${n!==g.p?`<button type="button" class="lk" data-dn="ult" style="margin-top:8px">Voltar ao último dia creditado</button>`:''}</div><div class="dr"><div class="dnv"><button type="button" class="dbtn" data-dn="-1" aria-label="Dia anterior"${n<=g.mn?' disabled':''}>${_ch('M15 6l-6 6 6 6')}</button><div class="dlb"><b>${sem[0].toUpperCase()+sem.slice(1)}</b><span>${dat}</span></div><button type="button" class="dbtn" data-dn="1" aria-label="Próximo dia"${n>=g.mx?' disabled':''}>${_ch('M9 6l6 6-6 6')}</button></div><div class="dbox ${cl}" aria-live="polite"><div class="dtg">${tag}</div><div class="dv">${u?'+':''}${R(r)}</div><div class="ds">${sub}</div><div class="df">Saldo bruto ao fim do dia: <b>${R(fim)}</b></div></div>${pp}</div></div>`}
 function diaBind(l){const el=$('dia');if(!el)return;el.querySelectorAll('[data-dn]').forEach(b=>b.onclick=()=>{const g=diaRange(l);if(!g)return;const k=b.dataset.dn,cur0=Math.max(g.mn,Math.min(g.mx,diaN==null?g.p:diaN));diaN=k==='ult'?null:Math.max(g.mn,Math.min(g.mx,cur0+Number(k)));el.outerHTML=diaCard(l);diaBind(l)})}
 const inv=(l,t)=>l.reduce((s,a)=>s+(new Date(a.data+'T00:00:00')<=t?a.valor:0),0);
 const cur=(l,t)=>l.reduce((s,a)=>s+val(a,t),0);
